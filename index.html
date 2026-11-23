@@ -135,6 +135,17 @@
   .learn-list li{padding:1.2rem 1.3rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
   .learn-list h3{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--head);margin:.3rem 0 .4rem}
   .learn-list a{color:var(--head)}
+  .primer{max-width:44rem;margin-bottom:3rem}
+  .primer h2,.learn-h{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,3.5vw,2.2rem);color:var(--head);margin-bottom:.6rem}
+  .learn-h{margin-top:1rem}
+  .primer h3{font-family:var(--display);font-weight:400;font-size:1.2rem;color:var(--head);margin:1.6rem 0 .6rem}
+  .primer p{margin-bottom:.6rem}
+  .bb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(5.2rem,1fr));gap:.6rem}
+  .bb-words{grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr))}
+  .bb-cell{display:flex;flex-direction:column;align-items:center;padding:.6rem .3rem;border:1.5px solid var(--sea);border-radius:6px}
+  .bb-g{font-size:2.2rem;line-height:1.3;color:var(--head)}
+  .bb-r{font-family:var(--sans);font-size:.8rem;color:var(--muted)}
+  .bb-note{font-size:.9rem;color:var(--muted);margin-top:1.2rem}
   .learn-kind{font-family:var(--sans);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
   /* ---------- WORK PAGE ---------- */
@@ -1410,9 +1421,30 @@ var WORKS = [
 
   /* ---------- LEARNING MATERIALS ---------- */
   /* To add a material, add an item: {title:'...', kind:'Guide', blurb:'...', href:'https://...'} */
-  var LEARN = [];
+  var LEARN = [
+    {title:'Baybayin (overview)', kind:'Read', blurb:'History of the script, how it works, and a character chart.', href:'https://en.wikipedia.org/wiki/Baybayin'},
+    {title:'Baybayin on Omniglot', kind:'Read', blurb:'A short history, an alphabet chart to download, and a sample text with translation.', href:'https://www.omniglot.com/writing/baybayin.htm'},
+    {title:'A primer on Baybayin (GMA News)', kind:'Read', blurb:'A first-person account of a workshop: the vowels, the consonants and how the kudlit works.', href:'https://www.gmanetwork.com/news/lifestyle/artandculture/577701/a-primer-on-baybayin/story/'},
+    {title:'Sulat Sinauna workshop (DFA)', kind:'Event report', blurb:'A report on a lecture and basic Baybayin lesson on ancient Philippine scripts.', href:'https://dfa.gov.ph/dfa-news/dfa-releasesupdate/27496-dfa-holds-virtual-lecture-workshop-on-philippine-indigenous-scripts'}
+  ];
+  function bbCell(g,r){return '<div class="bb-cell"><span class="bb-g" lang="tl-Tglg" aria-hidden="true">'+g+'</span><span class="bb-r">'+r+'</span></div>'}
+  function renderPrimer(){
+    var V=[['ᜀ','a'],['ᜁ','e / i'],['ᜂ','o / u']];
+    var C=[['ᜊ','ba'],['ᜃ','ka'],['ᜇ','da / ra'],['ᜄ','ga'],['ᜑ','ha'],['ᜎ','la'],['ᜋ','ma'],['ᜈ','na'],['ᜅ','nga'],['ᜉ','pa'],['ᜐ','sa'],['ᜆ','ta'],['ᜏ','wa'],['ᜌ','ya']];
+    var K=[['ᜊ','ba'],['ᜊᜒ','bi / be'],['ᜊᜓ','bu / bo'],['ᜊ᜔','b']];
+    var W=[['ᜆᜎᜆ','Talata'],['ᜆᜎ','Tala'],['ᜋᜆᜒᜂ','Mateo']];
+    return '<div class="primer"><h2>Baybayin basics</h2>'+
+      '<p>Baybayin is the old Tagalog script. Each letter is a syllable. A consonant carries the sound <em>a</em> by itself, and a small mark, the <em>kudlit</em>, changes the vowel.</p>'+
+      '<h3>Vowels</h3><div class="bb-grid">'+V.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
+      '<h3>Consonants</h3><div class="bb-grid">'+C.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
+      '<h3>The kudlit</h3><p>A mark above changes the vowel to <em>i</em> or <em>e</em>. A mark below changes it to <em>u</em> or <em>o</em>. A cross-shaped mark (the <em>pamudpod</em>) removes the vowel, leaving only the consonant.</p>'+
+      '<div class="bb-grid">'+K.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
+      '<h3>Try reading</h3><div class="bb-grid bb-words">'+W.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
+      '<p class="bb-note">Spelling practice has varied over time and between writers. This is a simple modern guide, not the only way to write it.</p></div>'+
+      '<h2 class="learn-h">Keep learning</h2>';
+  }
   function renderLearn(){
-    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">';
+    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">'+renderPrimer();
     if(LEARN.length){
       h+='<ul class="learn-list">'+LEARN.map(function(m){
         var t=m.href?'<a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a>':esc(m.title);
