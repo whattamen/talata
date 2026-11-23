@@ -1497,9 +1497,9 @@ var WORKS = [
     {title:'Sulat Sinauna workshop (DFA)', kind:'Event report', blurb:'A report on a lecture and basic Baybayin lesson on ancient Philippine scripts.', href:'https://dfa.gov.ph/dfa-news/dfa-releasesupdate/27496-dfa-holds-virtual-lecture-workshop-on-philippine-indigenous-scripts'}
   ];
   var INSCRIPTIONS = [
-    {title:'Laguna Copperplate Inscription (900 CE)', kind:'Artifact', blurb:'Found in 1989 in Lumban, Laguna. A thin copper plate dated Saka 822 (900 CE) in Kawi script, the oldest dated written document found in the Philippines. It releases a man named Namwaran and his family from a debt of gold, and names officials from places such as Tondo, Pailah, Puliran and Binwangan.', href:'https://en.wikipedia.org/wiki/Laguna_Copperplate_Inscription'},
-    {title:'Calatagan Pot (14th to 15th century)', kind:'Artifact', blurb:'Dug up in Calatagan, Batangas, in 1958. A clay pot with a line of characters around its shoulder, written in an early script of the Baybayin family. Scholars still disagree about how to read it, so its meaning is not settled.', href:'https://en.wikipedia.org/wiki/Calatagan_Pot'},
-    {title:'Monreal Stones (Ticao Stones)', kind:'Artifact', blurb:'Two limestone tablets found in 2011 on Ticao Island, Masbate, carved with Badlit, a Visayan form of the script. Their age and authenticity are still debated; the first study suggests they are no older than the 17th century.', href:'https://en.wikipedia.org/wiki/Monreal_Stones'}
+    {title:'Laguna Copperplate Inscription (900 CE)', kind:'Artifact', blurb:'Natuklasan noong 1989 sa Lumban, Laguna. Isang manipis na tansong plato na may petsang Saka 822 (900 CE), nakasulat sa Kawi, at ang pinakamatandang may petsang dokumentong natagpuan sa Pilipinas. Pinalalaya nito si Namwaran at ang kanyang pamilya sa utang na ginto, at binabanggit ang mga pinuno mula sa Tondo, Pailah, Puliran at Binwangan.', href:'https://en.wikipedia.org/wiki/Laguna_Copperplate_Inscription'},
+    {title:'Calatagan Pot (14th to 15th century)', kind:'Artifact', blurb:'Nahukay noong 1958 sa Calatagan, Batangas. Isang palayok na may hanay ng mga karakter sa paligid ng balikat nito, nakasulat sa sinaunang panulat na kauri ng Baybayin. Hindi pa nagkakasundo ang mga iskolar kung paano ito babasahin, kaya hindi pa tiyak ang kahulugan nito.', href:'https://en.wikipedia.org/wiki/Calatagan_Pot'},
+    {title:'Monreal Stones (Ticao Stones)', kind:'Artifact', blurb:'Dalawang batong apog na natagpuan noong 2011 sa Isla ng Ticao, Masbate, may ukit na Badlit, ang bersiyon ng panulat sa Kabisayaan. Pinagtatalunan pa ang edad at pagiging tunay nito; ayon sa unang pag-aaral, hindi ito mas matanda sa ika-17 siglo.', href:'https://en.wikipedia.org/wiki/Monreal_Stones'}
   ];
   function bbCell(g,r){return '<div class="bb-cell"><span class="bb-g" lang="tl-Tglg" aria-hidden="true">'+g+'</span><span class="bb-r">'+r+'</span></div>'}
   function renderPrimer(){
@@ -1525,8 +1525,8 @@ var WORKS = [
         return '<li><span class="learn-kind">'+esc(m.kind||'Material')+'</span><h3>'+t+'</h3><p>'+esc(m.blurb||'')+'</p></li>';
       }).join('')+'</ul>';
     }else{h+='<div class="empty"><h3>Coming soon</h3><p>Learning materials are on the way. Check back soon.</p></div>'}
-    h+='<h2 class="learn-h">Ancient writing in the Philippines</h2>'+
-      '<p>Writing in the islands is older than the Spanish arrival. These three objects, kept at the National Museum of the Philippines, show how old and varied it is.</p>'+
+    h+='<h2 class="learn-h">Sinaunang Panulat sa Pilipinas</h2>'+
+      '<p>Mas matanda pa kaysa pagdating ng mga Kastila ang pagsulat sa ating kapuluan. Ipinapakita ng tatlong bagay na ito, na nasa National Museum of the Philippines, kung gaano ito katagal at kaiba-iba.</p>'+
       '<ul class="learn-list">'+INSCRIPTIONS.map(function(m){
         return '<li><span class="learn-kind">'+esc(m.kind)+'</span><h3><a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a></h3><p>'+esc(m.blurb)+'</p></li>';
       }).join('')+'</ul>';
