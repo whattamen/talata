@@ -1568,8 +1568,8 @@ var WORKS = [
       strips.push({el:st,sh:sh,bsh:bsh});
     }
     rd.appendChild(wrap);
-    var DUR=1000, t0=null, done=false;
-    var ease=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+    var DUR=1500, t0=null, done=false;
+    var ease=function(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2};
     function finish(){if(done)return;done=true; if(wrap.parentNode)wrap.parentNode.removeChild(wrap)}
     function frame(now){
       if(done) return;
