@@ -210,7 +210,8 @@
   .page .nav{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;font-family:var(--sans)}
   .page .nav a,.page .nav span{padding:.7rem 1.2rem;border:1.5px solid var(--rule);border-radius:8px;text-decoration:none;font-size:.9rem;color:inherit}
   .page .nav span{opacity:.45}
-  .page .nav .nav-num{border:0;padding:.7rem 0;opacity:.7;align-self:center;white-space:nowrap}
+  .page .nav .nav-sel{flex:1;min-width:0;padding:.7rem .6rem;border:1.5px solid var(--rule);border-radius:8px;background:transparent;color:inherit;font:inherit;font-size:.9rem;text-align:center;text-align-last:center}
+  .page .nav .nav-sel option{color:#222;background:#fff}
   .r-bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:.55rem 5vw .7rem;background:var(--ui);color:var(--ui-fg);border-top:1px solid var(--rule);font-family:var(--sans);font-size:.82rem}
   .bar{height:4px;border-radius:2px;background:var(--rule);overflow:hidden;margin-bottom:.35rem}
   .bar i{display:block;height:100%;width:0;background:var(--gold)}
@@ -1653,7 +1654,12 @@ var WORKS = [
     h+='<p class="orn" aria-hidden="true">\u2605 \u2605 \u2605</p><p class="end">'+esc(c.endNote||'The end')+'</p><div class="nav">';
     var prev=w.chapters[n-2], next=w.chapters[n];
     h+=prev&&!prev.soon?'<a href="#/read/'+w.id+'/'+(n-1)+'">&larr; Previous</a>':'<span aria-disabled="true">&larr; Previous</span>';
-    h+='<span class="nav-num" aria-label="Chapter '+n+' of '+w.chapters.length+'">'+n+' / '+w.chapters.length+'</span>';
+    h+='<select class="nav-sel" aria-label="Pumili ng kabanata" onchange="if(this.value)location.hash=this.value">';
+    w.chapters.forEach(function(ch,i){
+      var lab=esc(ch.label||('Kabanata '+(i+1)));
+      h+=ch.soon?'<option disabled>'+lab+' \u2014 coming soon</option>':'<option value="#/read/'+w.id+'/'+(i+1)+'"'+(i+1===n?' selected':'')+'>'+lab+'</option>';
+    });
+    h+='</select>';
     h+=next?(next.soon?'<span aria-disabled="true">Next: coming soon</span>':'<a href="#/read/'+w.id+'/'+(n+1)+'">Next &rarr;</a>'):'<a href="#/w/'+w.id+'">Back to details</a>';
     h+='</div>';
     $('chapter').innerHTML=h;
