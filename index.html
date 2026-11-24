@@ -135,6 +135,14 @@
   .learn-list li{padding:1.2rem 1.3rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
   .learn-list h3{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--head);margin:.3rem 0 .4rem}
   .learn-list a{color:var(--head)}
+.bigkas-card{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;max-width:44rem;margin:0 0 2.5rem;padding:1.3rem 1.4rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
+.bigkas-card .bk-bay{font-size:2rem;line-height:1;color:var(--head)}
+.bigkas-card div{flex:1;min-width:14rem}
+.bigkas-card h2{font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--head);margin:.2rem 0 .3rem}
+.bigkas-card p{margin:0}
+.bigkas-card .learn-kind{display:block}
+.bigkas-card .bk-go{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:2px solid var(--head);border-radius:999px;color:var(--head);font-weight:600;text-decoration:none;white-space:nowrap}
+.bigkas-card .bk-go:hover{background:var(--head);color:var(--bg,#111)}
   .primer{max-width:44rem;margin-bottom:3rem}
   .primer h2,.learn-h{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,3.5vw,2.2rem);color:var(--head);margin-bottom:.6rem}
   .learn-h{margin-top:1rem}
@@ -1524,7 +1532,7 @@ var WORKS = [
       '<h2 class="learn-h">Keep learning</h2>';
   }
   function renderLearn(){
-    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">'+renderPrimer();
+    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">'+'<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+renderPrimer();
     if(LEARN.length){
       h+='<ul class="learn-list">'+LEARN.map(function(m){
         var t=m.href?'<a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a>':esc(m.title);

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fil" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bigkas — Gabay sa Pagbigkas | Talata</title>
+<meta name="description" content="Pakinggan at aralin ang bigkas ng mga salita at pariralang Tagalog: pagbati, pagpapakilala, numero, pagkain, pandiwa, at listening quiz.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+Tagalog&display=swap" rel="stylesheet">
+<style>
+/* VOICE: warm, patient teacher — Talata's Learning tab, not a gadget
+   IDEA: a primer page (abakada) under a night sky of the flag's sun and stars
+   PICTURE: the working phrase board itself, with a sun that glows while a phrase is spoken
+   COLOUR and TYPE: Talata "Grace" — near-black, dark gold, a touch of flag red; Fraunces + Inter + Noto Sans Tagalog
+   LAYOUT: header strip, sticky lesson tabs, speed control, card grid; quiz reuses the same board */
+:root{color-scheme:light dark;
+  --bg:light-dark(#f6f0e1,#0B0A08);
+  --panel:light-dark(#fffaf0,#15120D);
+  --panel2:light-dark(#efe5cd,#1F1A12);
+  --ink:light-dark(#1a2240,#F1DDA4);
+  --soft:light-dark(#5a5f74,#9A8D6E);
+  --gold:light-dark(#8f650c,#C9A45C);
+  --goldbg:light-dark(#f3e2b3,#2a2214);
+  --red:light-dark(#b3122e,#ff6b7d);
+  --line:light-dark(#e0d3b1,#2e2617);
+  --ok:light-dark(#1f6b3a,#7fd69a);
+}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1100px;margin:0 auto}
+header.band{padding-bottom:12px}
+.top{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.sun{width:72px;height:72px;flex:none}
+.sun g{transform-origin:50px 50px;transition:transform .6s}
+.speaking .sun g{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.speaking .sun g{animation:none}}
+.bay{font-family:"Noto Sans Tagalog",serif;color:var(--gold);font-size:22px;letter-spacing:.05em}
+h1{font:600 clamp(30px,5vw,46px)/1.05 Fraunces,Georgia,serif;margin:2px 0 6px;text-wrap:balance}
+.lede{color:var(--soft);max-width:62ch;margin:0}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.scroll{display:flex;gap:6px;overflow-x:auto;padding:10px max(5vw,16px);max-width:1200px;margin:0 auto;scrollbar-width:thin}
+.tab{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:500 15px Inter,sans-serif;cursor:pointer}
+.tab[aria-selected=true]{background:var(--gold);border-color:var(--gold);color:light-dark(#fffaf0,#0B0A08)}
+.tab:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.bar{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.bar h2{font:600 24px/1.2 Fraunces,Georgia,serif;margin:0}
+.bar p{margin:2px 0 0;color:var(--soft);font-size:15px}
+.speed{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.speed button{min-height:44px;padding:0 14px;border:0;background:none;color:var(--ink);font:500 15px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+.speed button[aria-pressed=true]{background:var(--goldbg);color:var(--gold);font-weight:600}
+.notice{background:var(--goldbg);border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:15px;display:none}
+.notice.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.card{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 14px 14px 18px;transition:border-color .2s,background .2s}
+.card.on{border-color:var(--gold);background:var(--panel2)}
+.card .txt{flex:1}
+.tl{font-weight:600;font-size:18px;line-height:1.3}
+.syl{color:var(--gold);font-size:14px;letter-spacing:.02em;margin-top:2px}
+.en{color:var(--soft);font-size:15px;margin-top:2px}
+.note{font-size:13px;color:var(--soft);margin-top:6px;border-top:1px dashed var(--line);padding-top:6px}
+.play{flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--goldbg);color:var(--gold);cursor:pointer;display:grid;place-items:center}
+.play svg{width:22px;height:22px}
+.tip{margin-top:22px;padding:14px 18px;border-inline-start:4px solid var(--red);background:var(--panel);border-radius:0 12px 12px 0;font-size:15px}
+.quiz{max-width:640px}
+.qbox{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.score{font-weight:600;color:var(--gold);white-space:nowrap}
+.big{min-height:52px;padding:0 22px;border-radius:12px;border:0;background:var(--gold);color:light-dark(#fffaf0,#0B0A08);font:600 16px Inter,sans-serif;cursor:pointer;display:inline-flex;gap:10px;align-items:center}
+.ghost{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--ink);font:500 15px Inter,sans-serif;cursor:pointer}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+@media(max-width:480px){.opts{grid-template-columns:minmax(0,1fr)}}
+.opt{min-height:56px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:600 16px Inter,sans-serif;cursor:pointer;text-align:start}
+.opt.right{border-color:var(--ok);color:var(--ok)}
+.opt.wrong{border-color:var(--red);color:var(--red)}
+.fb{min-height:28px;margin-top:14px;font-size:15px}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--gold);font-weight:600;text-decoration:none}
+.back:hover{text-decoration:underline}
+footer{color:var(--soft);font-size:13px;padding-top:0}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap"><a class="back" href="/#/learn">← Bumalik sa Learning · Talata</a></div>
+  <div class="wrap top">
+    <svg class="sun" viewBox="0 0 100 100" aria-hidden="true">
+      <g fill="var(--gold)">
+        <circle cx="50" cy="50" r="17"/>
+        <g id="ray"><path d="M50 4 L54 24 L50 30 L46 24Z"/></g>
+        <use href="#ray" transform="rotate(45 50 50)"/><use href="#ray" transform="rotate(90 50 50)"/>
+        <use href="#ray" transform="rotate(135 50 50)"/><use href="#ray" transform="rotate(180 50 50)"/>
+        <use href="#ray" transform="rotate(225 50 50)"/><use href="#ray" transform="rotate(270 50 50)"/>
+        <use href="#ray" transform="rotate(315 50 50)"/>
+      </g>
+    </svg>
+    <div>
+      <div class="bay" aria-label="Bigkas sa Baybayin">ᜊᜒᜃᜐ᜔</div>
+      <h1>Bigkas: gabay sa pagbigkas ng Tagalog</h1>
+      <p class="lede">Pindutin ang speaker para marinig ang bawat salita. Gamitin ang mabagal na bilis at sundan ang mga pantig na nakasulat sa ginto.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Mga aralin"><div class="scroll" id="tabs" role="tablist"></div></nav>
+
+<main class="band" style="padding-top:22px">
+  <div class="wrap">
+    <div class="notice" id="notice"></div>
+    <div class="bar">
+      <div><h2 id="title"></h2><p id="sub"></p></div>
+      <div class="speed" role="group" aria-label="Bilis ng pagsasalita" id="speed">
+        <button data-r="1">Karaniwan</button><button data-r="0.75">Mabagal</button><button data-r="0.5">Napakabagal</button>
+      </div>
+    </div>
+    <div id="view"></div>
+  </div>
+</main>
+
+<footer class="band"><div class="wrap">Bahagi ng <a href="/#/learn" style="color:var(--gold)">Learning sa Talata</a> · talata-studio.com. Ang boses ay mula sa iyong device, kaya maaaring mag-iba ang tunog sa bawat phone o computer.</div></footer>
+
+<script>
+{
+const L = [
+ {id:'pagbati', name:'Pagbati', en:'Greetings', tip:'Idagdag ang "po" kapag kausap ang nakatatanda: "Magandang umaga po." Ito ang pinakamadaling paraan para maging magalang.', items:[
+  ['Magandang umaga','Good morning'],['Magandang tanghali','Good noon'],['Magandang hapon','Good afternoon'],
+  ['Magandang gabi','Good evening'],['Kumusta ka?','How are you?'],['Mabuti naman, salamat.','I\'m fine, thank you.'],
+  ['Salamat','Thank you'],['Maraming salamat po','Thank you very much (polite)'],['Walang anuman','You\'re welcome'],
+  ['Paalam','Goodbye'],['Ingat ka','Take care']]},
+ {id:'pakilala', name:'Pagpapakilala', en:'Introductions', tip:'Palitan ang "Maria" ng sarili mong pangalan. "Si" ang ginagamit bago ang pangalan ng tao.', items:[
+  ['Ako si Maria.','I am Maria.'],['Ano ang pangalan mo?','What is your name?'],['Ikinagagalak kitang makilala.','Nice to meet you.'],
+  ['Taga-saan ka?','Where are you from?'],['Taga-Amerika ako.','I\'m from America.'],['Ilang taon ka na?','How old are you?'],
+  ['Pilipino ang mga magulang ko.','My parents are Filipino.'],['Nag-aaral ako ng Tagalog.','I\'m learning Tagalog.'],
+  ['Kaunti lang ang alam kong Tagalog.','I only know a little Tagalog.']]},
+ {id:'tanong', name:'Mga Tanong', en:'Questions', tip:'Kapag hindi mo naintindihan, gamitin ang "Paki-ulit po?" Walang masama sa pagtatanong.', items:[
+  ['Ano?','What?'],['Sino?','Who?'],['Saan?','Where?'],['Kailan?','When?'],['Bakit?','Why?'],['Paano?','How?'],
+  ['Magkano?','How much? (price)'],['Ilan?','How many?'],['Paki-ulit po?','Could you repeat that, please?'],
+  ['Ano ang ibig sabihin nito?','What does this mean?'],['Pakibagalan po.','Please speak more slowly.']]},
+ {id:'panghalip', name:'Panghalip', en:'Pronouns', tip:'Dalawa ang "we" sa Tagalog: "tayo" kung kasama ang kausap mo, "kami" kung hindi siya kasama.', items:[
+  ['ako','I / me'],['ikaw','you (one person)'],['siya','he / she (pareho ang salita)'],
+  ['tayo','we (kasama ka)'],['kami','we (hindi ka kasama)'],['kayo','you (marami) / you (magalang)'],
+  ['sila','they'],['ko','my / by me'],['mo','your / by you'],['niya','his / her']]},
+ {id:'numero', name:'Numero', en:'Numbers', tip:'Sa presyo at oras, madalas Espanyol ang gamit ng mga Pilipino: "singkwenta" (50), "alas-tres" (3 o\'clock).', items:[
+  ['isa','1'],['dalawa','2'],['tatlo','3'],['apat','4'],['lima','5'],['anim','6'],['pito','7'],['walo','8'],
+  ['siyam','9'],['sampu','10'],['labing-isa','11'],['dalawampu','20'],['isang daan','100'],['isang libo','1,000']]},
+ {id:'pagkain', name:'Pagkain at Pamimili', en:'Food & shopping', tip:'Sa palengke, normal ang tumawad. Sabihin nang nakangiti: "Puwede pong tawad?"', items:[
+  ['Magkano po ito?','How much is this?'],['Pabili po.','I\'d like to buy, please.'],['Ang mahal naman!','That\'s expensive!'],
+  ['Puwede pong tawad?','Can I get a discount?'],['Isa pong kanin.','One rice, please.'],['Tubig po.','Water, please.'],
+  ['Gutom na ako.','I\'m hungry.'],['Busog na ako.','I\'m full.'],['Ang sarap!','It\'s delicious!'],
+  ['Kain tayo!','Let\'s eat!'],['Ang bill po.','The bill, please.']]},
+ {id:'pandiwa', name:'Pandiwa', en:'Common verbs', tip:'Ang ugat (root) ang nasa maliit na sulat. Ang "-um-" at "mag-" ang madalas idagdag para maging pandiwa.', items:[
+  ['kumain','to eat','ugat: kain · "Kumain ka na?" (Have you eaten?)'],
+  ['matulog','to sleep','ugat: tulog · "Matulog ka na." (Go to sleep now.)'],
+  ['maglakad','to walk','ugat: lakad · "Maglakad tayo." (Let\'s walk.)'],
+  ['bumili','to buy','ugat: bili · "Bumili ako ng tinapay." (I bought bread.)'],
+  ['uminom','to drink','ugat: inom · "Uminom ka ng tubig." (Drink water.)'],
+  ['magbasa','to read','ugat: basa · "Mahilig akong magbasa." (I love to read.)'],
+  ['sumulat','to write','ugat: sulat · "Sumulat siya ng tula." (She wrote a poem.)'],
+  ['pumunta','to go','ugat: punta · "Pumunta kami sa simbahan." (We went to church.)'],
+  ['gumising','to wake up','ugat: gising · "Gumising ako nang maaga." (I woke up early.)'],
+  ['maglaro','to play','ugat: laro · "Maglaro tayo!" (Let\'s play!)']]},
+];
+const QUIZ = {id:'pagsusulit', name:'Pagsusulit', en:'Listening quiz'};
+const TABS = [...L, QUIZ];
+const ALL = L.flatMap(l => l.items.map(i => ({tl:i[0], en:i[1], cat:l.name})));
+
+const $ = s => document.querySelector(s);
+const store = {get(k,d){try{return localStorage.getItem(k)??d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let cur = store.get('bigkas-tab','pagbati'); if(!TABS.some(t=>t.id===cur)) cur='pagbati';
+let rate = parseFloat(store.get('bigkas-rate','1')) || 1;
+let voice = null;
+
+const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+/* Pantig (syllables): ng counts as one consonant; between vowels, 1 consonant goes right, 2+ splits after the first */
+function syl(word){
+  const u=[]; const w=word.toLowerCase();
+  for(let i=0;i<w.length;i++){ if(w[i]==='n'&&w[i+1]==='g'){u.push('ng');i++} else u.push(w[i]); }
+  const V=c=>'aeiou'.includes(c); const out=[]; let s='';
+  for(let i=0;i<u.length;i++){
+    s+=u[i];
+    if(V(u[i])){
+      let j=i+1, cons=[]; while(j<u.length&&!V(u[j])){cons.push(u[j]);j++}
+      if(j>=u.length){ s+=cons.join(''); i=j; break; }
+      if(cons.length===0){ out.push(s); s=''; }
+      else if(cons.length===1){ out.push(s); s=''; }
+      else { s+=cons[0]; out.push(s); s=''; i=i+1; }
+    }
+  }
+  if(s) out.push(s);
+  return out.join('·');
+}
+function sylLine(t){ return t.replace(/[^\p{L}\s-]/gu,'').split(/\s+/).filter(Boolean).map(w=>w.split('-').map(syl).join('-')).join('  '); }
+
+function pickVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v=>/^fil|^tl/i.test(v.lang)) || null;
+  const n = $('#notice');
+  if(vs.length && !voice){
+    n.textContent = 'Walang Filipino na boses ang device na ito, kaya maaaring tunog-English ang bigkas. Mas tama ang tunog sa Android phone o sa Microsoft Edge. Basahin din ang mga pantig na nakasulat sa ginto.';
+    n.classList.add('show');
+  } else n.classList.remove('show');
+}
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+else { const n=$('#notice'); n.textContent='Hindi sinusuportahan ng browser na ito ang pagsasalita. Subukan sa Chrome, Edge o Safari.'; n.classList.add('show'); }
+
+function speak(text, el){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = voice ? voice.lang : 'fil-PH'; if(voice) u.voice = voice; u.rate = rate;
+    document.querySelectorAll('.card.on').forEach(c=>c.classList.remove('on'));
+    if(el) el.classList.add('on');
+    document.body.classList.add('speaking');
+    u.onend = u.onerror = () => { document.body.classList.remove('speaking'); if(el) el.classList.remove('on'); };
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function renderTabs(){
+  $('#tabs').innerHTML = TABS.map(t=>`<button class="tab" role="tab" id="tab-${t.id}" data-id="${t.id}" aria-selected="${t.id===cur}">${t.name}</button>`).join('');
+}
+function renderSpeed(){
+  document.querySelectorAll('#speed button').forEach(b=>b.setAttribute('aria-pressed', parseFloat(b.dataset.r)===rate));
+}
+
+function renderLesson(l){
+  $('#title').textContent = l.name; $('#sub').textContent = l.en + ' · ' + l.items.length + ' salita at parirala';
+  $('#view').innerHTML = '<div class="grid">' + l.items.map((it,i)=>`
+    <div class="card" id="c${i}">
+      <div class="txt"><div class="tl" lang="fil">${it[0]}</div><div class="syl" aria-hidden="true">${sylLine(it[0])}</div><div class="en">${it[1]}</div>${it[2]?`<div class="note">${it[2]}</div>`:''}</div>
+      <button class="play" data-i="${i}" aria-label="Pakinggan: ${it[0].replace(/"/g,'')}">${ICON}</button>
+    </div>`).join('') + `</div><div class="tip"><strong>Tip:</strong> ${l.tip}</div>`;
+}
+
+/* Quiz */
+let q = {score:0, total:0, ans:null, opts:[], done:false};
+function newQ(){
+  const pool=[...ALL].sort(()=>Math.random()-.5);
+  q.ans = pool[0]; q.opts = pool.slice(0,4).sort(()=>Math.random()-.5); q.done=false;
+  drawQ(); speak(q.ans.tl);
+}
+function drawQ(){
+  $('#title').textContent = 'Pagsusulit'; $('#sub').textContent = 'Pakinggan, pagkatapos piliin ang narinig mo.';
+  $('#view').innerHTML = `<div class="quiz"><div class="qbox">
+    <div class="qtop"><button class="big" id="replay">${ICON.replace('<svg','<svg width="22" height="22"')} Pakinggan ulit</button>
+    <span class="score">Iskor: ${q.score} / ${q.total}</span></div>
+    <div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-o="${i}" lang="fil">${o.tl}</button>`).join('')}</div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px"><button class="ghost" id="next">Susunod na tanong</button><button class="ghost" id="reset">Ulitin ang iskor</button></div>
+  </div></div>`;
+}
+function answer(i){
+  if(q.done) return; q.done=true; q.total++;
+  const pick=q.opts[i], ok=pick===q.ans; if(ok) q.score++;
+  document.querySelectorAll('.opt').forEach((b,k)=>{ if(q.opts[k]===q.ans) b.classList.add('right'); else if(k===i) b.classList.add('wrong'); });
+  document.querySelector('.score').textContent = `Iskor: ${q.score} / ${q.total}`;
+  $('#fb').innerHTML = (ok?'<strong style="color:var(--ok)">Tama!</strong> ':'<strong style="color:var(--red)">Hindi pa.</strong> ') +
+    `"${q.ans.tl}" ay "${q.ans.en}" (${q.ans.cat}).`;
+}
+
+function show(){
+  store.set('bigkas-tab', cur); renderTabs();
+  if(cur==='pagsusulit'){ if(q.ans) drawQ(); else { q.ans=null; drawQ0(); } }
+  else renderLesson(L.find(l=>l.id===cur));
+}
+function drawQ0(){
+  $('#title').textContent = 'Pagsusulit'; $('#sub').textContent = 'Pakinggan, pagkatapos piliin ang narinig mo.';
+  $('#view').innerHTML = `<div class="quiz"><div class="qbox"><p style="margin-top:0">Magpapatugtog ng isang salita o parirala mula sa lahat ng aralin. Piliin kung alin ang narinig mo sa apat na pagpipilian.</p><button class="big" id="start">Simulan</button></div></div>`;
+}
+
+document.addEventListener('click', e=>{
+  const t=e.target.closest('button'); if(!t) return;
+  if(t.classList.contains('tab')){ cur=t.dataset.id; show(); document.getElementById('tab-'+cur)?.scrollIntoView({block:'nearest',inline:'nearest'}); return; }
+  if(t.dataset.r){ rate=parseFloat(t.dataset.r); store.set('bigkas-rate',rate); renderSpeed(); return; }
+  if(t.classList.contains('play')){ const l=L.find(x=>x.id===cur); speak(l.items[+t.dataset.i][0], t.closest('.card')); return; }
+  if(t.id==='start'||t.id==='next') return newQ();
+  if(t.id==='replay') return speak(q.ans.tl);
+  if(t.id==='reset'){ q.score=0; q.total=0; return newQ(); }
+  if(t.classList.contains('opt')) return answer(+t.dataset.o);
+});
+document.getElementById('tabs').addEventListener('keydown', e=>{
+  if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return;
+  const i=TABS.findIndex(t=>t.id===cur), n=(i+(e.key==='ArrowRight'?1:-1)+TABS.length)%TABS.length;
+  cur=TABS[n].id; show(); document.getElementById('tab-'+cur).focus();
+});
+
+renderSpeed(); show();
+}
+</script>
+<script data-goatcounter="https://talata.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
