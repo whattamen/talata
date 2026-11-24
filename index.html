@@ -1597,10 +1597,10 @@ var WORKS = [
         var o=Math.min(.55,(1-c)*.6);
         strips[i].sh.style.opacity=o; strips[i].bsh.style.opacity=o*.8;
       }
-      var edgeX=sgn>0?ex:W-ex, hy=H*.8-H*.12*Math.sin(Math.PI*p);
+      var edgeX=sgn>0?ex:W-ex, hy=H*.9-H*.05*Math.sin(Math.PI*p);
       var hin=Math.min(1,x/.1), hout=x>.92?(1-x)/.08:1;
       hand.style.opacity=Math.max(0,Math.min(hin,hout));
-      hand.style.transform='translate('+(edgeX+sgn*(1-hin)*70)+'px,'+(hy-55)+'px) scale('+sgn+',1)';
+      hand.style.transform='translate('+(edgeX+sgn*(1-hin)*20)+'px,'+(hy-55+(1-hin)*90)+'px) scale('+sgn+',1)';
       cast.style.opacity=Math.sin(Math.PI*Math.min(1,p*1.05))*.95;
       if(x>=1) finish(); else requestAnimationFrame(frame);
     }
