@@ -430,6 +430,11 @@
 
 .credit{margin-top:1.4rem;padding:.8rem 1rem;border-left:4px solid var(--yellow);background:rgba(247,200,59,.14);font-size:.92rem;color:var(--muted)}
 
+.comments{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(0,0,0,.15)}
+.comments h2{font-size:1.2rem;margin:0 0 .4rem;color:inherit}
+.cm-note{font-size:.88rem;opacity:.75;margin:0 0 1rem}
+.cm-btn{font:inherit;font-size:.95rem;padding:.6rem 1.1rem;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+.cm-btn:hover{background:rgba(0,0,0,.06)}
 /* ---------- page-turn animation ---------- */
 .flip-wrap{position:fixed;inset:0;z-index:20;perspective:1800px;perspective-origin:50% 45%;pointer-events:none;overflow:hidden}
 .flip-leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;will-change:transform;animation:leaf-next .95s cubic-bezier(.45,.02,.25,1) forwards}
@@ -1572,6 +1577,34 @@ var WORKS = [
     setTimeout(gone,1400);
   }
 
+  /* ---------- comments (Giscus, GitHub Discussions). Hidden until categoryId is filled in. ---------- */
+  var GISCUS={repo:'whattamen/talata',repoId:'R_kgDOV4aJjw',category:'Chapter Comments',categoryId:''};
+  var cmOn=false;
+  function loadComments(term){
+    var box=$('cm-box'); if(!box) return;
+    box.innerHTML='';
+    var sc=document.createElement('script');
+    sc.src='https://giscus.app/client.js';
+    sc.async=true; sc.crossOrigin='anonymous';
+    var dark=document.documentElement.getAttribute('data-theme')==='dark';
+    var at={'data-repo':GISCUS.repo,'data-repo-id':GISCUS.repoId,'data-category':GISCUS.category,'data-category-id':GISCUS.categoryId,
+      'data-mapping':'specific','data-term':term,'data-strict':'1','data-reactions-enabled':'1','data-emit-metadata':'0',
+      'data-input-position':'top','data-theme':dark?'dark':'light','data-lang':'en','data-loading':'lazy'};
+    Object.keys(at).forEach(function(k){sc.setAttribute(k,at[k])});
+    box.appendChild(sc);
+  }
+  function mountComments(w,n){
+    if(!GISCUS.categoryId||w.cat!=='novel') return;
+    var term=w.id+'/ch'+n;
+    var host=$('chapter'); if(!host) return;
+    var sec=document.createElement('section'); sec.className='comments';
+    sec.innerHTML='<h2>Mga Komento</h2><p class="cm-note">Kailangan ng GitHub account para mag-komento. Maging magalang.</p><button type="button" class="cm-btn" id="cm-load">'+(cmOn?'Binubuksan...':'Ipakita ang mga komento')+'</button><div id="cm-box"></div>';
+    host.appendChild(sec);
+    var go=function(){cmOn=true;var b=$('cm-load'); if(b) b.style.display='none'; loadComments(term)};
+    $('cm-load').addEventListener('click',go);
+    if(cmOn) go();
+  }
+
   function renderRead(w,n){
     var c=w.chapters[n-1];
     var calmFlip=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1591,6 +1624,7 @@ var WORKS = [
     h+=next?(next.soon?'<span aria-disabled="true">Next: coming soon</span>':'<a href="#/read/'+w.id+'/'+(n+1)+'">Next &rarr;</a>'):'<a href="#/w/'+w.id+'">Back to details</a>';
     h+='</div>';
     $('chapter').innerHTML=h;
+    mountComments(w,n);
     $('r-title').textContent=w.title;
     $('r-label').textContent=c.label;
     $('r-back').setAttribute('href','#/w/'+w.id);
