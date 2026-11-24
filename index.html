@@ -444,6 +444,7 @@
 .fs-back{transform:rotateY(180deg);background:var(--grain),var(--bg);background-color:var(--bg)}
 .fs-inner{position:absolute;top:0}
 .fs-shade{position:absolute;inset:0;background:#000;opacity:0}
+.fs-hand{position:absolute;left:0;top:0;transform-origin:0 55px;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));z-index:3}
 @media (prefers-reduced-motion:reduce){.flip-wrap{display:none}}
 
 /* =====================================================================
@@ -1544,6 +1545,15 @@ var WORKS = [
     var cast=document.createElement('div'); cast.className='flip-cast';
     cast.style.background='linear-gradient('+(sgn>0?'90deg':'270deg')+',rgba(0,0,0,.34),rgba(0,0,0,0) 55%)';
     wrap.appendChild(cast);
+    var hand=document.createElement('div'); hand.className='fs-hand';
+    var cap=function(d,w,fill){return '<path d="'+d+'" fill="none" stroke="'+fill+'" stroke-width="'+w+'" stroke-linecap="round"/>'};
+    var part=function(d,w){return cap(d,w+3,'#a8704f')+cap(d,w,'#ecbd9c')};
+    hand.innerHTML='<svg width="190" height="110" viewBox="0 0 190 110" aria-hidden="true">'+
+      part('M14 52 L130 46',15)+part('M14 66 L120 78',16)+part('M100 36 L150 40',14)+part('M120 40 L160 50',13)+
+      '<ellipse cx="148" cy="62" rx="30" ry="27" fill="#ecbd9c" stroke="#a8704f" stroke-width="3"/>'+
+      part('M16 55 L110 49',13)+part('M16 66 L108 75',14)+
+      '<path d="M170 44 L260 36 L260 92 L170 86 Z" fill="#2b4a47"/></svg>';
+    wrap.appendChild(hand);
     var off=-(window.pageYOffset||0);
     var strips=[], parent=wrap;
     for(var i=0;i<N;i++){
@@ -1568,8 +1578,9 @@ var WORKS = [
       strips.push({el:st,sh:sh,bsh:bsh});
     }
     rd.appendChild(wrap);
-    var DUR=1500, t0=null, done=false;
+    var DUR=2400, t0=null, done=false;
     var ease=function(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2};
+    var H=window.innerHeight;
     function finish(){if(done)return;done=true; if(wrap.parentNode)wrap.parentNode.removeChild(wrap)}
     function frame(now){
       if(done) return;
@@ -1577,14 +1588,19 @@ var WORKS = [
       var x=Math.min(1,(now-t0)/DUR), p=ease(x);
       var a0=-sgn*178*p;
       var bend=sgn*(5.2*Math.sin(2*Math.PI*p));
-      var cum=a0;
+      var cum=a0, ex=0;
       for(var i=0;i<N;i++){
         var ang=i===0?a0:bend; if(i>0) cum+=bend;
+        ex+=sw*Math.cos(cum*Math.PI/180);
         strips[i].el.style.transform='rotateY('+ang+'deg)';
         var c=Math.abs(Math.cos(cum*Math.PI/180));
         var o=Math.min(.55,(1-c)*.6);
         strips[i].sh.style.opacity=o; strips[i].bsh.style.opacity=o*.8;
       }
+      var edgeX=sgn>0?ex:W-ex, hy=H*.6-34*Math.sin(Math.PI*p);
+      var hin=Math.min(1,x/.1), hout=x>.92?(1-x)/.08:1;
+      hand.style.opacity=Math.max(0,Math.min(hin,hout));
+      hand.style.transform='translate('+(edgeX+sgn*(1-hin)*70)+'px,'+(hy-55)+'px) scale('+sgn+',1)';
       cast.style.opacity=Math.sin(Math.PI*Math.min(1,p*1.05))*.95;
       if(x>=1) finish(); else requestAnimationFrame(frame);
     }
