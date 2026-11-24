@@ -1619,6 +1619,7 @@ var WORKS = [
   }
 
   /* ---------- comments (Giscus, GitHub Discussions). Hidden until categoryId is filled in. ---------- */
+  var GUIDE='<ul><li><strong>Maging magalang.</strong> Tao ang sumulat nito at binuhos niya ang oras at puso rito. Walang pang-aalipusta, pang-iinsulto, o personal na atake.</li><li><strong>Sabihin kung ano ang gumana.</strong> Banggitin ang eksena, linya, o tauhang nagustuhan mo at kung bakit.</li><li><strong>Magbigay ng makabuluhang puna.</strong> Kung may kulang o hindi malinaw, ituro nang tiyak (hal. \u201cmabilis ang takbo sa bahaging ito\u201d) at magmungkahi kung maaari. Ang puna ay para sa akda, hindi sa may-akda.</li><li><strong>Walang spoiler.</strong> Huwag ibunyag ang susunod na kabanata sa mga hindi pa nakababasa.</li><li><strong>Manatili sa paksa.</strong> Walang ads, link na pang-benta, o usaping hindi kaugnay.</li><li><strong>Mag-isip bago mag-post.</strong> Kung hindi mo ito sasabihin nang harapan, huwag mo ring isulat.</li></ul><p>Ang mga komentong walang respeto ay maaaring alisin.</p>';
   var GISCUS={repo:'whattamen/talata',repoId:'R_kgDOV4aJjw',category:'Chapter comments',categoryId:'DIC_kwDOV4aJj84DL3OU'};
   var cmOn=false;
   function loadComments(term){
@@ -1639,7 +1640,7 @@ var WORKS = [
     var term=w.id+'/ch'+n;
     var host=$('chapter'); if(!host) return;
     var sec=document.createElement('section'); sec.className='comments';
-    sec.innerHTML='<h2>Mga Komento</h2><p class="cm-note">Kailangan ng GitHub account para mag-komento.</p><details class="cm-guide"><summary>Paano maging mabuting komentarista</summary><ul><li><strong>Maging magalang.</strong> Tao ang sumulat nito at binuhos niya ang oras at puso rito. Walang pang-aalipusta, pang-iinsulto, o personal na atake.</li><li><strong>Sabihin kung ano ang gumana.</strong> Banggitin ang eksena, linya, o tauhang nagustuhan mo at kung bakit.</li><li><strong>Magbigay ng makabuluhang puna.</strong> Kung may kulang o hindi malinaw, ituro nang tiyak (hal. \u201cmabilis ang takbo sa bahaging ito\u201d) at magmungkahi kung maaari. Ang puna ay para sa akda, hindi sa may-akda.</li><li><strong>Walang spoiler.</strong> Huwag ibunyag ang susunod na kabanata sa mga hindi pa nakababasa.</li><li><strong>Manatili sa paksa.</strong> Walang ads, link na pang-benta, o usaping hindi kaugnay.</li><li><strong>Mag-isip bago mag-post.</strong> Kung hindi mo ito sasabihin nang harapan, huwag mo ring isulat.</li></ul><p>Ang mga komentong walang respeto ay maaaring alisin.</p></details><button type="button" class="cm-btn" id="cm-load">'+(cmOn?'Binubuksan...':'Ipakita ang mga komento')+'</button><div id="cm-box"></div>';
+    sec.innerHTML='<h2>Mga Komento</h2><p class="cm-note">Kailangan ng GitHub account para mag-komento.</p><details class="cm-guide" open><summary>Paano maging mabuting komentarista</summary>'+GUIDE+'</details><button type="button" class="cm-btn" id="cm-load">'+(cmOn?'Binubuksan...':'Ipakita ang mga komento')+'</button><div id="cm-box"></div>';
     host.appendChild(sec);
     var go=function(){cmOn=true;var b=$('cm-load'); if(b) b.style.display='none'; loadComments(term)};
     $('cm-load').addEventListener('click',go);
@@ -1755,6 +1756,7 @@ var WORKS = [
       '<ul class="learn-list">'+INSCRIPTIONS.map(function(m){
         return '<li>'+(m.img?'<figure class="spin-fig"><img class="spin-img" src="'+m.img+'" alt="Photo of the Laguna Copperplate Inscription, a copper plate covered in lines of Kawi script"><figcaption>Photo: Wikimedia Commons / National Museum of the Philippines</figcaption></figure>':'')+'<span class="learn-kind">'+esc(m.kind)+'</span><h3><a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a></h3><p>'+esc(m.blurb)+'</p></li>';
       }).join('')+'</ul>';
+    h+='<h2 class="learn-h" id="komentarista">Paano maging mabuting komentarista</h2><div class="cm-guide">'+GUIDE+'</div>';
     h+='</section>';
     views.learn.innerHTML=h;
   }
