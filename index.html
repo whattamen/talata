@@ -1587,7 +1587,7 @@ var WORKS = [
       if(t0===null) t0=now;
       var x=Math.min(1,(now-t0)/DUR), p=ease(x);
       var a0=-sgn*178*p;
-      var bend=sgn*(5.2*Math.sin(2*Math.PI*p));
+      var bend=sgn*(8.5*Math.sin(Math.PI*Math.min(1,p*1.1)));
       var cum=a0, ex=0;
       for(var i=0;i<N;i++){
         var ang=i===0?a0:bend; if(i>0) cum+=bend;
@@ -1597,7 +1597,7 @@ var WORKS = [
         var o=Math.min(.55,(1-c)*.6);
         strips[i].sh.style.opacity=o; strips[i].bsh.style.opacity=o*.8;
       }
-      var edgeX=sgn>0?ex:W-ex, hy=H*.6-34*Math.sin(Math.PI*p);
+      var edgeX=sgn>0?ex:W-ex, hy=H*.8-H*.12*Math.sin(Math.PI*p);
       var hin=Math.min(1,x/.1), hout=x>.92?(1-x)/.08:1;
       hand.style.opacity=Math.max(0,Math.min(hin,hout));
       hand.style.transform='translate('+(edgeX+sgn*(1-hin)*70)+'px,'+(hy-55)+'px) scale('+sgn+',1)';
