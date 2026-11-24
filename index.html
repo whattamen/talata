@@ -436,33 +436,14 @@
 .cm-btn{font:inherit;font-size:.95rem;padding:.6rem 1.1rem;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
 .cm-btn:hover{background:rgba(0,0,0,.06)}
 /* ---------- page-turn animation ---------- */
-.flip-wrap{position:fixed;inset:0;z-index:20;perspective:1800px;perspective-origin:50% 45%;pointer-events:none;overflow:hidden}
-.flip-leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;will-change:transform;animation:leaf-next .95s cubic-bezier(.45,.02,.25,1) forwards}
-.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.flip-front{overflow:hidden;background:var(--grain),var(--bg);background-color:var(--bg);box-shadow:6px 0 28px rgba(0,0,0,.22)}
-.flip-back{transform:rotateY(180deg);background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 35%,rgba(0,0,0,0) 70%),var(--grain),var(--bg);background-color:var(--bg)}
-.flip-inner{position:absolute;left:0;right:0;top:0}
-.flip-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.30),rgba(0,0,0,0) 60%);opacity:0;animation:leaf-shade .95s ease-in forwards}
-.flip-cast{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,0) 45%);opacity:0;animation:leaf-cast .95s ease-in-out forwards}
-.flip-wrap.back .flip-leaf{transform-origin:right center;animation-name:leaf-prev}
-.flip-wrap.back .flip-front{box-shadow:-6px 0 28px rgba(0,0,0,.22)}
-.flip-wrap.back .flip-back{transform:rotateY(-180deg);background:linear-gradient(270deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 35%,rgba(0,0,0,0) 70%),var(--grain),var(--bg);background-color:var(--bg)}
-.flip-wrap.back .flip-shade{background:linear-gradient(270deg,rgba(0,0,0,.30),rgba(0,0,0,0) 60%)}
-.flip-wrap.back .flip-cast{background:linear-gradient(270deg,rgba(0,0,0,.28),rgba(0,0,0,0) 45%)}
-@keyframes leaf-next{
-0%{transform:rotateY(0) skewY(0) translateZ(0)}
-25%{transform:rotateY(-28deg) skewY(-1.4deg) translateZ(26px)}
-60%{transform:rotateY(-100deg) skewY(1deg) translateZ(30px)}
-85%{transform:rotateY(-160deg) skewY(.3deg) translateZ(10px)}
-100%{transform:rotateY(-180deg) skewY(0) translateZ(0);opacity:.0}}
-@keyframes leaf-prev{
-0%{transform:rotateY(0) skewY(0) translateZ(0)}
-25%{transform:rotateY(28deg) skewY(1.4deg) translateZ(26px)}
-60%{transform:rotateY(100deg) skewY(-1deg) translateZ(30px)}
-85%{transform:rotateY(160deg) skewY(-.3deg) translateZ(10px)}
-100%{transform:rotateY(180deg) skewY(0) translateZ(0);opacity:.0}}
-@keyframes leaf-shade{to{opacity:1}}
-@keyframes leaf-cast{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
+.flip-wrap{position:fixed;inset:0;z-index:20;perspective:1700px;perspective-origin:50% 40%;pointer-events:none;overflow:hidden}
+.flip-cast{position:absolute;inset:0;opacity:0}
+.fs{position:absolute;top:0;height:100%;transform-style:preserve-3d;will-change:transform}
+.fs-front,.fs-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fs-front{overflow:hidden;background:var(--grain),var(--bg);background-color:var(--bg)}
+.fs-back{transform:rotateY(180deg);background:var(--grain),var(--bg);background-color:var(--bg)}
+.fs-inner{position:absolute;top:0}
+.fs-shade{position:absolute;inset:0;background:#000;opacity:0}
 @media (prefers-reduced-motion:reduce){.flip-wrap{display:none}}
 
 /* =====================================================================
@@ -1558,23 +1539,57 @@ var WORKS = [
   /* ---------- page turn: the old page flips away like a book leaf ---------- */
   function turnPage(dir){
     var rd=$('reader'), src=$('chapter'); if(!rd||!src||!src.firstChild) return;
-    var wrap=document.createElement('div'); wrap.className='flip-wrap'+(dir<0?' back':''); wrap.setAttribute('aria-hidden','true');
-    var leaf=document.createElement('div'); leaf.className='flip-leaf';
-    var inner=document.createElement('div'); inner.className='flip-inner';
-    inner.style.transform='translateY('+(-(window.pageYOffset||0))+'px)';
-    var clone=src.cloneNode(true);
-    clone.removeAttribute('id'); clone.removeAttribute('tabindex');
-    Array.prototype.forEach.call(clone.querySelectorAll('[id],[tabindex]'),function(e){e.removeAttribute('id');e.removeAttribute('tabindex')});
-    var front=document.createElement('div'); front.className='flip-front';
-    var back=document.createElement('div'); back.className='flip-back';
-    inner.appendChild(clone); front.appendChild(inner);
-    var sh=document.createElement('div'); sh.className='flip-shade'; front.appendChild(sh);
-    leaf.appendChild(front); leaf.appendChild(back);
+    var W=window.innerWidth, N=W<700?10:14, sw=W/N, sgn=dir>0?1:-1;
+    var wrap=document.createElement('div'); wrap.className='flip-wrap'; wrap.setAttribute('aria-hidden','true');
     var cast=document.createElement('div'); cast.className='flip-cast';
-    wrap.appendChild(cast); wrap.appendChild(leaf); rd.appendChild(wrap);
-    var gone=function(){if(wrap.parentNode)wrap.parentNode.removeChild(wrap)};
-    leaf.addEventListener('animationend',function(e){if(e.target===leaf)gone()});
-    setTimeout(gone,1400);
+    cast.style.background='linear-gradient('+(sgn>0?'90deg':'270deg')+',rgba(0,0,0,.34),rgba(0,0,0,0) 55%)';
+    wrap.appendChild(cast);
+    var off=-(window.pageYOffset||0);
+    var strips=[], parent=wrap;
+    for(var i=0;i<N;i++){
+      var st=document.createElement('div'); st.className='fs'; st.style.width=(sw+1.5)+'px';
+      st.style.transformOrigin=sgn>0?'left center':'right center';
+      st.style.left=(i===0?(sgn>0?0:W-sw):(sgn>0?sw:-sw))+'px';
+      var fr=document.createElement('div'); fr.className='fs-front';
+      var inner=document.createElement('div'); inner.className='fs-inner';
+      inner.style.width=W+'px';
+      inner.style.left=(sgn>0?-i*sw:-(W-(i+1)*sw))+'px';
+      inner.style.transform='translateY('+off+'px)';
+      var clone=src.cloneNode(true);
+      clone.removeAttribute('id'); clone.removeAttribute('tabindex');
+      Array.prototype.forEach.call(clone.querySelectorAll('[id],[tabindex]'),function(e){e.removeAttribute('id');e.removeAttribute('tabindex')});
+      Array.prototype.forEach.call(clone.querySelectorAll('.comments,iframe,script'),function(e){e.parentNode.removeChild(e)});
+      inner.appendChild(clone); fr.appendChild(inner);
+      var sh=document.createElement('div'); sh.className='fs-shade'; fr.appendChild(sh);
+      var bk=document.createElement('div'); bk.className='fs-back';
+      var bsh=document.createElement('div'); bsh.className='fs-shade'; bk.appendChild(bsh);
+      st.appendChild(fr); st.appendChild(bk);
+      parent.appendChild(st); parent=st;
+      strips.push({el:st,sh:sh,bsh:bsh});
+    }
+    rd.appendChild(wrap);
+    var DUR=1000, t0=null, done=false;
+    var ease=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+    function finish(){if(done)return;done=true; if(wrap.parentNode)wrap.parentNode.removeChild(wrap)}
+    function frame(now){
+      if(done) return;
+      if(t0===null) t0=now;
+      var x=Math.min(1,(now-t0)/DUR), p=ease(x);
+      var a0=-sgn*178*p;
+      var bend=sgn*(5.2*Math.sin(2*Math.PI*p));
+      var cum=a0;
+      for(var i=0;i<N;i++){
+        var ang=i===0?a0:bend; if(i>0) cum+=bend;
+        strips[i].el.style.transform='rotateY('+ang+'deg)';
+        var c=Math.abs(Math.cos(cum*Math.PI/180));
+        var o=Math.min(.55,(1-c)*.6);
+        strips[i].sh.style.opacity=o; strips[i].bsh.style.opacity=o*.8;
+      }
+      cast.style.opacity=Math.sin(Math.PI*Math.min(1,p*1.05))*.95;
+      if(x>=1) finish(); else requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    setTimeout(finish,DUR+600);
   }
 
   /* ---------- comments (Giscus, GitHub Discussions). Hidden until categoryId is filled in. ---------- */
