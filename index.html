@@ -146,6 +146,9 @@
   .primer{max-width:44rem;margin-bottom:3rem}
   .primer h2,.learn-h{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,3.5vw,2.2rem);color:var(--head);margin-bottom:.6rem}
   .learn-h{margin-top:1rem}
+  .sub-list{margin:0 0 1.2rem 1.2rem;line-height:1.7}
+  .sub-list li{margin-bottom:.4rem}
+  a.cm-btn{display:inline-block;text-decoration:none}
   .primer h3{font-family:var(--display);font-weight:400;font-size:1.2rem;color:var(--head);margin:1.6rem 0 .6rem}
   .primer p{margin-bottom:.6rem}
   .bb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(5.2rem,1fr));gap:.6rem}
@@ -712,6 +715,7 @@ html[data-grace] #splash .sp-text{color:var(--head)}
     <a href="#/c/alamat" data-nav="alamat"><span class="n-en">Alamat</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜎᜋᜆ᜔</span></a>
     <a href="#/c/tula" data-nav="tula"><span class="n-en">Tula</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜎ</span></a>
     <a href="#/learn" data-nav="learn"><span class="n-en">Learning</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+    <a href="#/submit" data-nav="submit"><span class="n-en">Magsumite</span></a>
     <a href="#/about" data-nav="about"><span class="n-en">About</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜅ᜔ᜃᜓᜎ᜔</span></a>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
@@ -1709,6 +1713,31 @@ var WORKS = [
       '<p class="bb-note">Spelling practice has varied over time and between writers. This is a simple modern guide, not the only way to write it.</p></div>'+
       '<h2 class="learn-h">Keep learning</h2>';
   }
+  function renderSubmit(){
+    var M='kagawaran@talata-studio.com';
+    var sub=encodeURIComponent('Pagsusumite ng akda sa Talata');
+    var body=encodeURIComponent('Pangalan / pen name:\nUri (nobela, kuwento, pambata, alamat, tula):\nPamagat:\nWika:\nMaikling buod:\n\nIlalagay ko sa email ang akda (o link sa dokumento).\n\nPinapatunayan kong ako ang sumulat nito at pinapahintulutan ko ang Talata na ilathala ito.');
+    var h='<div class="cat-head"><h1 tabindex="-1" id="submit-title">Magsumite ng Akda</h1><p>Bukas ang Talata sa mga malayang manunulat. Kung gusto mong mailathala ang akda mo rito, ipadala mo sa amin.</p></div><section class="section">'+
+      '<h2 class="learn-h">Ano ang tinatanggap</h2>'+
+      '<ul class="learn-list"><li><span class="learn-kind">Serye</span><h3>Nobela</h3><p>Kabanata-kabanata, tulad ng mga nobela sa site.</p></li>'+
+      '<li><span class="learn-kind">Isang akda</span><h3>Maikling kuwento at pambata</h3><p>Kuwentong kayang basahin nang isang upuan.</p></li>'+
+      '<li><span class="learn-kind">Isang akda</span><h3>Alamat</h3><p>Alamat at kuwentong-bayan.</p></li>'+
+      '<li><span class="learn-kind">Isang akda</span><h3>Tula</h3><p>Tula at maiikling piraso.</p></li></ul>'+
+      '<h2 class="learn-h">Mga patnubay</h2><ul class="sub-list">'+
+      '<li>Ikaw dapat ang sumulat ng akda at ikaw ang may karapatan dito. Mananatili sa iyo ang karapatan.</li>'+
+      '<li>Walang akdang nakasisira, mapang-abuso, o hindi angkop sa mga bata kapag nasa Kids o Pambata.</li>'+
+      '<li>Tagalog o Ingles ang tinatanggap. Dapat malinis ang pagkakasulat.</li>'+
+      '<li>Binabasa ng may-ari ng site ang bawat isa bago ilathala. Maaaring humingi ng pagbabago o tumanggi nang walang paliwanag.</li>'+
+      '<li>Kasama ang pangalan o pen name mo bilang may-akda. Kung gusto mong tanggalin ang akda mo, sumulat lang at aalisin namin ito.</li>'+
+      '<li>Walang bayad sa pagsusumite at walang bayad na ibinibigay sa ngayon.</li></ul>'+
+      '<h2 class="learn-h">Paano magsumite</h2><ol class="sub-list">'+
+      '<li>Ihanda ang akda sa dokumento (Word, Google Docs, o ilagay mismo sa email).</li>'+
+      '<li>Pindutin ang button sa ibaba. Mabubuksan ang email na may form na sasagutan.</li>'+
+      '<li>Ipadala. Sasagot kami kapag nabasa na.</li></ol>'+
+      '<p><a class="cm-btn" href="mailto:'+M+'?subject='+sub+'&body='+body+'">Ipadala sa email</a></p>'+
+      '<p class="cm-note">Kung hindi bumukas ang email app, isulat mo sa: <strong>'+M+'</strong></p></section>';
+    views.learn.innerHTML=h;
+  }
   function renderLearn(){
     var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">'+'<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+renderPrimer();
     if(LEARN.length){
@@ -1733,6 +1762,8 @@ var WORKS = [
 
     if(parts[0]==='c' && CATS[parts[1]]){
       name='cat'; navKey=parts[1]; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
+    }else if(parts[0]==='submit'){
+      name='learn'; navKey='submit'; renderSubmit(); title='Magsumite — '+SITE; focusId='submit-title';
     }else if(parts[0]==='learn'){
       name='learn'; navKey='learn'; renderLearn(); title='Learning — '+SITE; focusId='learn-title';
     }else if(parts[0]==='w' && byId(parts[1])){
