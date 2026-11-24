@@ -440,6 +440,10 @@
 .cm-note{font-size:.88rem;opacity:.75;margin:0 0 1rem}
 .cm-btn{font:inherit;font-size:.95rem;padding:.6rem 1.1rem;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
 .cm-btn:hover{background:rgba(0,0,0,.06)}
+.cm-guide{margin:.4rem 0 1rem;font-family:var(--sans);font-size:.9rem}
+.cm-guide summary{cursor:pointer;opacity:.85}
+.cm-guide ul{margin:.6rem 0 .6rem 1.2rem;line-height:1.6}
+.cm-guide li{margin-bottom:.35rem}
 /* ---------- page-turn animation ---------- */
 .flip-wrap{position:fixed;inset:0;z-index:20;perspective:1700px;perspective-origin:50% 40%;pointer-events:none;overflow:hidden}
 .flip-cast{position:absolute;inset:0;opacity:0}
@@ -1635,7 +1639,7 @@ var WORKS = [
     var term=w.id+'/ch'+n;
     var host=$('chapter'); if(!host) return;
     var sec=document.createElement('section'); sec.className='comments';
-    sec.innerHTML='<h2>Mga Komento</h2><p class="cm-note">Kailangan ng GitHub account para mag-komento. Maging magalang.</p><button type="button" class="cm-btn" id="cm-load">'+(cmOn?'Binubuksan...':'Ipakita ang mga komento')+'</button><div id="cm-box"></div>';
+    sec.innerHTML='<h2>Mga Komento</h2><p class="cm-note">Kailangan ng GitHub account para mag-komento.</p><details class="cm-guide"><summary>Paano maging mabuting komentarista</summary><ul><li><strong>Maging magalang.</strong> Tao ang sumulat nito at binuhos niya ang oras at puso rito. Walang pang-aalipusta, pang-iinsulto, o personal na atake.</li><li><strong>Sabihin kung ano ang gumana.</strong> Banggitin ang eksena, linya, o tauhang nagustuhan mo at kung bakit.</li><li><strong>Magbigay ng makabuluhang puna.</strong> Kung may kulang o hindi malinaw, ituro nang tiyak (hal. \u201cmabilis ang takbo sa bahaging ito\u201d) at magmungkahi kung maaari. Ang puna ay para sa akda, hindi sa may-akda.</li><li><strong>Walang spoiler.</strong> Huwag ibunyag ang susunod na kabanata sa mga hindi pa nakababasa.</li><li><strong>Manatili sa paksa.</strong> Walang ads, link na pang-benta, o usaping hindi kaugnay.</li><li><strong>Mag-isip bago mag-post.</strong> Kung hindi mo ito sasabihin nang harapan, huwag mo ring isulat.</li></ul><p>Ang mga komentong walang respeto ay maaaring alisin.</p></details><button type="button" class="cm-btn" id="cm-load">'+(cmOn?'Binubuksan...':'Ipakita ang mga komento')+'</button><div id="cm-box"></div>';
     host.appendChild(sec);
     var go=function(){cmOn=true;var b=$('cm-load'); if(b) b.style.display='none'; loadComments(term)};
     $('cm-load').addEventListener('click',go);
