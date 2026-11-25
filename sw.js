@@ -1,12 +1,29 @@
-/* Talata service worker: network first, babalik sa naka-save kapag offline */
-const C='talata-v1';
-self.addEventListener('install',()=>self.skipWaiting());
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{
-  const r=e.request;
-  if(r.method!=='GET'||new URL(r.url).origin!==location.origin) return;
-  e.respondWith(fetch(r).then(res=>{
-    if(res.ok){const cp=res.clone(); caches.open(C).then(c=>c.put(r,cp))}
-    return res;
-  }).catch(()=>caches.match(r).then(m=>m||caches.match('/'))));
+/* Talata Laro service worker: only handles the game page, its images and the game libraries. */
+const CACHE = 'talata-laro-v1';
+const PRECACHE = ['/laro.html', '/img/salpakan-rebolusyon.jpg', '/favicon.png', '/img/icon-192.png'];
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)).catch(() => {}));
+  self.skipWaiting();
+});
+self.addEventListener('activate', (e) => {
+  e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith('talata-laro-') && k !== CACHE).map((k) => caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const u = new URL(req.url);
+  const page = u.origin === location.origin && u.pathname === '/laro.html';
+  const asset = u.origin === location.origin && (u.pathname.startsWith('/img/') || u.pathname === '/favicon.png' || u.pathname === '/manifest.webmanifest');
+  const lib = /^https:\/\/cdn\.jsdelivr\.net\/npm\/(three@0\.128\.0|peerjs@1\.5\.4)\//.test(u.href) || u.host === 'fonts.gstatic.com' || u.host === 'fonts.googleapis.com';
+  if (!page && !asset && !lib) return;
+  if (page) {
+    e.respondWith(fetch(req).then((r) => { const copy = r.clone(); caches.open(CACHE).then((c) => c.put('/laro.html', copy)); return r; })
+      .catch(() => caches.match('/laro.html')));
+    return;
+  }
+  e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => {
+    if (r && (r.ok || r.type === 'opaque')) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
+    return r;
+  })));
 });
