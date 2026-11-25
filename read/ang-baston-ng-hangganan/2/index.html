@@ -2289,13 +2289,16 @@ var WORKS = [
   function bindListen(){
     var b=$('listen'); if(!b) return;
     TTS.on=false; TTS.paused=false; TTS.i=0;
+    // Ipakita lang ang Pakinggan kung may tunay na boses na Filipino ang device (iwas sa American accent)
+    var row=$('listen-row');
+    function chk(){ if(row&&ttsVoice()) row.hidden=false }
+    chk(); try{speechSynthesis.onvoiceschanged=chk}catch(e){}
     b.addEventListener('click',function(){
       if(TTS.on&&!TTS.paused){ TTS.paused=true; TTS.tok++; try{speechSynthesis.cancel()}catch(e){} ttsUi(); return }
       if(!TTS.paused){
         TTS.items=[].slice.call(document.querySelectorAll('#chapter p:not(.ch-label):not(.orn):not(.end):not(.listen-row):not(.share-row)'));
         var h1=$('read-title'); if(h1) TTS.items.unshift(h1);
         TTS.i=0;
-        if(!ttsVoice()){var nt=$('listen-note'); if(nt) nt.textContent=' Walang boses na Filipino sa device mo, kaya maaaring iba ang tunog.'}
       }
       TTS.on=true; TTS.paused=false; TTS.tok++; ttsUi(); ttsNext(TTS.tok);
     });
@@ -2307,7 +2310,7 @@ var WORKS = [
     var calmFlip=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(current&&current.w===w&&current.n!==n&&!calmFlip) turnPage(n>current.n?1:-1);
     var h='<p class="ch-label">'+esc(c.label)+', '+mins(c)+' min read</p><h1 tabindex="-1" id="read-title">'+esc(c.title||w.title)+'</h1>'+
-      (window.speechSynthesis?'<p class="listen-row"><button type="button" class="cm-btn" id="listen">\u25B6 Pakinggan</button> <button type="button" class="cm-btn" id="listen-stop" hidden>\u25A0 Itigil</button><small id="listen-note"></small></p>':'');
+      (window.speechSynthesis?'<p class="listen-row" id="listen-row" hidden><button type="button" class="cm-btn" id="listen">\u25B6 Pakinggan</button> <button type="button" class="cm-btn" id="listen-stop" hidden>\u25A0 Itigil</button><small id="listen-note"></small></p>':'');
     if(c.stanzas){
       h+=c.stanzas.map(function(st){return '<p class="stanza">'+st.map(esc).join('<br>')+'</p>'}).join('');
     }else{
