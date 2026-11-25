@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Laro — Game Store | Talata</title>
-<meta name="description" content="Talata Laro: libreng laro online. Bituin, isang neon arcade shooter, at Salitaan, isang Tagalog word puzzle. Laruin agad sa browser.">
+<meta name="description" content="Talata Laro: libreng laro online. Heneral, isang larong digmaan na lihim ang ranggo; Bituin, isang neon arcade shooter, at Salitaan, isang Tagalog word puzzle. Laruin agad sa browser.">
 <link rel="icon" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,6 +116,56 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 @keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .timer{width:min(520px,90%);height:8px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
 .timer i{display:block;height:100%;background:linear-gradient(90deg,#3fe0ff,#ff4fa3);transition:width .2s linear}
+/* Heneral */
+.hv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:70px 10px 16px;background:radial-gradient(circle at 50% 0%,#1f2c1b,#080b07 70%);overflow:auto}
+.hboard{display:grid;grid-template-columns:repeat(9,1fr);width:min(100%,580px,calc((100dvh - 240px)*9/8));border:2px solid #56683f;border-radius:10px;overflow:hidden;flex:none;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.cell{border:0;padding:0;margin:0;background:#2b3824;display:grid;place-items:center;cursor:pointer;position:relative;aspect-ratio:1;color:inherit}
+.cell.alt{background:#34442c}
+.cell.zone{box-shadow:inset 0 0 0 1px rgba(255,215,106,.3)}
+.cell.last{background:#4d4a23}
+.cell.tgt::after{content:"";position:absolute;width:28%;height:28%;border-radius:50%;background:rgba(127,255,176,.6);pointer-events:none}
+.cell.tgt.att::after{width:84%;height:80%;border-radius:8px;background:none;border:3px solid #ff6b6b}
+.cell.sel .pc{outline:3px solid #7fffb0;outline-offset:1px}
+.cell.flash{animation:hfl .7s}
+@keyframes hfl{0%{background:#c23b3b}100%{}}
+.cell:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+.pc{width:86%;height:80%;border-radius:6px;display:grid;place-items:center;font:700 clamp(10px,2.9vw,15px)/1 Inter,sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.45);pointer-events:none}
+.pc.p0{background:linear-gradient(180deg,#ffe08a,#d9a640);color:#2a1a00}
+.pc.p1{background:linear-gradient(180deg,#b5d1ff,#5a86d6);color:#081a3a}
+.pc.hid{background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.14) 0 4px,transparent 4px 8px),linear-gradient(180deg,var(--hc1),var(--hc2))}
+.pc.p0.hid{--hc1:#ffe08a;--hc2:#d9a640}.pc.p1.hid{--hc1:#b5d1ff;--hc2:#5a86d6}
+.hmsg{min-height:2.8em;text-align:center;color:#dfe6cf;font:500 14px/1.4 Inter,sans-serif;max-width:580px}
+.hbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.hlost{font:500 13px/1.5 Inter,sans-serif;color:#a3b28f;text-align:center;max-width:580px}
+.hud .t{font-size:14px;color:#dfe6cf}
+.panel.solid{background:#080b07;backdrop-filter:none}
+.ranks{text-align:left;font:500 14px/1.6 Inter,sans-serif;color:#dfe6cf;max-height:55vh;overflow:auto;margin:0 0 16px;padding:0 0 0 18px}
+.panel .box.wide{max-width:480px}
+.hboard{transform:perspective(1100px) rotateX(7deg);transform-origin:50% 100%}
+.cell{z-index:0}
+.pc{position:relative;transition:transform .16s ease,box-shadow .16s ease}
+.cell.sel{z-index:2}
+.cell.sel .pc{outline:0;transform:translateY(-6px) scale(1.12);box-shadow:0 10px 16px rgba(0,0,0,.6),0 0 0 3px #7fffb0,0 0 18px rgba(127,255,176,.6)}
+@media(hover:hover){.cell:hover .pc{transform:translateY(-3px)}}
+.clash{position:absolute;inset:0;z-index:30;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(60,20,10,.82),rgba(3,4,3,.94) 70%);overflow:hidden;cursor:pointer}
+.clash[hidden]{display:none}
+.cstage{display:flex;align-items:center;gap:clamp(6px,3vw,24px)}
+.ccard{position:relative;width:clamp(110px,34vw,170px);aspect-ratio:5/7;flex:none}
+.cface{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:3px solid rgba(255,255,255,.55);box-shadow:0 18px 40px rgba(0,0,0,.6),inset 0 0 0 6px rgba(0,0,0,.12)}
+.cface.t0{background:linear-gradient(160deg,#fff0b8,#e2ab45 55%,#9b6a16);color:#2a1a00}
+.cface.t1{background:linear-gradient(160deg,#d8e7ff,#6f98e0 55%,#2a4f96);color:#061633}
+.cface.back{background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.16) 0 6px,transparent 6px 12px),var(--cb)}
+.cface.t0.back{--cb:linear-gradient(160deg,#fff0b8,#e2ab45 55%,#9b6a16)}.cface.t1.back{--cb:linear-gradient(160deg,#d8e7ff,#6f98e0 55%,#2a4f96)}
+.crank{font:600 clamp(34px,10vw,54px)/1 Fraunces,Georgia,serif}
+.cname{font:700 clamp(11px,3vw,14px)/1.2 Inter,sans-serif;text-align:center;padding:0 8px}
+.cteam{position:absolute;bottom:10px;font:700 10px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.vs{font:600 clamp(22px,6vw,34px) Fraunces,Georgia,serif;color:#ffd76a;text-shadow:0 0 18px rgba(255,140,40,.9)}
+.verdict{position:absolute;left:0;right:0;bottom:16%;text-align:center;font:800 clamp(22px,6vw,36px)/1.1 Inter,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 22px rgba(255,200,80,.8);opacity:0;transform:scale(.6);transition:opacity .25s,transform .35s cubic-bezier(.2,1.6,.4,1);padding:0 16px}
+.verdict.on{opacity:1;transform:none}
+.verdict.v0{color:#ffe08a}.verdict.v1{color:#b5d1ff}
+.shard{position:absolute;inset:0}
+.spark{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#ffd76a;box-shadow:0 0 12px #ff9f4f;pointer-events:none}
+.confetti{position:absolute;top:-20px;width:9px;height:14px;z-index:40;pointer-events:none;border-radius:2px}
 @media(prefers-reduced-motion:reduce){.card,.card:hover{transform:none;transition:none}}
 </style>
 </head>
@@ -150,6 +200,7 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
       <h2>Tindahan</h2>
       <button class="chip" data-f="all" aria-pressed="true">Lahat</button>
       <button class="chip" data-f="Arcade" aria-pressed="false">Arcade</button>
+      <button class="chip" data-f="Strategy" aria-pressed="false">Strategy</button>
       <button class="chip" data-f="Puzzle" aria-pressed="false">Puzzle</button>
       <button class="chip" data-f="soon" aria-pressed="false">Malapit na</button>
       <input class="search" id="q" type="search" placeholder="Hanapin ang laro…" aria-label="Hanapin ang laro">
@@ -220,6 +271,51 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
   </div></div>
 </div>
 
+<!-- Heneral overlay -->
+<div class="ov" id="ovH" role="dialog" aria-label="Heneral">
+  <div class="hv">
+    <div class="hboard" id="hBoard"></div>
+    <div class="hmsg" id="hMsg" aria-live="polite"></div>
+    <div class="hbar" id="hBar"></div>
+    <div class="hlost" id="hLost"></div>
+  </div>
+  <div class="hud">
+    <button class="x" id="hQuit" aria-label="Isara">✕</button>
+    <span class="t" id="hTurn"></span>
+    <button id="hMute" aria-label="I-mute">🔊</button>
+    <button id="hHelp" aria-label="Mga ranggo at rules" style="margin-left:0">?</button>
+  </div>
+  <div class="clash" id="hClash" hidden><div class="cstage"><div class="ccard" id="cA"></div><div class="vs" id="hVs">VS</div><div class="ccard" id="cB"></div></div><div class="verdict" id="cV"></div></div>
+  <div class="panel on" id="hStart"><div class="box wide">
+    <h2>Heneral</h2>
+    <p>Larong digmaan na lihim ang ranggo. Hindi mo alam kung sino ang kalaban hanggang magsalpukan. Kunin ang bandila ng kalaban, o dalhin ang bandila mo sa dulo ng board.</p>
+    <div class="row"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button></div>
+  </div></div>
+  <div class="panel" id="hRules"><div class="box wide">
+    <h2>Mga Rules</h2>
+    <ol class="ranks">
+      <li><b>5★ → 1★ Heneral</b>, Koronel (Col), Tenyente Koronel (LtC), Mayor (Maj), Kapitan (Cpt), Primer Tenyente (1Lt), Segundo Tenyente (2Lt), Sarhento (Sgt), Sundalo (Pvt): mas mataas ang ranggo, panalo.</li>
+      <li><b>Espiya (Spy)</b>: talo nito ang lahat ng opisyal at Sarhento, pero talo ito sa <b>Sundalo</b>.</li>
+      <li><b>Bandila (⚑)</b>: talo sa kahit anong piyesa. Kapag bandila laban sa bandila, panalo ang umatake.</li>
+      <li>Parehong ranggo: parehong matatanggal.</li>
+      <li>Isang hakbang lang bawat tira: pataas, pababa, pakaliwa o pakanan.</li>
+      <li>Panalo kapag nakuha ang bandila ng kalaban, o kapag nakarating ang bandila mo sa dulong hanay. Kung may katabing kalaban pagdating doon, dapat itong makaligtas ng isa pang tira.</li>
+      <li>Sa simula, ayusin ang 21 piyesa mo sa unang 3 hanay. I-tap ang dalawang piyesa para pagpalitin.</li>
+    </ol>
+    <div class="row"><button class="cta" id="hRulesOk">Sige</button></div>
+  </div></div>
+  <div class="panel solid" id="hHand"><div class="box">
+    <h2 id="hHandT">Ipasa ang device</h2>
+    <p id="hHandP"></p>
+    <div class="row"><button class="cta" id="hHandGo">Handa na ako</button></div>
+  </div></div>
+  <div class="panel" id="hOver"><div class="box">
+    <h2 id="hOverT">Panalo!</h2>
+    <p id="hOverP"></p>
+    <div class="row"><button class="cta" id="hAgain">↻ Bagong laro</button><button class="cta ghost" id="hView">Tingnan ang board</button><button class="cta ghost" id="hQuit2">Bumalik sa store</button></div>
+  </div></div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -235,12 +331,14 @@ tb.onclick=function(){setTheme(root.dataset.theme==='dark'?'light':'dark')};
 
 /* ---------- catalog ---------- */
 var COVERS={
+ heneral:'<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><rect width="160" height="100" fill="#1f2c1b"/><g fill="#34442c"><rect x="10" y="10" width="20" height="20"/><rect x="50" y="10" width="20" height="20"/><rect x="90" y="10" width="20" height="20"/><rect x="130" y="10" width="20" height="20"/><rect x="30" y="30" width="20" height="20"/><rect x="70" y="30" width="20" height="20"/><rect x="110" y="30" width="20" height="20"/><rect x="10" y="50" width="20" height="20"/><rect x="50" y="50" width="20" height="20"/><rect x="90" y="50" width="20" height="20"/><rect x="130" y="50" width="20" height="20"/><rect x="30" y="70" width="20" height="20"/><rect x="70" y="70" width="20" height="20"/><rect x="110" y="70" width="20" height="20"/></g><g font-family="Inter,sans-serif" font-weight="700" font-size="9" text-anchor="middle"><rect x="32" y="72" width="16" height="16" rx="3" fill="#e8b94f"/><text x="40" y="83" fill="#2a1a00">5★</text><rect x="72" y="52" width="16" height="16" rx="3" fill="#e8b94f"/><text x="80" y="63" fill="#2a1a00">Spy</text><rect x="112" y="72" width="16" height="16" rx="3" fill="#e8b94f"/><text x="120" y="83" fill="#2a1a00">⚑</text><rect x="52" y="12" width="16" height="16" rx="3" fill="#7fa6e8"/><rect x="92" y="32" width="16" height="16" rx="3" fill="#7fa6e8"/><rect x="132" y="12" width="16" height="16" rx="3" fill="#7fa6e8"/></g><text x="80" y="47" font-size="12" text-anchor="middle" fill="#ff6b6b">⚔</text></svg>',
  bituin:'<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b0f45"/><stop offset="1" stop-color="#05040f"/></linearGradient></defs><rect width="160" height="100" fill="url(#g1)"/><g fill="#fff" opacity=".8"><circle cx="20" cy="15" r=".8"/><circle cx="50" cy="30" r="1"/><circle cx="130" cy="20" r=".7"/><circle cx="110" cy="60" r="1"/><circle cx="30" cy="70" r=".7"/><circle cx="145" cy="85" r=".9"/></g><g stroke="#ff4fa3" stroke-width="2" fill="none"><path d="M40 25l8 8-8 8-8-8z"/><path d="M118 32l8 8-8 8-8-8z"/></g><path d="M80 50 L92 80 L80 74 L68 80Z" fill="#ffd76a"/><path d="M76 78 L80 92 L84 78Z" fill="#3fe0ff"/><rect x="79" y="22" width="2" height="12" fill="#ffd76a"/></svg>',
  salitaan:'<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g2" cx=".5" cy=".3"><stop offset="0" stop-color="#3a2466"/><stop offset="1" stop-color="#0b0820"/></radialGradient></defs><rect width="160" height="100" fill="url(#g2)"/><g font-family="Inter,sans-serif" font-weight="700" font-size="16" text-anchor="middle"><g transform="translate(26 40)"><rect x="-12" y="-14" width="24" height="28" rx="5" fill="#ffd76a"/><text y="6" fill="#1a0f00">A</text></g><g transform="translate(56 40) rotate(-6)"><rect x="-12" y="-14" width="24" height="28" rx="5" fill="#ffd76a"/><text y="6" fill="#1a0f00">K</text></g><g transform="translate(86 40) rotate(5)"><rect x="-12" y="-14" width="24" height="28" rx="5" fill="#ffd76a"/><text y="6" fill="#1a0f00">L</text></g><g transform="translate(116 40)"><rect x="-12" y="-14" width="24" height="28" rx="5" fill="#ffd76a"/><text y="6" fill="#1a0f00">A</text></g><g transform="translate(146 40) rotate(-4)"><rect x="-12" y="-14" width="24" height="28" rx="5" fill="#ffd76a"/><text y="6" fill="#1a0f00">T</text></g></g><text x="80" y="82" font-family="Noto Sans Tagalog,serif" font-size="16" fill="#3fe0ff" text-anchor="middle">ᜀᜃ᜔ᜎᜆ᜔</text></svg>',
  alamat:'<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><rect width="160" height="100" fill="#0e2a1f"/><path d="M0 80 L30 45 L55 70 L85 30 L120 72 L160 40 L160 100 L0 100Z" fill="#14402d"/><path d="M0 92 L40 70 L80 88 L120 66 L160 86 L160 100 L0 100Z" fill="#1d5a3e"/><circle cx="125" cy="22" r="10" fill="#ffd76a"/></svg>',
  tula:'<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice"><rect width="160" height="100" fill="#200a24"/><g fill="#ff4fa3"><rect x="20" y="50" width="10" height="40" rx="3"/><rect x="38" y="30" width="10" height="60" rx="3"/><rect x="56" y="60" width="10" height="30" rx="3"/><rect x="74" y="20" width="10" height="70" rx="3"/><rect x="92" y="45" width="10" height="45" rx="3"/><rect x="110" y="35" width="10" height="55" rx="3"/><rect x="128" y="55" width="10" height="35" rx="3"/></g></svg>'
 };
 var GAMES=[
+ {id:'heneral',name:'Heneral',genre:'Strategy',players:'1–2 players',desc:'Larong digmaan na lihim ang ranggo: 21 piyesa, isang arbiter, isang bandilang dapat ipagtanggol. Laban sa computer o sa kaibigan.',badge:'Bago',play:true},
  {id:'bituin',name:'Bituin',genre:'Arcade',players:'1 player',desc:'Neon space shooter. Waves ng kalaban, power-ups, at combo multiplier.',badge:'Bago',play:true},
  {id:'salitaan',name:'Salitaan',genre:'Puzzle',players:'1 player',desc:'Ayusin ang mga letra para mabuo ang salitang Tagalog bago maubos ang oras.',badge:'Libre',play:true},
  {id:'alamat',name:'Alamat Quest',genre:'Adventure',players:'1 player',desc:'Isang paglalakbay sa mga alamat ng Pilipinas. Lutasin ang mga palaisipan ng bundok at gubat.',soon:true},
@@ -258,7 +356,7 @@ function render(){
     return true});
   grid.innerHTML=list.map(function(g){
     var badge=g.soon?'<span class="badge">Malapit na</span>':(g.badge?'<span class="badge'+(g.badge==='Bago'?' new':'')+'">'+g.badge+'</span>':'');
-    var act=g.play?'<button class="btn" data-play="'+g.id+'">▶ Laruin</button>'+(best[g.id]?'<span class="best">Best: '+best[g.id].toLocaleString()+'</span>':'')
+    var act=g.play?'<button class="btn" data-play="'+g.id+'">▶ Laruin</button>'+(best[g.id]?'<span class="best">'+(g.id==='heneral'?'Panalo: ':'Best: ')+best[g.id].toLocaleString()+'</span>':'')
       :'<button class="btn sec" data-wish="'+g.id+'" aria-pressed="'+(!!wish[g.id])+'">'+(wish[g.id]?'✓ Naka-wishlist':'+ Wishlist')+'</button>';
     return '<article class="card"><div class="cover">'+COVERS[g.id]+badge+'</div><div class="body"><h3>'+g.name+'</h3><div class="meta"><span>'+g.genre+'</span><span>'+g.players+'</span><span>'+(g.soon?'—':'Libre')+'</span></div><p>'+g.desc+'</p><div class="foot">'+act+'</div></div></article>'}).join('');
   document.getElementById('empty').hidden=list.length>0;
@@ -266,7 +364,7 @@ function render(){
   var played=store.get('played',{}),ids=Object.keys(played).sort(function(a,b){return played[b]-played[a]});
   var sec=document.getElementById('library-sec');sec.hidden=!ids.length;
   document.getElementById('lib').innerHTML=ids.map(function(id){var g=GAMES.filter(function(x){return x.id===id})[0];if(!g)return'';
-    return '<div class="libi"><div class="ic">'+COVERS[id]+'</div><div><b>'+g.name+'</b><small>Best '+(best[id]||0).toLocaleString()+' · '+fmtDate(played[id])+'</small></div><button class="btn" style="margin-left:auto" data-play="'+id+'" aria-label="Laruin ang '+g.name+'">▶</button></div>'}).join('');
+    return '<div class="libi"><div class="ic">'+COVERS[id]+'</div><div><b>'+g.name+'</b><small>'+(id==='heneral'?'Panalo ':'Best ')+(best[id]||0).toLocaleString()+' · '+fmtDate(played[id])+'</small></div><button class="btn" style="margin-left:auto" data-play="'+id+'" aria-label="Laruin ang '+g.name+'">▶</button></div>'}).join('');
 }
 document.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){
   filter=c.dataset.f;document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});render()}});
@@ -277,7 +375,7 @@ document.addEventListener('click',function(e){
 });
 function markPlayed(id){var p=store.get('played',{});p[id]=Date.now();store.set('played',p)}
 function saveBest(id,s){var b=store.get('best',{});var prev=b[id]||0;if(s>prev){b[id]=s;store.set('best',b)}return Math.max(prev,s)}
-function openGame(id){if(id==='bituin')Bituin.open();else if(id==='salitaan')Salitaan.open()}
+function openGame(id){if(id==='heneral')Heneral.open();else if(id==='bituin')Bituin.open();else if(id==='salitaan')Salitaan.open()}
 function closeAll(){document.querySelectorAll('.ov').forEach(function(o){o.classList.remove('on')});document.body.classList.remove('locked');render()}
 
 /* ---------- hero background fx ---------- */
@@ -484,8 +582,253 @@ var Salitaan=(function(){
   return{open:open};
 })();
 
+/* ================= HENERAL ================= */
+var Heneral=(function(){
+  var $=function(i){return document.getElementById(i)};
+  var R={G5:['5★','Heneral (5 bituin)',13],G4:['4★','Heneral (4 bituin)',12],G3:['3★','Heneral (3 bituin)',11],G2:['2★','Heneral (2 bituin)',10],G1:['1★','Heneral (1 bituin)',9],
+    COL:['Col','Koronel',8],LTC:['LtC','Tenyente Koronel',7],MAJ:['Maj','Mayor',6],CPT:['Cpt','Kapitan',5],LT1:['1Lt','Primer Tenyente',4],LT2:['2Lt','Segundo Tenyente',3],
+    SGT:['Sgt','Sarhento',2],PVT:['Pvt','Sundalo',1],SPY:['Spy','Espiya',14],FLG:['⚑','Bandila',0]};
+  var ARMY=['G5','G4','G3','G2','G1','COL','LTC','MAJ','CPT','LT1','LT2','SGT','PVT','PVT','PVT','PVT','PVT','PVT','SPY','SPY','FLG'];
+  var TEAM=['Ginto','Asul'],DIRS=[[1,0],[-1,0],[0,1],[0,-1]];
+  var ov=$('ovH'),bd=$('hBoard');
+  var board,mode,phase,turn,sel,lost,pending,last,flash,winner,busy,msg,handNext,uid=0,aiTimer=0;
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+  function piece(k,o){return{id:++uid,k:k,o:o,v:R[k][2],beat:0,known:''}}
+  function zone(o){return o===0?[5,6,7]:[0,1,2]}
+  function inB(r,c){return r>=0&&r<8&&c>=0&&c<9}
+  function sq(r,c){return 'ABCDEFGHI'[c]+(8-r)}
+  function randomSetup(o){
+    zone(o).forEach(function(r){for(var c=0;c<9;c++)board[r][c]=null});
+    var back=o===0?7:0,cells=[];
+    zone(o).forEach(function(r){for(var c=0;c<9;c++)cells.push([r,c])});
+    var fc=1+Math.floor(Math.random()*7);board[back][fc]=piece('FLG',o);
+    cells=shuffle(cells.filter(function(x){return!(x[0]===back&&x[1]===fc)}));
+    var rest=shuffle(ARMY.filter(function(k){return k!=='FLG'}));
+    // keep at least one strong piece next to the flag
+    var guard=[[back,fc-1],[back,fc+1],[o===0?6:1,fc]][Math.floor(Math.random()*3)];
+    var gi=rest.indexOf(['G3','G2','COL','LTC'][Math.floor(Math.random()*4)]);
+    board[guard[0]][guard[1]]=piece(rest.splice(gi,1)[0],o);
+    cells=cells.filter(function(x){return!(x[0]===guard[0]&&x[1]===guard[1])});
+    rest.forEach(function(k,i){var x=cells[i];board[x[0]][x[1]]=piece(k,o)});
+  }
+  function resolve(a,b){
+    if(a.k==='FLG'&&b.k==='FLG')return'a';
+    if(b.k==='FLG')return'a';if(a.k==='FLG')return'b';
+    if(a.k==='SPY'&&b.k==='SPY')return'both';
+    if(a.k==='SPY')return b.k==='PVT'?'b':'a';
+    if(b.k==='SPY')return a.k==='PVT'?'a':'b';
+    return a.v>b.v?'a':a.v<b.v?'b':'both';
+  }
+  function moves(r,c){var p=board[r][c],out=[];DIRS.forEach(function(d){var nr=r+d[0],nc=c+d[1];
+    if(inB(nr,nc)&&!(board[nr][nc]&&board[nr][nc].o===p.o))out.push([nr,nc])});return out}
+  function hasMoves(o){for(var r=0;r<8;r++)for(var c=0;c<9;c++){var p=board[r][c];if(p&&p.o===o&&moves(r,c).length)return true}return false}
+  function adjEnemy(r,c,o){return DIRS.some(function(d){var q=inB(r+d[0],c+d[1])&&board[r+d[0]][c+d[1]];return q&&q.o!==o})}
+  function find(p){for(var r=0;r<8;r++)for(var c=0;c<9;c++)if(board[r][c]===p)return[r,c];return null}
+  function viewer(){if(mode==='ai')return 0;if(phase==='setup0')return 0;if(phase==='setup1')return 1;return turn}
+  function panel(id){['hStart','hRules','hHand','hOver'].forEach(function(p){$(p).classList.toggle('on',p===id)})}
+  function learn(win,lose){ // what the winning piece revealed about itself
+    if(lose.k==='SPY')win.known='PVT';else win.beat=Math.max(win.beat,lose.v)}
+  function render(){
+    var v=viewer(),h='',tg=[];
+    if(sel&&phase==='play')tg=moves(sel[0],sel[1]);
+    for(var dr=0;dr<8;dr++)for(var dc=0;dc<9;dc++){
+      var r=v===0?dr:7-dr,c=v===0?dc:8-dc,p=board[r][c],cls='cell'+((r+c)%2?' alt':'');
+      if(phase.indexOf('setup')===0&&zone(v).indexOf(r)>=0)cls+=' zone';
+      if(sel&&sel[0]===r&&sel[1]===c)cls+=' sel';
+      if(tg.some(function(x){return x[0]===r&&x[1]===c}))cls+=' tgt'+(p?' att':'');
+      if(last&&((last.f[0]===r&&last.f[1]===c)||(last.t[0]===r&&last.t[1]===c)))cls+=' last';
+      if(flash&&flash[0]===r&&flash[1]===c)cls+=' flash';
+      var show=p&&(p.o===v||phase==='over'),lab=sq(r,c);
+      if(p)lab+=', '+(show?R[p.k][1]+' ('+TEAM[p.o]+')':'piyesa ng kalaban');
+      h+='<button class="'+cls+'" data-r="'+r+'" data-c="'+c+'" aria-label="'+lab+'">'+(p?'<span class="pc p'+p.o+(show?'':' hid')+'">'+(show?R[p.k][0]:'')+'</span>':'')+'</button>';
+    }
+    bd.innerHTML=h;flash=null;afterRender();
+    var t='';
+    if(phase==='setup0'||phase==='setup1')t='Ayusin ang hukbo ('+TEAM[v]+')';
+    else if(phase==='play')t=mode==='ai'?(turn===0?'Tira mo (Ginto)':'Nag-iisip ang computer…'):'Tira ng '+TEAM[turn];
+    else if(phase==='over')t='Tapos ang laro';
+    $('hTurn').textContent=t;
+    var bar='';
+    if(phase==='setup0'||phase==='setup1')bar='<button class="cta ghost" id="hRand">🎲 Random</button><button class="cta" id="hReady">✓ Handa na</button>';
+    else if(phase==='play'&&(mode==='pvp'||turn===0))bar='<button class="cta ghost" id="hResign">🏳 Sumuko</button>';
+    else if(phase==='over')bar='<button class="cta" id="hAgain2">↻ Bagong laro</button>';
+    $('hBar').innerHTML=bar;
+    $('hMsg').textContent=phase.indexOf('setup')===0?'I-tap ang isang piyesa, saka ang ibang piyesa o bakanteng parisukat sa naka-ilaw na lugar para ilipat o pagpalitin.':(msg||'');
+    if(lost&&phase!=='setup0'&&phase!=='setup1'){var me=v,op=1-v;
+      $('hLost').innerHTML='Nawala sa '+(mode==='ai'?'iyo':TEAM[me])+': '+(lost[me].length?lost[me].map(function(p){return R[p.k][0]}).join(', '):'wala')+'<br>Natalong kalaban: '+lost[op].length+' / 21';
+    }else $('hLost').textContent='';
+  }
+  function newGame(m){
+    clearTimeout(aiTimer);mode=m;uid=0;board=[];for(var r=0;r<8;r++){board.push([]);for(var c=0;c<9;c++)board[r].push(null)}
+    lost=[[],[]];pending=null;last=null;flash=null;winner=null;busy=false;sel=null;msg='';turn=0;
+    randomSetup(0);if(m==='ai')randomSetup(1);
+    phase='setup0';panel(null);markPlayed('heneral');deal=true;render();
+  }
+  function hand(next,title,text){phase='handoff';handNext=next;sel=null;$('hHandT').textContent=title;$('hHandP').textContent=text;panel('hHand');render()}
+  function ready(){
+    sel=null;
+    if(phase==='setup0'){if(mode==='ai'){phase='play';turn=0;msg='Magsimula! Ikaw ang unang titira.';render()}
+      else{randomSetup(1);hand('setup1','Ipasa kay Asul','Huwag sisilip, Ginto! Si Asul naman ang mag-aayos ng hukbo niya.')}}
+    else if(phase==='setup1'){turn=0;msg='Magsimula ang laban!';hand('play','Ipasa kay Ginto','Si Ginto ang unang titira.')}
+  }
+  function move(f,t){
+    var a=board[f[0]][f[1]],b=board[t[0]][t[1]];
+    if(b){var res=resolve(a,b);busy=true;sel=null;last={f:f,t:t};render();
+      clash(a,b,res,mode==='ai'?0:a.o).then(function(){busy=false;apply(f,t,res)})}
+    else{sfx('move');apply(f,t,null)}
+  }
+  function apply(f,t,res){
+    var a=board[f[0]][f[1]],b=board[t[0]][t[1]],me=a.o;
+    last={f:f,t:t};board[f[0]][f[1]]=null;
+    if(!b){board[t[0]][t[1]]=a;anim={f:f,t:t};msg=TEAM[me]+': '+sq(f[0],f[1])+' → '+sq(t[0],t[1])}
+    else{
+      flash=t;
+      if(res==='a'){board[t[0]][t[1]]=a;anim={f:f,t:t};lost[b.o].push(b);learn(a,b)}
+      else if(res==='b'){lost[a.o].push(a);learn(b,a)}
+      else{board[t[0]][t[1]]=null;lost[a.o].push(a);lost[b.o].push(b)}
+      msg='⚔ Hamon sa '+sq(t[0],t[1])+': '+(res==='both'?'parehong natanggal ang dalawang piyesa.':'panalo ang '+TEAM[res==='a'?me:b.o]+(res==='a'?' (umatake).':' (nagtanggol).'));
+      if(b.k==='FLG'&&res!=='b')winner=me;
+      if(a.k==='FLG'&&res==='b')winner=b.o;
+    }
+    if(winner==null&&pending&&pending.o!==me){if(find(pending.p))winner=pending.o;pending=null}
+    if(winner==null&&a.k==='FLG'&&board[t[0]][t[1]]===a&&t[0]===(me===0?0:7)){
+      if(!adjEnemy(t[0],t[1],me))winner=me;
+      else{pending={o:me,p:a};msg+=' 🚩 Nakarating ang bandila ng '+TEAM[me]+' sa dulo! Kailangan itong makaligtas ng isang tira.'}
+    }
+    if(winner==null&&!hasMoves(1-me))winner=me;
+    sel=null;
+    if(winner!=null){end();return}
+    turn=1-me;
+    if(mode==='ai'){render();if(turn===1){busy=true;aiTimer=setTimeout(ai,750)}}
+    else{busy=true;render();turn=me;var nt=1-me;aiTimer=setTimeout(function(){busy=false;turn=nt;hand('play','Ipasa kay '+TEAM[nt],msg)},550)}
+  }
+  function end(){
+    phase='over';render();
+    var t,p;
+    if(mode==='ai'){t=winner===0?'Panalo ka!':'Talo ka';p=winner===0?'Magaling, Heneral! Tingnan ang board para makita ang lahat ng piyesa ng kalaban.':'Nakuha ng computer ang tagumpay. Subukan ulit!';
+      if(winner===0){var b=store.get('best',{});b.heneral=(b.heneral||0)+1;store.set('best',b)}}
+    else{t='Panalo si '+TEAM[winner]+'!';p='Nakabukas na ang lahat ng piyesa sa board.'}
+    $('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
+    if(mode==='pvp'||winner===0){confetti();sfx('win')}
+    setTimeout(function(){if(phase==='over')panel('hOver')},mode==='pvp'||winner===0?900:300);
+  }
+  function ai(){
+    busy=false;if(phase!=='play'||turn!==1)return;
+    var flag=null,best=null,bs=-1e9,r,c;
+    for(r=0;r<8;r++)for(c=0;c<9;c++)if(board[r][c]&&board[r][c].o===1&&board[r][c].k==='FLG')flag=[r,c];
+    for(r=0;r<8;r++)for(c=0;c<9;c++){var p=board[r][c];if(!p||p.o!==1)continue;
+      moves(r,c).forEach(function(m){
+        var nr=m[0],nc=m[1],t=board[nr][nc],s=Math.random()*2,fwd=nr-r;
+        if(p.k==='FLG'){s-=8;if(nr===7&&!t&&!adjEnemy(nr,nc,1))s+=1000}
+        else s+=fwd*(p.v<=2?1.8:1.1);
+        if(t){
+          if(pending&&pending.p===t)s+=500;
+          if(flag&&Math.abs(flag[0]-nr)+Math.abs(flag[1]-nc)<=1)s+=40;
+          if(p.k==='FLG')s-=60;
+          else if(p.k==='SPY')s+=t.known==='PVT'?-40:t.beat>=6?30:1;
+          else if(t.known==='PVT')s+=p.v>1?18:4;
+          else if(t.beat>=p.v)s-=25;
+          else s+=5+p.v*.6-(p.v>=12?4:0);
+        }else DIRS.forEach(function(d){var q=inB(nr+d[0],nc+d[1])&&board[nr+d[0]][nc+d[1]];
+          if(q&&q.o===0){if(p.k!=='SPY'&&q.beat>=p.v)s-=8;if(p.k==='SPY'&&q.known==='PVT')s-=10;if(p.k==='FLG')s-=30}});
+        if(flag&&p.k!=='FLG'&&Math.abs(flag[0]-r)+Math.abs(flag[1]-c)===1&&Math.abs(flag[0]-nr)+Math.abs(flag[1]-nc)>1)s-=3;
+        if(s>bs){bs=s;best=[[r,c],m]}
+      })}
+    if(best)move(best[0],best[1]);
+  }
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,anim=null,deal=false,muted=store.get('mute',false),AC=null;
+  function sfx(k){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+    var t=AC.currentTime,g=AC.createGain();g.connect(AC.destination);
+    function noise(d){var b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0);for(var i=0;i<x.length;i++)x[i]=Math.random()*2-1;var s=AC.createBufferSource();s.buffer=b;return s}
+    if(k==='move'){var o=AC.createOscillator();o.type='triangle';o.frequency.setValueAtTime(520,t);o.frequency.exponentialRampToValueAtTime(260,t+.08);g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.1);o.connect(g);o.start(t);o.stop(t+.1)}
+    else if(k==='whoosh'){var n=noise(.7),f=AC.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(2400,t+.6);n.connect(f);f.connect(g);g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(.18,t+.4);g.gain.exponentialRampToValueAtTime(.001,t+.7);n.start(t)}
+    else if(k==='hit'){var n2=noise(.5),f2=AC.createBiquadFilter();f2.type='lowpass';f2.frequency.value=1800;n2.connect(f2);f2.connect(g);g.gain.setValueAtTime(.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.45);n2.start(t);
+      var o2=AC.createOscillator(),g2=AC.createGain();o2.frequency.setValueAtTime(110,t);o2.frequency.exponentialRampToValueAtTime(38,t+.35);g2.gain.setValueAtTime(.6,t);g2.gain.exponentialRampToValueAtTime(.001,t+.4);o2.connect(g2);g2.connect(AC.destination);o2.start(t);o2.stop(t+.4)}
+    else if(k==='win'){[523,659,784,1046].forEach(function(fq,i){var o3=AC.createOscillator(),g3=AC.createGain();o3.type='triangle';o3.frequency.value=fq;g3.gain.setValueAtTime(.001,t+i*.12);g3.gain.linearRampToValueAtTime(.12,t+i*.12+.02);g3.gain.exponentialRampToValueAtTime(.001,t+i*.12+.5);o3.connect(g3);g3.connect(AC.destination);o3.start(t+i*.12);o3.stop(t+i*.12+.5)})}
+  }catch(e){}}
+  function afterRender(){
+    if(reduce){anim=null;deal=false;return}
+    if(deal){deal=false;[].forEach.call(bd.querySelectorAll('.pc'),function(el,i){
+      el.animate([{transform:'translateY(-70px) rotateX(75deg) scale(.5)',opacity:0},{transform:'none',opacity:1}],{duration:420,delay:i*22,easing:'cubic-bezier(.2,.9,.3,1.2)',fill:'backwards'})})}
+    if(anim){var cell=bd.querySelector('[data-r="'+anim.t[0]+'"][data-c="'+anim.t[1]+'"]'),src=bd.querySelector('[data-r="'+anim.f[0]+'"][data-c="'+anim.f[1]+'"]'),el=cell&&cell.querySelector('.pc');
+      if(el&&src){var a=src.getBoundingClientRect(),b=cell.getBoundingClientRect();cell.style.zIndex=3;
+        el.animate([{transform:'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale(1.2)',boxShadow:'0 14px 18px rgba(0,0,0,.6)'},{transform:'none'}],{duration:340,easing:'cubic-bezier(.2,.9,.25,1)'})}
+      anim=null}
+  }
+  function face(p,show){return '<div class="cface t'+p.o+(show?'':' back')+'"><span class="crank">'+(show?R[p.k][0]:'?')+'</span><span class="cname">'+(show?R[p.k][1]:'Lihim na piyesa')+'</span><span class="cteam">'+TEAM[p.o]+'</span></div>'}
+  function shatter(card){var f=card.firstChild,P=['polygon(0 0,55% 0,45% 40%,0 28%)','polygon(55% 0,100% 0,100% 35%,45% 40%)','polygon(0 28%,45% 40%,35% 70%,0 75%)','polygon(45% 40%,100% 35%,100% 72%,35% 70%)','polygon(0 75%,35% 70%,50% 100%,0 100%)','polygon(35% 70%,100% 72%,100% 100%,50% 100%)'];
+    P.forEach(function(cp,i){var s=f.cloneNode(true);s.classList.add('shard');s.style.clipPath=cp;card.appendChild(s);
+      var dx=(i%2?1:-1)*(50+Math.random()*90),dy=(Math.floor(i/2)-1)*(70+Math.random()*60)+20;
+      s.animate([{transform:'none',opacity:1,filter:'brightness(2.2)'},{transform:'translate('+dx+'px,'+dy+'px) rotate('+((Math.random()-.5)*160)+'deg) scale(.6)',opacity:0,filter:'brightness(.5)'}],{duration:850,easing:'cubic-bezier(.15,.7,.3,1)',fill:'forwards'})});
+    f.style.opacity=0}
+  function sparks(host){for(var i=0;i<22;i++){var s=document.createElement('i');s.className='spark';host.appendChild(s);var an=Math.random()*6.283,d=60+Math.random()*160;
+    s.animate([{transform:'translate(0,0) scale(1.4)',opacity:1},{transform:'translate('+Math.cos(an)*d+'px,'+Math.sin(an)*d+'px) scale(.2)',opacity:0}],{duration:500+Math.random()*400,easing:'cubic-bezier(.1,.8,.3,1)',fill:'forwards'})}}
+  function clash(a,b,res,v){return new Promise(function(done){
+    var C=$('hClash'),A=$('cA'),B=$('cB'),V=$('cV'),st=C.firstChild,fin=false,T=[];
+    A.innerHTML=face(a,a.o===v);B.innerHTML=face(b,b.o===v);
+    var wo=res==='a'?a.o:res==='b'?b.o:-1;
+    V.className='verdict'+(wo>=0?' v'+wo:'');V.textContent=wo<0?'PAREHONG TANGGAL!':(mode==='ai'?(wo===0?'PANALO ANG PIYESA MO!':'TALO ANG PIYESA MO!'):'PANALO ANG '+TEAM[wo].toUpperCase()+'!');
+    C.hidden=false;
+    function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);
+      var fo=C.animate([{opacity:1},{opacity:0}],{duration:reduce?1:260,fill:'forwards'});
+      fo.onfinish=function(){C.hidden=true;C.getAnimations({subtree:true}).forEach(function(x){x.cancel()});[].forEach.call(C.querySelectorAll('.spark'),function(s){s.remove()});A.innerHTML='';B.innerHTML='';done()}}
+    C.onclick=finish;
+    if(reduce){V.classList.add('on');T.push(setTimeout(finish,1100));return}
+    sfx('whoosh');
+    C.animate([{opacity:0},{opacity:1}],{duration:220,fill:'forwards'});
+    $('hVs').animate([{opacity:0,transform:'scale(3)'},{opacity:1,transform:'scale(1)',offset:.5},{opacity:1},{opacity:0,transform:'scale(.4)'}],{duration:900,fill:'forwards'});
+    A.animate([{transform:'translateX(-110vw) rotate(-28deg)'},{transform:'translateX(-20px) rotate(-8deg)',offset:.55},{transform:'translateX(-55px) rotate(-12deg)',offset:.82},{transform:'translateX(40%) rotate(2deg)'}],{duration:900,easing:'cubic-bezier(.3,.7,.2,1)',fill:'forwards'});
+    B.animate([{transform:'translateX(110vw) rotate(28deg)'},{transform:'translateX(20px) rotate(8deg)',offset:.55},{transform:'translateX(55px) rotate(12deg)',offset:.82},{transform:'translateX(-40%) rotate(-2deg)'}],{duration:900,easing:'cubic-bezier(.3,.7,.2,1)',fill:'forwards'});
+    T.push(setTimeout(function(){sfx('hit');sparks(st);if(navigator.vibrate)try{navigator.vibrate(60)}catch(e){}
+      st.animate([{transform:'translate(0,0)'},{transform:'translate(-10px,6px)'},{transform:'translate(9px,-7px)'},{transform:'translate(-6px,-4px)'},{transform:'translate(0,0)'}],{duration:320})},880));
+    T.push(setTimeout(function(){
+      if(res==='a'||res==='both')shatter(B);if(res==='b'||res==='both')shatter(A);
+      var w=res==='a'?A:res==='b'?B:null;
+      if(w)w.firstChild.animate([{transform:'none',filter:'none'},{transform:'translateY(-14px) scale(1.12)',filter:'brightness(1.25) drop-shadow(0 0 22px '+(wo===0?'#ffd76a':'#8fb8ff')+')'}],{duration:420,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'forwards'});
+      V.classList.add('on')},1120));
+    T.push(setTimeout(finish,2300));
+  })}
+  function confetti(){if(reduce)return;var cols=['#ffd76a','#ff4fa3','#3fe0ff','#7fffb0','#fff'];
+    for(var i=0;i<80;i++){var c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.background=cols[i%5];ov.appendChild(c);
+      var an=c.animate([{transform:'translateY(0) rotate(0)'},{transform:'translate('+((Math.random()-.5)*200)+'px,'+(innerHeight+40)+'px) rotate('+(Math.random()*1080)+'deg)'}],{duration:1800+Math.random()*1600,delay:Math.random()*600,easing:'cubic-bezier(.3,.1,.6,1)',fill:'backwards'});
+      an.onfinish=(function(el){return function(){el.remove()}})(c)}}
+  function setMute(m){muted=m;store.set('mute',m);$('hMute').textContent=m?'🔇':'🔊';$('hMute').setAttribute('aria-label',m?'I-on ang tunog':'I-mute')}
+  $('hMute').onclick=function(){setMute(!muted);if(!muted)sfx('move')};setMute(muted);
+  bd.addEventListener('click',function(e){
+    var b=e.target.closest('.cell');if(!b)return;
+    var r=+b.dataset.r,c=+b.dataset.c,p=board[r][c],v=viewer();
+    if(phase==='setup0'||phase==='setup1'){
+      if(zone(v).indexOf(r)<0){sel=null;render();return}
+      if(!sel){if(p&&p.o===v)sel=[r,c]}
+      else if(sel[0]===r&&sel[1]===c)sel=null;
+      else{var q=board[sel[0]][sel[1]];board[sel[0]][sel[1]]=p;board[r][c]=q;sel=null}
+      render();return}
+    if(phase!=='play'||busy||(mode==='ai'&&turn!==0)||turn!==v)return;
+    if(p&&p.o===v){sel=(sel&&sel[0]===r&&sel[1]===c)?null:[r,c];render();return}
+    if(sel&&moves(sel[0],sel[1]).some(function(x){return x[0]===r&&x[1]===c}))move(sel,[r,c]);
+    else{sel=null;render()}
+  });
+  $('hBar').addEventListener('click',function(e){var id=e.target.id;
+    if(id==='hRand'){randomSetup(viewer());sel=null;deal=true;render()}
+    else if(id==='hReady')ready();
+    else if(id==='hResign'){winner=1-viewer();msg=TEAM[viewer()]+' ay sumuko.';end()}
+    else if(id==='hAgain2')panel('hStart');
+  });
+  function open(){ov.classList.add('on');document.body.classList.add('locked');phase='menu';board=null;bd.innerHTML='';
+    $('hBar').innerHTML='';$('hMsg').textContent='';$('hLost').textContent='';$('hTurn').textContent='';panel('hStart')}
+  function quit(){clearTimeout(aiTimer);closeAll()}
+  var prev=null;
+  $('hHelp').onclick=function(){prev=['hStart','hHand','hOver'].filter(function(p){return $(p).classList.contains('on')})[0]||null;panel('hRules')};
+  $('hRulesOk').onclick=function(){panel(prev)};
+  $('hAi').onclick=function(){newGame('ai')};$('hPvp').onclick=function(){newGame('pvp')};
+  $('hHandGo').onclick=function(){if(handNext==='setup1')deal=true;phase=handNext;panel(null);render()};
+  $('hAgain').onclick=function(){panel('hStart')};$('hView').onclick=function(){panel(null)};
+  $('hQuit').onclick=quit;$('hQuit2').onclick=quit;
+  return{open:open};
+})();
+
 render();
-if(location.hash==='#bituin')Bituin.open();else if(location.hash==='#salitaan')Salitaan.open();
+if(location.hash==='#heneral')Heneral.open();else if(location.hash==='#bituin')Bituin.open();else if(location.hash==='#salitaan')Salitaan.open();
 })();
 </script>
 </body>
