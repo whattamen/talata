@@ -41,6 +41,9 @@ os.makedirs('img', exist_ok=True)
 covers = {}
 for w in WORKS:
     c = w.get('coverImg') or ''
+    if c.startswith('/') and os.path.exists(c.lstrip('/')):
+        covers[w['id']] = c
+        continue
     m = re.match(r'data:image/(\w+);base64,(.*)', c, re.S)
     if m:
         ext = 'jpg' if m.group(1) in ('jpeg', 'jpg') else m.group(1)
