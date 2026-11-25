@@ -456,6 +456,10 @@
 .listen-row{margin:.2rem 0 1rem;font-family:var(--sans)}
 .listen-row small{opacity:.7;margin-left:.4rem}
 #chapter .speaking{background:rgba(252,209,22,.18);border-radius:6px;transition:background .3s}
+.maps{display:grid;gap:1.2rem;margin:1rem 0 1.4rem}
+.map-fig{margin:0}
+.map-fig img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--rule)}
+.map-fig figcaption{font-family:var(--sans);font-size:.88rem;opacity:.85;margin-top:.4rem;line-height:1.5}
 .world dt{font-weight:700;margin-top:.8rem}
 .world dd{margin:.15rem 0 0;line-height:1.6}
 .foot-links{margin-bottom:.6rem;font-family:var(--sans);font-size:.9rem}
@@ -1323,6 +1327,11 @@ var WORKS = [
     "Tuwing ikatlong taon, dumarating sa baryong Dalampasigan ang isang Tanod ng Hangganan para pumili ng aprentis, at nagtatago ang lahat ng batang labing-apat na taong gulang. Si Jasper, isang ulila na may alagang itik na ayaw siyang iwan, ang may pinakamagandang plano sa pagtatago. Hindi ito gumana.",
     "Sa ilalim ng tahimik at matandang si Guro Hilario, natututo si Jasper ng kali, simula sa isang yantok at pasensiyang wala pa siya. Habang sinasalakay ng mga bandido ang mga baryo sa tabi ng Hangganan, may mga pahiwatig na higit pa ang nangyayari."
   ],
+  "maps": [
+    {"src": "/img/map-dalampasigan.jpg", "title": "Ang Dalampasigan", "alt": "Iginuhit na mapa ng Dalampasigan: baryong tabing-dagat, palayan, bakawan sa kanan, at ang lumang kubo sa gilid ng gubat na may ulap sa itaas.", "caption": "Ang baryo sa tabing-dagat, ang mga palayan, ang bakawan, at ang lumang kubo sa gilid ng gubat."},
+    {"src": "/img/map-dalampasigan-paligid.jpg", "title": "Ang paligid ng Dalampasigan", "alt": "Iginuhit na mapa ng baybayin, palayan, ilog, talon, bakawan, at kubo sa burol.", "caption": "Mas malawak na tanaw ng baybayin, ng ilog, at ng daan paakyat sa kubo."},
+    {"src": "/img/map-lumang-kubo.jpg", "title": "Ang lumang kubo", "alt": "Iginuhit na mapa ng lumang kubo na may butas sa bubong, batis, tulay na kawayan, at mga yantok na nakasandal sa dingding.", "caption": "Ang tirahan ni Guro Hilario at ni Jasper: pawid na may butas, batis na umaawit, at mga yantok sa dingding."}
+  ],
   "world": /*WORLD-START:ang-baston-ng-hangganan*/[
   {
     "kind": "Tauhan",
@@ -1786,8 +1795,9 @@ var WORKS = [
   }
   function worldPanel(w){
     var order=[], by={};
-    w.world.forEach(function(e){ if(!by[e.kind]){by[e.kind]=[];order.push(e.kind)} by[e.kind].push(e) });
-    return '<p class="cm-note">Lumalawak ito habang may bagong kabanata. Nandito lang ang mga bagay na nailabas na sa kuwento.</p>'+order.map(function(k){
+    (w.world||[]).forEach(function(e){ if(!by[e.kind]){by[e.kind]=[];order.push(e.kind)} by[e.kind].push(e) });
+    var maps=(w.maps&&w.maps.length)?'<div class="maps">'+w.maps.map(function(m){return '<figure class="map-fig"><a href="'+esc(m.src)+'" target="_blank" rel="noopener"><img src="'+esc(m.src)+'" alt="'+esc(m.alt||m.title)+'" loading="lazy" decoding="async"></a><figcaption><strong>'+esc(m.title)+'</strong><br>'+esc(m.caption||'')+'</figcaption></figure>'}).join('')+'</div>':'';
+    return maps+'<p class="cm-note">Lumalawak ito habang may bagong kabanata. Nandito lang ang mga bagay na nailabas na sa kuwento.</p>'+order.map(function(k){
       return '<h3 class="book-h">'+esc(k)+'</h3><dl class="world">'+by[k].map(function(e){return '<dt>'+esc(e.name)+'</dt><dd>'+esc(e.text)+'</dd>'}).join('')+'</dl>';
     }).join('');
   }
@@ -1809,10 +1819,10 @@ var WORKS = [
       '<button class="btn btn-ghost" id="copy" type="button">Ibahagi</button>'+
       '<a class="btn btn-ghost" id="epub-dl" href="/epub/'+w.id+'.epub" download hidden>I-download (ePub)</a></div></div></div>'+
       '<div class="tabs" role="tablist" aria-label="Details"><button role="tab" id="tab-syn" aria-selected="true" aria-controls="panel-syn">Synopsis</button>'+
-      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Chapters</button>'+(w.world&&w.world.length?'<button role="tab" id="tab-wd" aria-selected="false" aria-controls="panel-wd">Mundo</button>':'')+(w.trailer?'<button role="tab" id="tab-tr" aria-selected="false" aria-controls="panel-tr">Trailer</button>':'')+'</div>'+
+      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Chapters</button>'+((w.world&&w.world.length)||(w.maps&&w.maps.length)?'<button role="tab" id="tab-wd" aria-selected="false" aria-controls="panel-wd">Mundo</button>':'')+(w.trailer?'<button role="tab" id="tab-tr" aria-selected="false" aria-controls="panel-tr">Trailer</button>':'')+'</div>'+
       '<div class="panel active" id="panel-syn" role="tabpanel" aria-labelledby="tab-syn">'+(w.synopsis||[]).map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+(w.credit?'<p class="credit">'+esc(w.credit)+'</p>':'')+'</div>'+
       '<div class="panel" id="panel-ch" role="tabpanel" aria-labelledby="tab-ch">'+chapterList(w)+'</div>'+
-      (w.world&&w.world.length?'<div class="panel" id="panel-wd" role="tabpanel" aria-labelledby="tab-wd">'+worldPanel(w)+'</div>':'')+(w.trailer?'<div class="panel" id="panel-tr" role="tabpanel" aria-labelledby="tab-tr"><video class="trailer" controls playsinline preload="none" poster="'+esc(w.trailerPoster||'')+'" aria-label="Trailer ng '+esc(w.title)+'"><source src="'+esc(w.trailer)+'" type="video/mp4"></video></div>':'')+'</div>';
+      ((w.world&&w.world.length)||(w.maps&&w.maps.length)?'<div class="panel" id="panel-wd" role="tabpanel" aria-labelledby="tab-wd">'+worldPanel(w)+'</div>':'')+(w.trailer?'<div class="panel" id="panel-tr" role="tabpanel" aria-labelledby="tab-tr"><video class="trailer" controls playsinline preload="none" poster="'+esc(w.trailerPoster||'')+'" aria-label="Trailer ng '+esc(w.title)+'"><source src="'+esc(w.trailer)+'" type="video/mp4"></video></div>':'')+'</div>';
     views.work.innerHTML=h;
     var tabs=views.work.querySelectorAll('[role="tab"]');
     tabs.forEach(function(t){t.addEventListener('click',function(){
