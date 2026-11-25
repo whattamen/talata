@@ -259,6 +259,11 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 .dust{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(210,200,175,.55);pointer-events:none}
 .nplate{font:600 14px Fraunces,Georgia,serif;padding:4px 12px;border-radius:999px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.25);color:#fff;white-space:nowrap}
 .nplate.t0{border-color:#e4b04c;color:#ffe08a}.nplate.t1{border-color:#7aa2e6;color:#b5d1ff}
+.bubble{position:absolute;bottom:calc(100% - 6px);left:50%;transform:translateX(-50%);width:max-content;max-width:min(44vw,210px);padding:8px 12px;border-radius:16px;font:800 clamp(12px,3.4vw,15px)/1.25 Inter,sans-serif;text-align:center;opacity:0;z-index:3;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.bubble::after{content:"";position:absolute;left:50%;top:100%;margin-left:-8px;border:8px solid transparent;border-top-color:inherit}
+.bubble.t0{background:#fff4d2;color:#3a2400;border-color:#fff4d2}
+.bubble.t1{background:#e3eeff;color:#0b1d45;border-color:#e3eeff}
+.bubble.on{opacity:1}
 .bstage .vs{align-self:center;margin-bottom:60px;z-index:2}
 #hClash{background:radial-gradient(circle at 50% 55%,rgba(55,30,10,.95),rgba(3,3,2,.98) 70%)}
 .hdefs{position:absolute;width:0;height:0;overflow:hidden}
@@ -411,7 +416,7 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
   </div>
   <div class="hbanner" id="hBanner" aria-hidden="true"></div>
   <div class="intro" id="hIntro" hidden><div class="iside" id="iL"><span class="av big t0" id="iLA"></span><b id="iLN"></b></div><div class="ivs" id="iVs">VS</div><div class="iside" id="iR"><span class="av big t1" id="iRA"></span><b id="iRN"></b></div><div class="igo" id="iGo">LABANAN!</div></div>
-  <div class="clash" id="hClash" hidden><div class="cam" id="hCam"><div class="bstage" id="hStage"><div class="beam"></div><div class="floor"></div><div class="fwrap" id="wA"><div class="fighter" id="fA"></div><div class="nplate" id="nA"></div></div><div class="vs" id="hVs">VS</div><div class="fwrap" id="wB"><div class="fighter" id="fB"></div><div class="nplate" id="nB"></div></div></div></div><div class="verdict" id="cV"></div></div>
+  <div class="clash" id="hClash" hidden><div class="cam" id="hCam"><div class="bstage" id="hStage"><div class="beam"></div><div class="floor"></div><div class="fwrap" id="wA"><div class="bubble" id="bA"></div><div class="fighter" id="fA"></div><div class="nplate" id="nA"></div></div><div class="vs" id="hVs">VS</div><div class="fwrap" id="wB"><div class="bubble" id="bB"></div><div class="fighter" id="fB"></div><div class="nplate" id="nB"></div></div></div></div><div class="verdict" id="cV"></div></div>
   <div class="panel on" id="hStart"><div class="box wide">
     <h2>Heneral</h2>
     <p>Larong digmaan na lihim ang ranggo. Hindi mo alam kung sino ang kalaban hanggang magsalpukan. Kunin ang bandila ng kalaban, o dalhin ang bandila mo sa dulo ng board.</p>
@@ -1007,7 +1012,15 @@ var Heneral=(function(){
     for(var i=0;i<12;i++){var d=document.createElement('i');d.className='dust';d.style.left=(20+Math.random()*60)+'%';d.style.bottom='4%';el.appendChild(d);
       d.animate([{transform:'scale(.4)',opacity:.8},{transform:'translate('+((Math.random()-.5)*120)+'px,-'+(10+Math.random()*50)+'px) scale(2.4)',opacity:0}],{duration:900+Math.random()*500,delay:250+Math.random()*250,easing:'ease-out',fill:'both'})}
   }
+  var CRIES={G5:'Negosyo o kalayaan? Bayan o sarili? Pumili ka!',G4:'Para sa bayan, sugod!',G3:'Walang aatras! Ipagtanggol ang ating lupa!',G2:'Hukbo, ipakita ang tapang ninyo!',G1:'Sa ngalan ng kalayaan, lumaban!',
+    COL:'Hindi tayo susuko!',LTC:'Tumayo kayo! Laban!',MAJ:'Sundan ang bandila!',CPT:'Hanay, sugod!',LT1:'Ako ang mauuna!',LT2:'Kaya natin ito!',SGT:'Bilisan! Sugod, mga kasama!',PVT:'Handa na ako, Heneral!',SPY:'Hindi mo ako nakita...',FLG:'Ipagtanggol ninyo ako!'};
+  var HCRY=['Haaaa!','Sugod!','Laban!','Hindi ka makakaligtas!','Para sa hukbo!','Humanda ka!'];
+  function cry(p,show){return show?CRIES[p.k]:HCRY[Math.floor(Math.random()*HCRY.length)]}
+  function speak(text,k){if(muted||!window.speechSynthesis)return;try{var u=new SpeechSynthesisUtterance(text),vs=speechSynthesis.getVoices(),vo=vs.filter(function(x){return/^(fil|tl)/i.test(x.lang)})[0];
+    u.lang=vo?vo.lang:'fil-PH';if(vo)u.voice=vo;u.rate=k==='SPY'?.9:1.05;u.pitch=k[0]==='G'?.7:k==='SPY'?1.3:1;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
   function clash(a,b,res,v){return new Promise(function(done){
+    var CRY=1600,ca=cry(a,a.o===v),cb=cry(b,b.o===v),BA=$('bA'),BB=$('bB');
+    BA.textContent=ca;BA.className='bubble t'+a.o;BB.textContent=cb;BB.className='bubble t'+b.o;
     var C=$('hClash'),FA=$('fA'),FB=$('fB'),WA=$('wA'),WB=$('wB'),V=$('cV'),st=$('hStage'),fin=false,T=[];
     FA.innerHTML=fig(a.k,a.o,a.o===v,false);FB.innerHTML=fig(b.k,b.o,b.o===v,true);
     $('nA').textContent=a.o===v?R[a.k][1]:'Lihim na piyesa';$('nA').className='nplate t'+a.o;
@@ -1017,9 +1030,10 @@ var Heneral=(function(){
     C.hidden=false;
     function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);
       var fo=C.animate([{opacity:1},{opacity:0}],{duration:reduce?1:260,fill:'forwards'});
+      try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}
       fo.onfinish=function(){C.hidden=true;C.getAnimations({subtree:true}).forEach(function(x){x.cancel()});[].forEach.call(C.querySelectorAll('.spark,.fshard,.dust,.slash,.crack,.hflash'),function(s){s.remove()});FA.innerHTML='';FB.innerHTML='';done()}}
     C.onclick=finish;
-    if(reduce){V.classList.add('on');T.push(setTimeout(finish,1200));return}
+    if(reduce){BA.classList.add('on');BB.classList.add('on');V.classList.add('on');T.push(setTimeout(finish,3200));return}
     sfx('whoosh');
     C.animate([{opacity:0},{opacity:1}],{duration:220,fill:'forwards'});
     function march(el,dir){var k=[];for(var i=0;i<=8;i++)k.push({transform:'translateX('+(dir*60*(1-i/8))+'vw) translateY('+(i%2?-7:0)+'px)'});return el.animate(k,{duration:760,fill:'forwards'})}
@@ -1031,16 +1045,21 @@ var Heneral=(function(){
       WB.animate([{transform:'none'},{transform:'translateX(14px)',offset:.4},{transform:'translateX(-'+d+'px)'}],{duration:420,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'});
       [$('nA'),$('nB')].forEach(function(n){n.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'})});
       [FA,FB].forEach(function(f){var arm=f.querySelector('.arm');if(arm)arm.animate([{transform:'rotate(0)'},{transform:'rotate(-70deg)',offset:.45},{transform:'rotate(80deg)'}],{duration:420,easing:'cubic-bezier(.5,0,.3,1)',fill:'forwards'})});
-    },820));
+    },820+CRY));
     T.push(setTimeout(function(){sfx('hit');sparks(st);impactFx(C,st);if(navigator.vibrate)try{navigator.vibrate(70)}catch(e){}
-      st.animate([{transform:'translate(0,0)'},{transform:'translate(-10px,6px)'},{transform:'translate(9px,-7px)'},{transform:'translate(-6px,-4px)'},{transform:'translate(0,0)'}],{duration:320})},1200));
+      st.animate([{transform:'translate(0,0)'},{transform:'translate(-10px,6px)'},{transform:'translate(9px,-7px)'},{transform:'translate(-6px,-4px)'},{transform:'translate(0,0)'}],{duration:320})},1200+CRY));
     T.push(setTimeout(function(){
       if(res==='a'||res==='both')crumble(FB);if(res==='b'||res==='both')crumble(FA);sfx('crumble');
       var w=res==='a'?FA:res==='b'?FB:null;
       if(w){var arm=w.querySelector('.arm');if(arm)arm.animate([{transform:'rotate(80deg)'},{transform:'rotate(-150deg)'}],{duration:450,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'forwards'});
         w.animate([{transform:'none',filter:'none'},{transform:'translateY(-20px)',offset:.4},{transform:'none',filter:'drop-shadow(0 0 18px '+(wo===0?'#ffd76a':'#8fb8ff')+')'}],{duration:650,fill:'forwards',delay:300})}
-      V.classList.add('on')},1420));
-    T.push(setTimeout(finish,3100));
+      V.classList.add('on')},1420+CRY));
+    T.push(setTimeout(function(){var me=a.o===v?a:b;speak(me===a?ca:cb,me.k);
+      [BA,BB].forEach(function(x,i){x.animate([{opacity:0,transform:'translateX(-50%) scale(.4) rotate('+(i?6:-6)+'deg)'},{opacity:1,transform:'translateX(-50%) scale(1.08)',offset:.6},{opacity:1,transform:'translateX(-50%) scale(1)'}],{duration:320,delay:i*260,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'forwards'})});
+      [$('fA'),$('fB')].forEach(function(f,i){var arm=f.querySelector('.arm');if(arm)arm.animate([{transform:'rotate(0)'},{transform:'rotate(-32deg)'},{transform:'rotate(-18deg)'}],{duration:400,delay:i*260,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'forwards'})});
+    },760));
+    T.push(setTimeout(function(){[BA,BB].forEach(function(x){x.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'})})},820+CRY-150));
+    T.push(setTimeout(finish,3100+CRY));
   })}
   function confetti(){if(reduce)return;var cols=['#ffd76a','#ff4fa3','#3fe0ff','#7fffb0','#fff'];
     for(var i=0;i<80;i++){var c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.background=cols[i%5];ov.appendChild(c);
