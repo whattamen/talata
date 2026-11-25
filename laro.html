@@ -432,6 +432,11 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 .names input{min-height:44px;width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;padding:0 12px;font:600 15px Inter,sans-serif}
 .names input::placeholder{color:rgba(255,255,255,.4)}
 .names input:focus{outline:2px solid #ffd76a;outline-offset:1px}
+.ncode{min-height:48px;width:9.5em;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;text-align:center;font:800 22px/1 Inter,sans-serif;letter-spacing:.25em;text-transform:uppercase}
+.ncode:focus{outline:2px solid #ffd76a;outline-offset:1px}
+.nbig{font:800 clamp(34px,11vw,52px)/1 Inter,sans-serif;letter-spacing:.18em;color:#ffd76a;margin:8px 0 6px;user-select:all;-webkit-user-select:all}
+.nlink{font:500 12px Inter,sans-serif;color:#9d99c8;word-break:break-all;user-select:all;-webkit-user-select:all;margin:0 0 12px}
+.nstat{min-height:1.5em;margin-top:14px}
 @media(prefers-reduced-motion:reduce){.card,.card:hover{transform:none;transition:none}}
 </style>
 </head>
@@ -566,7 +571,18 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
     <div class="names"><label for="hN0">Pangalan mo<input id="hN0" type="text" maxlength="16" autocomplete="nickname" enterkeyhint="done"></label><label for="hN1"><span>Player 2 <small>(2 players)</small></span><input id="hN1" type="text" maxlength="16" autocomplete="off" enterkeyhint="done"></label></div>
     <div class="row thm"><span class="help" style="width:100%">Estilo</span><button class="tbtn" data-th="sf" type="button">🛰 Futuristic</button><button class="tbtn" data-th="rv" type="button">🇵🇭 Rebolusyon</button><button class="tbtn" data-th="cl" type="button">🏛 Klasiko</button></div>
     <div class="row" style="margin-top:10px"><button class="cta ghost" id="hTrailer" type="button">🎬 Trailer</button><button class="cta ghost" id="hCheatBtn">📋 Cheat sheet ng ranggo</button></div>
-    <div class="row" style="margin-top:10px"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button></div>
+    <div class="row" style="margin-top:10px"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button><button class="cta ghost" id="hNetBtn" type="button">🌐 Online (magkaibang phone)</button></div>
+  </div></div>
+  <div class="panel" id="hNet"><div class="box wide">
+    <h2>Online</h2>
+    <div id="nMenu"><p>Maglaro laban sa kaibigan gamit ang dalawang magkaibang phone.</p>
+      <div class="row"><button class="cta" id="nHost" type="button">➕ Gumawa ng laro</button></div>
+      <p class="help" style="margin:16px 0 8px">o ilagay ang code ng kaibigan mo:</p>
+      <div class="row"><input id="nCode" class="ncode" maxlength="6" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code ng laro"><button class="cta ghost" id="nJoin" type="button">Sumali</button></div></div>
+    <div id="nWait" hidden><p>Ibigay ang code na ito sa kalaban mo:</p><div class="nbig" id="nShow">------</div><p class="nlink" id="nLink"></p>
+      <div class="row"><button class="cta ghost" id="nCopy" type="button">📤 Ibahagi ang link</button></div></div>
+    <p class="help nstat" id="nStat" aria-live="polite"></p>
+    <div class="row" style="margin-top:12px"><button class="cta ghost" id="nBack" type="button">Bumalik</button></div>
   </div></div>
   <div class="panel" id="hRules"><div class="box wide">
     <h2>Cheat Sheet</h2>
@@ -923,8 +939,8 @@ var Heneral=(function(){
   function hasMoves(o){for(var r=0;r<8;r++)for(var c=0;c<9;c++){var p=board[r][c];if(p&&p.o===o&&moves(r,c).length)return true}return false}
   function adjEnemy(r,c,o){return DIRS.some(function(d){var q=inB(r+d[0],c+d[1])&&board[r+d[0]][c+d[1]];return q&&q.o!==o})}
   function find(p){for(var r=0;r<8;r++)for(var c=0;c<9;c++)if(board[r][c]===p)return[r,c];return null}
-  function viewer(){if(mode==='ai')return 0;if(phase==='setup0')return 0;if(phase==='setup1')return 1;return turn}
-  function panel(id){['hStart','hRules','hHand','hOver'].forEach(function(p){$(p).classList.toggle('on',p===id)})}
+  function viewer(){if(mode==='net')return NET.host?0:1;if(mode==='ai')return 0;if(phase==='setup0')return 0;if(phase==='setup1')return 1;return turn}
+  function panel(id){['hStart','hRules','hHand','hOver','hNet'].forEach(function(p){$(p).classList.toggle('on',p===id)})}
   function learn(win,lose){ // what the winning piece revealed about itself
     if(lose.k==='SPY')win.known='PVT';else win.beat=Math.max(win.beat,lose.v)}
   function render(){
@@ -953,10 +969,11 @@ var Heneral=(function(){
     if(phase==='setup0'||phase==='setup1')t=mode==='ai'?'Ayusin ang iyong hukbo':'Ayusin ang hukbo ni '+PN(v);
     else if(phase==='play')t=mode==='ai'?(turn===0?(NM[0]?'Tira mo, '+NM[0]:'Tira mo'):'Tira ng kalaban'):'Tira ni '+PN(turn);
     else if(phase==='over')t='Tapos ang laro';
+    else if(phase==='wait')t='Naghihintay sa kalaban…';
     $('hTurn').textContent=t;
     var bar='';
     if(phase==='setup0'||phase==='setup1')bar='<button class="cta ghost" id="hRand">🎲 Random</button><button class="cta" id="hReady">✓ Handa na</button>';
-    else if(phase==='play'&&(mode==='pvp'||turn===0))bar='<button class="cta ghost" id="hResign">🏳 Sumuko</button>';
+    else if(phase==='play'&&(mode!=='ai'||turn===0))bar='<button class="cta ghost" id="hResign">🏳 Sumuko</button>';
     else if(phase==='over')bar='<button class="cta" id="hAgain2">↻ Bagong laro</button>';
     $('hBar').innerHTML=bar;
     var sp=sel&&board[sel[0]][sel[1]];
@@ -969,11 +986,12 @@ var Heneral=(function(){
   function newGame(m){
     clearTimeout(aiTimer);mode=m;uid=0;board=[];for(var r=0;r<8;r++){board.push([]);for(var c=0;c<9;c++)board[r].push(null)}
     lost=[[],[]];bannerTurn=null;introNext=false;pending=null;last=null;flash=null;winner=null;busy=false;sel=null;msg='';turn=0;
-    randomSetup(0);if(m==='ai')randomSetup(1);
-    phase='setup0';panel(null);markPlayed('heneral');deal=true;render();
+    if(m==='net'&&!NET.host){randomSetup(1);phase='setup1'}else{randomSetup(0);if(m==='ai')randomSetup(1);phase='setup0'}
+    panel(null);markPlayed('heneral');deal=true;render();
   }
   function hand(next,title,text){phase='handoff';handNext=next;sel=null;$('hHandT').textContent=title;$('hHandP').textContent=text;panel('hHand');render()}
   function ready(){
+    if(mode==='net'){netReady();return}
     sel=null;
     if(phase==='setup0'){if(mode==='ai'){phase='play';turn=0;msg='Magsimula! Ikaw ang unang titira.';bannerTurn=0;busy=true;render();intro(function(){busy=false;bannerTurn=null;render()})}
       else{randomSetup(1);hand('setup1','Ipasa kay '+PN(1),'Huwag sisilip, '+PN(0)+'! Si '+PN(1)+' naman ang mag-aayos ng hukbo niya.')}}
@@ -982,7 +1000,8 @@ var Heneral=(function(){
   function move(f,t){
     var a=board[f[0]][f[1]],b=board[t[0]][t[1]];
     if(b){var res=resolve(a,b);busy=true;sel=null;last={f:f,t:t};render();
-      clash(a,b,res,mode==='ai'?0:a.o).then(function(){busy=false;apply(f,t,res)})}
+      if(mode==='net')netClash(a,b,res,f,t);
+      clash(a,b,res,mode==='pvp'?a.o:0).then(function(){busy=false;apply(f,t,res)})}
     else{sfx('move');apply(f,t,null)}
   }
   function apply(f,t,res){
@@ -1008,17 +1027,19 @@ var Heneral=(function(){
     if(winner!=null){end();return}
     turn=1-me;
     if(mode==='ai'){render();if(turn===1){busy=true;aiTimer=setTimeout(ai,1050)}}
+    else if(mode==='net'){render();sendState()}
     else{busy=true;render();turn=me;var nt=1-me;aiTimer=setTimeout(function(){busy=false;turn=nt;hand('play','Ipasa kay '+PN(nt),msg)},550)}
   }
   function end(){
-    phase='over';render();
+    phase='over';render();if(mode==='net')sendState();
     var t,p;
     if(mode==='ai'){t=winner===0?'TAGUMPAY!':'PAGKATALO';p=winner===0?'Magaling, Heneral'+(NM[0]?' '+NM[0]:'')+'! Tingnan ang board para makita ang lahat ng piyesa ng kalaban.':'Nakuha ng computer ang tagumpay. Subukan ulit!';
       if(winner===0){var b=store.get('best',{});b.heneral=(b.heneral||0)+1;store.set('best',b)}}
+    else if(mode==='net'){t=winner===ME()?'TAGUMPAY!':'PAGKATALO';p='Panalo si '+PN(winner)+'. Nakabukas na ang lahat ng piyesa sa board.'}
     else{t='TAGUMPAY NI '+PN(winner).toUpperCase()+'!';p='Nakabukas na ang lahat ng piyesa sa board.'}
-    $('hOver').classList.toggle('lose',mode==='ai'&&winner!==0);$('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
-    if(mode==='pvp'||winner===0){confetti();sfx('win')}
-    setTimeout(function(){if(phase==='over')panel('hOver')},mode==='pvp'||winner===0?900:300);
+    var won=mode==='pvp'||(mode==='net'?winner===ME():winner===0);$('hOver').classList.toggle('lose',!won);$('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
+    if(won){confetti();sfx('win')}
+    setTimeout(function(){if(phase==='over')panel('hOver')},won?900:300);
   }
   function ai(){
     busy=false;if(phase!=='play'||turn!==1)return;
@@ -1257,7 +1278,7 @@ var Heneral=(function(){
   function applyTheme(){ov.classList.toggle('sf',theme==='sf');ov.classList.toggle('rv',theme==='rv');TEAM[0]=theme==='rv'?'Katipunan':'Ginto';TEAM[1]=theme==='rv'?'Kastila':'Asul';[].forEach.call(document.querySelectorAll('#ovH .tbtn'),function(b){b.setAttribute('aria-pressed',b.dataset.th===theme)})}
   [].forEach.call(document.querySelectorAll('#ovH .tbtn'),function(b){b.onclick=function(){theme=b.dataset.th;store.set('htheme',theme);applyTheme();namePH();if(board)render()}});
   var NM=store.get('hnames',['','']);if(!Array.isArray(NM))NM=['',''];
-  function PN(o){return mode==='ai'?(o===0?(NM[0]||'Ikaw'):'Heneral AI'):(NM[o]||TEAM[o])}
+  function PN(o){return mode==='ai'?(o===0?(NM[0]||'Ikaw'):'Heneral AI'):mode==='net'?(NET.names[o]||TEAM[o]):(NM[o]||TEAM[o])}
   [0,1].forEach(function(i){var inp=$('hN'+i);inp.value=NM[i]||'';inp.addEventListener('input',function(){NM[i]=inp.value.replace(/\s+/g,' ').trim().slice(0,16);store.set('hnames',NM)})});
   function namePH(){$('hN0').placeholder=TEAM[0];$('hN1').placeholder=TEAM[1]}
   applyTheme();namePH();
@@ -1632,6 +1653,100 @@ var Heneral=(function(){
   $('trAgain').onclick=function(){$('trEnd').classList.remove('on');trStart()};
   $('trPlay').onclick=function(){trClose();theme='rv';store.set('htheme','rv');applyTheme();open()};
   $('hTrailer').onclick=trailer;
+  /* ---------- Online multiplayer (PeerJS, host is the arbiter) ---------- */
+  var NET={};function netFresh(){NET={host:false,conn:null,peer:null,names:['',''],helloIn:false,meReady:false,oppReady:false,sent:false,q:null,clashing:false,code:''}}netFresh();
+  var PJ='https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js',PFX='talata-hnrl-',CODECH='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  function ME(){return NET.host?0:1}
+  function ensurePeer(cb){if(window.Peer)return cb(true);loadScript(PJ,function(){cb(!!window.Peer)},function(){cb(false)})}
+  function peerOpts(){return window.HENERAL_PEER||{}}
+  function nStat(t){$('nStat').textContent=t}
+  function netView(v){$('nMenu').hidden=v!=='menu';$('nWait').hidden=v!=='wait'}
+  function netOpen(){netReset();panel('hNet');netView('menu');nStat('');}
+  function netReset(){try{if(NET.conn)NET.conn.close()}catch(e){}try{if(NET.peer)NET.peer.destroy()}catch(e){}netFresh()}
+  function send(m){try{if(NET.conn&&NET.conn.open)NET.conn.send(JSON.stringify(m))}catch(e){}}
+  function genCode(){var s='';for(var i=0;i<6;i++)s+=CODECH[Math.floor(Math.random()*CODECH.length)];return s}
+  function hostGame(){netReset();NET.host=true;nStat('Kumokonekta sa server…');
+    ensurePeer(function(ok){if(!ok){nStat('Hindi ma-load ang online na bahagi. Suriin ang internet at subukan ulit.');return}
+      var code=genCode(),pr=new Peer(PFX+code,peerOpts());NET.peer=pr;NET.code=code;
+      pr.on('open',function(){netView('wait');$('nShow').textContent=code;$('nLink').textContent=netLink(code);nStat('Hinihintay ang kalaban na sumali…')});
+      pr.on('connection',function(c){if(NET.conn){try{c.close()}catch(e){}return}wire(c)});
+      pr.on('error',function(e){if(e&&e.type==='unavailable-id'){hostGame();return}nStat('May problema sa koneksyon ('+(e&&e.type||'error')+'). Subukan ulit.')});
+    })}
+  function netLink(code){return location.origin+location.pathname+'#join-'+code}
+  function joinGame(code){code=String(code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(code.length!==6){nStat('Anim na letra o numero ang code.');return}
+    netReset();NET.host=false;panel('hNet');netView('menu');$('nCode').value=code;nStat('Kumokonekta…');
+    ensurePeer(function(ok){if(!ok){nStat('Hindi ma-load ang online na bahagi. Suriin ang internet at subukan ulit.');return}
+      var pr=new Peer(peerOpts());NET.peer=pr;
+      pr.on('open',function(){wire(pr.connect(PFX+code,{reliable:true}))});
+      pr.on('error',function(e){nStat(e&&e.type==='peer-unavailable'?'Walang larong may code na '+code+'. Pakisuri ang code.':'May problema sa koneksyon ('+(e&&e.type||'error')+'). Subukan ulit.')});
+    })}
+  function wire(c){NET.conn=c;
+    c.on('open',function(){nStat('Nakakonekta! Inihahanda ang laro…');NET.names[ME()]=NM[0]||'';send({t:'hello',name:NM[0]||''})});
+    c.on('data',function(d){var m;try{m=typeof d==='string'?JSON.parse(d):d}catch(e){return}if(m&&typeof m==='object')onNet(m)});
+    c.on('close',function(){if(NET.conn===c)netLost()});
+    c.on('error',function(){if(NET.conn===c)netLost()});
+  }
+  function netLost(){NET.conn=null;if(mode==='net'&&phase!=='over'&&ov.classList.contains('on')){busy=true;panel('hNet');netView('none');nStat('Naputol ang koneksyon sa kalaban. Bumalik at gumawa ng bagong laro.')}}
+  function onNet(m){
+    if(m.t==='hello'){if(NET.helloIn)return;NET.helloIn=true;NET.names[1-ME()]=String(m.name||'').replace(/\s+/g,' ').trim().slice(0,16);newGame('net');return}
+    if(mode!=='net')return;
+    if(NET.host){
+      if(m.t==='setup'&&!NET.oppReady)hostSetup(m.pieces);
+      else if(m.t==='move'&&phase==='play'&&turn===1&&!busy&&ok2(m.f)&&ok2(m.to)){var p=board[m.f[0]][m.f[1]];if(p&&p.o===1&&moves(m.f[0],m.f[1]).some(function(x){return x[0]===m.to[0]&&x[1]===m.to[1]}))move(m.f,m.to);else sendState()}
+      else if(m.t==='resign'&&phase==='play'){winner=0;msg=PN(1)+' ay sumuko.';end()}
+    }else{
+      if(m.t==='state'){if(NET.clashing){NET.q=m;return}guestState(m)}
+      else if(m.t==='clash'&&ok2(m.f)&&ok2(m.to))guestClash(m);
+    }
+  }
+  function ok2(a){return Array.isArray(a)&&a.length===2&&a[0]>=0&&a[0]<8&&a[1]>=0&&a[1]<9&&(a[0]|0)===a[0]&&(a[1]|0)===a[1]}
+  function hostSetup(ps){
+    if(!Array.isArray(ps)||ps.length!==21)return;var need={},seen={};ARMY.forEach(function(k){need[k]=(need[k]||0)+1});
+    for(var i=0;i<ps.length;i++){var q=ps[i];if(!q||!R[q.k]||!need[q.k]||!ok2([q.r,q.c])||q.r>2||seen[q.r+','+q.c])return;need[q.k]--;seen[q.r+','+q.c]=1}
+    zone(1).forEach(function(r){for(var c=0;c<9;c++)board[r][c]=null});
+    ps.forEach(function(q){board[q.r][q.c]=piece(q.k,1)});NET.oppReady=true;
+    if(NET.meReady)startNetPlay();else{render();sendState()}
+  }
+  function startNetPlay(){phase='play';turn=0;msg='Magsimula ang laban!';bannerTurn=0;busy=true;render();sendState({intro:1});intro(function(){busy=false;bannerTurn=null;render()})}
+  function netReady(){
+    if(NET.host){NET.meReady=true;sel=null;if(NET.oppReady)startNetPlay();else{phase='wait';msg='Hinihintay na matapos mag-ayos si '+PN(1)+'…';render();sendState()}}
+    else{var ps=[];for(var r=0;r<3;r++)for(var c=0;c<9;c++){var p=board[r][c];if(p&&p.o===1)ps.push({r:r,c:c,k:p.k})}
+      NET.sent=true;sel=null;phase='wait';msg='Hinihintay na matapos mag-ayos si '+PN(0)+'…';render();send({t:'setup',pieces:ps})}
+  }
+  function sendState(x){if(!NET.host||!NET.conn)return;var B=[],r,c,open=phase==='over';
+    for(r=0;r<8;r++){var row=[];for(c=0;c<9;c++){var p=board[r][c];row.push(p?{i:p.id,o:p.o,k:(p.o===1||open)?p.k:0}:0)}B.push(row)}
+    send({t:'state',ph:phase,turn:turn,B:B,last:last,msg:msg,l0:lost[0].length,l1:lost[1].map(function(p){return p.k}),w:winner,intro:x&&x.intro?1:0,pend:pending?pending.o:null})}
+  var GP={};
+  function guestState(s){
+    if(!NET.sent&&s.ph!=='over')return;
+    if(!Array.isArray(s.B)||s.B.length!==8)return;
+    var nb=s.B.map(function(row){return(Array.isArray(row)?row:[]).slice(0,9).map(function(x){if(!x)return null;var k=R[x.k]?x.k:'?',o=x.o===1?1:0,old=GP[x.i];
+      if(old&&old.k===k&&old.o===o)return old;return GP[x.i]={id:x.i,o:o,k:k,v:R[k]?R[k][2]:0,beat:0,known:''}})});
+    while(nb.length<8)nb.push([]);nb.forEach(function(row){while(row.length<9)row.push(null)});
+    var nl=s.last&&ok2(s.last.f)&&ok2(s.last.t)?{f:s.last.f,t:s.last.t}:null;
+    if(nl&&(!last||last.f+''!==nl.f+''||last.t+''!==nl.t+'')&&nb[nl.t[0]][nl.t[1]])anim={f:nl.f,t:nl.t};
+    board=nb;last=nl;msg=String(s.msg||'');turn=s.turn===1?1:0;winner=s.w===0||s.w===1?s.w:null;
+    lost=[new Array(Math.max(0,s.l0|0)).fill({k:'?',o:0}),(Array.isArray(s.l1)?s.l1:[]).filter(function(k){return R[k]}).map(function(k){return{k:k,o:1}})];
+    var was=phase;phase=s.ph==='play'?'play':s.ph==='over'?'over':'wait';
+    if(phase==='wait')msg=s.ph==='setup0'?'Hinihintay na matapos mag-ayos si '+PN(0)+'…':msg;
+    if(phase!=='play'||turn!==1)sel=null;busy=false;
+    if(phase==='over'&&was!=='over'){end();return}
+    if(s.intro){bannerTurn=0;busy=true;render();intro(function(){busy=false;bannerTurn=null;render()});return}
+    render();
+  }
+  function guestClash(m){var A={id:-1,o:m.a&&m.a.o===1?1:0,k:m.a&&R[m.a.k]?m.a.k:'?'},Bp={id:-2,o:m.b&&m.b.o===1?1:0,k:m.b&&R[m.b.k]?m.b.k:'?'};
+    var res=m.res==='a'||m.res==='b'||m.res==='both'?m.res:'both';
+    NET.clashing=true;busy=true;sel=null;last={f:m.f,t:m.to};render();
+    clash(A,Bp,res,1).then(function(){NET.clashing=false;var q=NET.q;NET.q=null;if(q)guestState(q);else{busy=false;render()}})}
+  function netClash(a,b,res,f,t){send({t:'clash',a:{o:a.o,k:a.o===1?a.k:0},b:{o:b.o,k:b.o===1?b.k:0},res:res,f:f,to:t})}
+  function netCopy(){var link=netLink(NET.code);
+    if(navigator.share){navigator.share({title:'Heneral',text:'Sumali sa laro ko ng Heneral! Code: '+NET.code,url:link}).catch(function(){});return}
+    if(navigator.clipboard)navigator.clipboard.writeText(link).then(function(){nStat('Nakopya ang link. Ipadala sa kalaban mo.')},function(){selLink()});else selLink()}
+  function selLink(){var r=document.createRange();r.selectNodeContents($('nLink'));var s=getSelection();s.removeAllRanges();s.addRange(r);nStat('Kopyahin ang naka-highlight na link.')}
+  $('hNetBtn').onclick=netOpen;$('nHost').onclick=hostGame;$('nJoin').onclick=function(){joinGame($('nCode').value)};
+  $('nCode').addEventListener('keydown',function(e){if(e.key==='Enter')joinGame($('nCode').value)});
+  $('nCopy').onclick=netCopy;$('nBack').onclick=function(){netReset();if(board&&mode==='net'){board=null;bd.innerHTML='';mode=''}panel('hStart')};
   bd.addEventListener('click',function(e){
     var b=e.target.closest('.cell');if(!b)return;tapCell(+b.dataset.r,+b.dataset.c)});
   function tapCell(r,c){
@@ -1644,18 +1759,19 @@ var Heneral=(function(){
       render();return}
     if(phase!=='play'||busy||(mode==='ai'&&turn!==0)||turn!==v)return;
     if(p&&p.o===v){sel=(sel&&sel[0]===r&&sel[1]===c)?null:[r,c];render();return}
-    if(sel&&moves(sel[0],sel[1]).some(function(x){return x[0]===r&&x[1]===c}))move(sel,[r,c]);
+    if(sel&&moves(sel[0],sel[1]).some(function(x){return x[0]===r&&x[1]===c})){if(mode==='net'&&!NET.host){send({t:'move',f:sel,to:[r,c]});busy=true;sel=null;render()}else move(sel,[r,c])}
     else{sel=null;render()}
   }
   $('hBar').addEventListener('click',function(e){var id=e.target.id;
     if(id==='hRand'){randomSetup(viewer());sel=null;deal=true;render()}
     else if(id==='hReady')ready();
+    else if(id==='hResign'&&mode==='net'&&!NET.host){send({t:'resign'})}
     else if(id==='hResign'){winner=1-viewer();msg=PN(viewer())+' ay sumuko.';end()}
     else if(id==='hAgain2')panel('hStart');
   });
   function open(){ov.classList.add('on');document.body.classList.add('locked');fxStart();set3D(v3d);phase='menu';board=null;bd.innerHTML='';
     $('hBar').innerHTML='';$('hMsg').textContent='';$('hLost').textContent='';$('hTurn').textContent='';panel('hStart')}
-  function quit(){clearTimeout(aiTimer);closeAll()}
+  function quit(){clearTimeout(aiTimer);netReset();closeAll()}
   var prev=null;
   $('hHelp').onclick=function(){prev=['hStart','hHand','hOver'].filter(function(p){return $(p).classList.contains('on')})[0]||null;panel('hRules')};
   $('hRulesOk').onclick=function(){panel(prev)};
@@ -1663,7 +1779,7 @@ var Heneral=(function(){
   $('hHandGo').onclick=function(){if(handNext==='setup1')deal=true;phase=handNext;panel(null);
     if(introNext&&handNext==='play'){introNext=false;bannerTurn=0;busy=true;render();intro(function(){busy=false;bannerTurn=null;render()});return}
     render()};
-  $('hAgain').onclick=function(){panel('hStart')};$('hView').onclick=function(){panel(null)};
+  $('hAgain').onclick=function(){if(mode==='net')netReset();panel('hStart')};$('hView').onclick=function(){panel(null)};
   $('hQuit').onclick=quit;$('hQuit2').onclick=quit;
   var EN={G5:'General of the Army',G4:'General',G3:'Lieutenant General',G2:'Major General',G1:'Brigadier General',COL:'Colonel',LTC:'Lieutenant Colonel',MAJ:'Major',CPT:'Captain',LT1:'First Lieutenant',LT2:'Second Lieutenant',SGT:'Sergeant',PVT:'Private',SPY:'Spy',FLG:'Flag'};
   function SHORT(k){return k==='G5'?'Talo lahat, maliban sa Espiya':k==='SPY'?'Talo ang lahat ng Heneral, Opisyal at Sarhento. Natatalo lang sa Sundalo.':k==='FLG'?'Walang tinatalo. Ipagtanggol ito!':k==='PVT'?'Talo ang Espiya':'Talo ang lahat ng nasa ibaba nito. Natatalo sa Espiya.'}
@@ -1674,11 +1790,11 @@ var Heneral=(function(){
     '<div class="chlab">Mga Kawal</div>'+['SGT','PVT'].map(function(k,i){return chRow(k,i+11)}).join('')+
     '<div class="chlab">Espesyal</div>'+['SPY','FLG'].map(chRow).join('');
   $('hCheatBtn').onclick=function(){$('hHelp').onclick()};
-  return{open:open,trailer:trailer};
+  return{open:open,trailer:trailer,join:function(c){open();joinGame(c)}};
 })();
 
 render();
-if(location.hash==='#trailer')Heneral.trailer();else if(location.hash==='#heneral')Heneral.open();else if(location.hash==='#bituin')Bituin.open();else if(location.hash==='#salitaan')Salitaan.open();
+var jm=/^#join-([A-Za-z0-9]{6})$/.exec(location.hash);if(jm)Heneral.join(jm[1]);else if(location.hash==='#trailer')Heneral.trailer();else if(location.hash==='#heneral')Heneral.open();else if(location.hash==='#bituin')Bituin.open();else if(location.hash==='#salitaan')Salitaan.open();
 })();
 </script>
 </body>
