@@ -166,6 +166,72 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 .shard{position:absolute;inset:0}
 .spark{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#ffd76a;box-shadow:0 0 12px #ff9f4f;pointer-events:none}
 .confetti{position:absolute;top:-20px;width:9px;height:14px;z-index:40;pointer-events:none;border-radius:2px}
+/* Heneral arena skin */
+#ovH{background:radial-gradient(ellipse at 50% 35%,#2c2414,#0b0906 72%)}
+.hfx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#ovH .hv{background:none;padding-top:66px;gap:8px}
+.hboard{border:0;padding:6px;overflow:visible;border-radius:14px;background:linear-gradient(145deg,#8a6a2e,#3a2a12 35%,#9b7a36 55%,#3a2a12 80%,#6b5124);box-shadow:0 24px 50px rgba(0,0,0,.75),inset 0 0 0 1px rgba(255,230,160,.45),0 0 0 1px rgba(0,0,0,.6);transform:perspective(1000px) rotateX(12deg);width:min(100%,560px,calc((100dvh - 330px)*9/8))}
+.cell{background:linear-gradient(160deg,#232a1c,#1a2015)}
+.cell.alt{background:linear-gradient(160deg,#2b3423,#20281a)}
+.cell.zone{box-shadow:inset 0 0 0 1px rgba(255,215,106,.35),inset 0 0 12px rgba(255,215,106,.12)}
+.cell.last{background:linear-gradient(160deg,#4f4520,#3a3215)}
+.cell.tgt::after{animation:tpulse 1.1s ease-in-out infinite}
+.cell.tgt.att::after{box-shadow:0 0 14px rgba(255,90,90,.8)}
+@keyframes tpulse{0%,100%{transform:scale(.85);opacity:.55}50%{transform:scale(1.05);opacity:1}}
+.pc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1.5px solid rgba(255,255,255,.7);border-radius:5px;font:800 clamp(7px,2vw,10px)/1 Inter,sans-serif;letter-spacing:.02em;box-shadow:0 3px 0 rgba(0,0,0,.5),0 4px 8px rgba(0,0,0,.4)}
+.pc svg{width:58%;height:auto;flex:none}
+.pc b{font-weight:800}
+.pc.p0{background:linear-gradient(165deg,#fff2c2,#e4b04c 55%,#a8761c)}
+.pc.p1{background:linear-gradient(165deg,#dceaff,#7aa2e6 55%,#2f569e)}
+.pc.hid{background-image:none!important}
+.pc.p1.hid{background:radial-gradient(circle at 50% 40%,#22305a,#0c1228);border-color:#7aa2e6;color:#7aa2e6}
+.pc.p0.hid{background:radial-gradient(circle at 50% 40%,#4a3613,#1c1306);border-color:#e4b04c;color:#e4b04c}
+.pc.hid svg{width:66%;opacity:.85}
+.plate{display:flex;align-items:center;gap:10px;width:min(100%,560px);padding:6px 12px;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);transition:border-color .3s,box-shadow .3s;color:#f1e6c8;flex:none}
+.plate.act{border-color:#ffd76a;box-shadow:0 0 20px rgba(255,215,106,.35),inset 0 0 12px rgba(255,215,106,.1)}
+.plate b{font:600 16px/1.1 Fraunces,Georgia,serif;display:block}
+.plate small{color:#b5a98a;font-size:12px}
+.plate .cnt{margin-left:auto;font:800 20px Inter,sans-serif;font-variant-numeric:tabular-nums;text-align:right;line-height:1}
+.plate .cnt small{display:block;font:500 10px Inter;letter-spacing:.1em;text-transform:uppercase}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid;flex:none;box-shadow:0 0 14px rgba(0,0,0,.5)}
+.av svg{width:72%}
+.av.t0{background:radial-gradient(circle at 40% 35%,#fff0b8,#b8851f 70%);color:#3a2400;border-color:#ffe08a}
+.av.t1{background:radial-gradient(circle at 40% 35%,#dceaff,#2f569e 70%);color:#06153a;border-color:#b5d1ff}
+.av.big{width:clamp(80px,24vw,120px);height:clamp(80px,24vw,120px);border-width:3px}
+.info{display:flex;align-items:center;gap:10px;text-align:left;background:rgba(255,255,255,.06);border:1px solid rgba(255,215,106,.3);border-radius:12px;padding:6px 12px}
+.info .pc{width:36px;height:44px;flex:none}
+.info b{font:600 15px/1.2 Fraunces,Georgia,serif;display:block;color:#ffe9b0}
+.info small{color:#cfc4a5;font-size:12px}
+.hbanner{position:absolute;left:0;right:0;top:44%;z-index:25;pointer-events:none;text-align:center;font:800 clamp(20px,6vw,30px)/1 Inter,sans-serif;letter-spacing:.22em;padding:16px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.8) 18%,rgba(0,0,0,.8) 82%,transparent);border-block:1px solid rgba(255,215,106,.45);opacity:0;color:#ffe08a}
+.hbanner.b1{color:#b5d1ff;border-color:rgba(181,209,255,.45)}
+.intro{position:absolute;inset:0;z-index:29;display:flex;align-items:center;justify-content:center;gap:clamp(10px,5vw,40px);background:radial-gradient(circle,rgba(50,28,6,.92),rgba(0,0,0,.97) 70%)}
+.intro[hidden]{display:none}
+.iside{display:flex;flex-direction:column;align-items:center;gap:10px;font:600 clamp(16px,5vw,22px) Fraunces,Georgia,serif;color:#fff}
+.ivs{font:600 clamp(32px,10vw,54px) Fraunces,Georgia,serif;color:#ffd76a;text-shadow:0 0 24px rgba(255,140,40,.9)}
+.igo{position:absolute;bottom:20%;left:0;right:0;text-align:center;font:800 clamp(26px,8vw,40px) Inter,sans-serif;letter-spacing:.24em;color:#ffd76a;text-shadow:0 0 26px rgba(255,160,60,.9);opacity:0}
+.ccard{width:clamp(130px,38vw,190px)}
+.cface{justify-content:flex-start;gap:5px;padding:8px;border:3px solid rgba(255,240,200,.8);overflow:hidden}
+.cface::after{content:"";position:absolute;inset:0;border-radius:11px;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 48%,transparent 60%);background-size:250% 100%;animation:sheen 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes sheen{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
+.ctitle{font:600 clamp(11px,3.3vw,14px)/1.2 Fraunces,Georgia,serif;background:rgba(0,0,0,.22);border-radius:6px;padding:5px 6px;text-align:center;width:100%}
+.cart{flex:1;width:100%;border-radius:8px;display:grid;place-items:center;background:radial-gradient(circle,rgba(255,255,255,.55),rgba(255,255,255,0) 60%),repeating-conic-gradient(from 0deg,rgba(255,255,255,.18) 0 10deg,rgba(0,0,0,0) 10deg 20deg);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.cart svg{width:58%}
+.cart.back svg{width:70%}
+.cface.back{justify-content:center}
+.cface.back .cart{flex:none;aspect-ratio:1;width:80%;background:none;box-shadow:none}
+.cface.t1.back{background:radial-gradient(circle at 50% 40%,#22305a,#0c1228);color:#9dbdf2}
+.cface.t0.back{background:radial-gradient(circle at 50% 40%,#4a3613,#1c1306);color:#ffd27a}
+.ctype{font:800 8px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.ctext{font:500 clamp(9px,2.6vw,11px)/1.3 Inter,sans-serif;background:rgba(255,255,255,.4);border-radius:6px;padding:5px 6px;width:100%}
+.cface.t1 .ctext{background:rgba(255,255,255,.3)}
+.cteam{position:static;font-size:9px}
+#hOver .box{position:relative}
+#hOver .box::before{content:"";position:absolute;left:50%;top:40px;width:420px;height:420px;margin-left:-210px;background:repeating-conic-gradient(rgba(255,215,106,.16) 0 8deg,transparent 8deg 20deg);border-radius:50%;z-index:-1;animation:rays 18s linear infinite;-webkit-mask:radial-gradient(circle,#000 20%,transparent 68%);mask:radial-gradient(circle,#000 20%,transparent 68%)}
+#hOver.lose .box::before{background:repeating-conic-gradient(rgba(160,160,180,.12) 0 8deg,transparent 8deg 20deg)}
+@keyframes rays{to{transform:rotate(360deg)}}
+#hOverT{font-size:clamp(40px,11vw,60px);letter-spacing:.04em;background:linear-gradient(180deg,#fff6d0,#ffd76a 50%,#c98a1c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 14px rgba(255,170,40,.45))}
+#hOver.lose #hOverT{background:linear-gradient(180deg,#e8e8f0,#8a8aa0);-webkit-background-clip:text;background-clip:text;filter:none}
+@media(prefers-reduced-motion:reduce){.cell.tgt::after,.cface::after,#hOver .box::before{animation:none}}
 @media(prefers-reduced-motion:reduce){.card,.card:hover{transform:none;transition:none}}
 </style>
 </head>
@@ -273,8 +339,11 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 
 <!-- Heneral overlay -->
 <div class="ov" id="ovH" role="dialog" aria-label="Heneral">
+  <canvas class="hfx" id="hFx" aria-hidden="true"></canvas>
   <div class="hv">
+    <div class="plate" id="hOpp"><span class="av" id="hOppA"></span><div><b id="hOppN"></b><small id="hOppS"></small></div><span class="cnt" id="hOppC"></span></div>
     <div class="hboard" id="hBoard"></div>
+    <div class="plate" id="hMe"><span class="av" id="hMeA"></span><div><b id="hMeN"></b><small id="hMeS"></small></div><span class="cnt" id="hMeC"></span></div>
     <div class="hmsg" id="hMsg" aria-live="polite"></div>
     <div class="hbar" id="hBar"></div>
     <div class="hlost" id="hLost"></div>
@@ -285,6 +354,8 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
     <button id="hMute" aria-label="I-mute">🔊</button>
     <button id="hHelp" aria-label="Mga ranggo at rules" style="margin-left:0">?</button>
   </div>
+  <div class="hbanner" id="hBanner" aria-hidden="true"></div>
+  <div class="intro" id="hIntro" hidden><div class="iside" id="iL"><span class="av big t0" id="iLA"></span><b id="iLN"></b></div><div class="ivs" id="iVs">VS</div><div class="iside" id="iR"><span class="av big t1" id="iRA"></span><b id="iRN"></b></div><div class="igo" id="iGo">LABANAN!</div></div>
   <div class="clash" id="hClash" hidden><div class="cstage"><div class="ccard" id="cA"></div><div class="vs" id="hVs">VS</div><div class="ccard" id="cB"></div></div><div class="verdict" id="cV"></div></div>
   <div class="panel on" id="hStart"><div class="box wide">
     <h2>Heneral</h2>
@@ -640,12 +711,19 @@ var Heneral=(function(){
       if(flash&&flash[0]===r&&flash[1]===c)cls+=' flash';
       var show=p&&(p.o===v||phase==='over'),lab=sq(r,c);
       if(p)lab+=', '+(show?R[p.k][1]+' ('+TEAM[p.o]+')':'piyesa ng kalaban');
-      h+='<button class="'+cls+'" data-r="'+r+'" data-c="'+c+'" aria-label="'+lab+'">'+(p?'<span class="pc p'+p.o+(show?'':' hid')+'">'+(show?R[p.k][0]:'')+'</span>':'')+'</button>';
+      h+='<button class="'+cls+'" data-r="'+r+'" data-c="'+c+'" aria-label="'+lab+'">'+(p?'<span class="pc p'+p.o+(show?'':' hid')+'">'+(show?ins(p.k)+'<b>'+R[p.k][0]+'</b>':emblem(p.o))+'</span>':'')+'</button>';
     }
     bd.innerHTML=h;flash=null;afterRender();
+    var op=1-v,act=phase==='play'||phase==='handoff';
+    $('hOppA').className='av t'+op;$('hOppA').innerHTML=emblem(op);$('hMeA').className='av t'+v;$('hMeA').innerHTML=emblem(v);
+    $('hOppN').textContent=mode==='ai'?'Heneral AI':TEAM[op];$('hMeN').textContent=mode==='ai'?'Ikaw':TEAM[v];
+    $('hOppS').textContent=mode==='ai'?(phase==='play'&&turn===1?'Nag-iisip…':'Kalaban · '+TEAM[op]):'Kalaban';
+    $('hMeS').textContent=mode==='ai'?'Hukbong '+TEAM[v]:'Ikaw ngayon';
+    $('hOppC').innerHTML=(21-lost[op].length)+'<small>piyesa</small>';$('hMeC').innerHTML=(21-lost[v].length)+'<small>piyesa</small>';
+    $('hOpp').classList.toggle('act',act&&turn===op);$('hMe').classList.toggle('act',act&&turn===v);
     var t='';
     if(phase==='setup0'||phase==='setup1')t='Ayusin ang hukbo ('+TEAM[v]+')';
-    else if(phase==='play')t=mode==='ai'?(turn===0?'Tira mo (Ginto)':'Nag-iisip ang computer…'):'Tira ng '+TEAM[turn];
+    else if(phase==='play')t=mode==='ai'?(turn===0?'Tira mo':'Tira ng kalaban'):'Tira ng '+TEAM[turn];
     else if(phase==='over')t='Tapos ang laro';
     $('hTurn').textContent=t;
     var bar='';
@@ -653,23 +731,25 @@ var Heneral=(function(){
     else if(phase==='play'&&(mode==='pvp'||turn===0))bar='<button class="cta ghost" id="hResign">🏳 Sumuko</button>';
     else if(phase==='over')bar='<button class="cta" id="hAgain2">↻ Bagong laro</button>';
     $('hBar').innerHTML=bar;
-    $('hMsg').textContent=phase.indexOf('setup')===0?'I-tap ang isang piyesa, saka ang ibang piyesa o bakanteng parisukat sa naka-ilaw na lugar para ilipat o pagpalitin.':(msg||'');
-    if(lost&&phase!=='setup0'&&phase!=='setup1'){var me=v,op=1-v;
-      $('hLost').innerHTML='Nawala sa '+(mode==='ai'?'iyo':TEAM[me])+': '+(lost[me].length?lost[me].map(function(p){return R[p.k][0]}).join(', '):'wala')+'<br>Natalong kalaban: '+lost[op].length+' / 21';
-    }else $('hLost').textContent='';
+    var sp=sel&&board[sel[0]][sel[1]];
+    if(sp&&sp.o===v)$('hMsg').innerHTML='<div class="info"><span class="pc p'+sp.o+'">'+ins(sp.k)+'<b>'+R[sp.k][0]+'</b></span><div><b>'+R[sp.k][1]+'</b><small>Tinatalo: '+beats(sp.k)+'</small></div></div>';
+    else $('hMsg').textContent=phase.indexOf('setup')===0?'I-tap ang isang piyesa, saka ang ibang piyesa o bakanteng parisukat sa naka-ilaw na lugar para ilipat o pagpalitin.':(msg||'');
+    if(phase!=='setup0'&&phase!=='setup1')$('hLost').innerHTML='Nawala sa '+(mode==='ai'?'iyo':TEAM[v])+': '+(lost[v].length?lost[v].map(function(p){return R[p.k][0]}).join(', '):'wala');
+    else $('hLost').textContent='';
+    if(phase==='play'&&bannerTurn!==turn){bannerTurn=turn;showBanner(mode==='ai'?(turn===0?'IYONG TIRA':'TIRA NG KALABAN'):'TIRA NG '+TEAM[turn].toUpperCase(),turn)}
   }
   function newGame(m){
     clearTimeout(aiTimer);mode=m;uid=0;board=[];for(var r=0;r<8;r++){board.push([]);for(var c=0;c<9;c++)board[r].push(null)}
-    lost=[[],[]];pending=null;last=null;flash=null;winner=null;busy=false;sel=null;msg='';turn=0;
+    lost=[[],[]];bannerTurn=null;introNext=false;pending=null;last=null;flash=null;winner=null;busy=false;sel=null;msg='';turn=0;
     randomSetup(0);if(m==='ai')randomSetup(1);
     phase='setup0';panel(null);markPlayed('heneral');deal=true;render();
   }
   function hand(next,title,text){phase='handoff';handNext=next;sel=null;$('hHandT').textContent=title;$('hHandP').textContent=text;panel('hHand');render()}
   function ready(){
     sel=null;
-    if(phase==='setup0'){if(mode==='ai'){phase='play';turn=0;msg='Magsimula! Ikaw ang unang titira.';render()}
+    if(phase==='setup0'){if(mode==='ai'){phase='play';turn=0;msg='Magsimula! Ikaw ang unang titira.';bannerTurn=0;busy=true;render();intro(function(){busy=false;bannerTurn=null;render()})}
       else{randomSetup(1);hand('setup1','Ipasa kay Asul','Huwag sisilip, Ginto! Si Asul naman ang mag-aayos ng hukbo niya.')}}
-    else if(phase==='setup1'){turn=0;msg='Magsimula ang laban!';hand('play','Ipasa kay Ginto','Si Ginto ang unang titira.')}
+    else if(phase==='setup1'){turn=0;introNext=true;msg='Magsimula ang laban!';hand('play','Ipasa kay Ginto','Si Ginto ang unang titira.')}
   }
   function move(f,t){
     var a=board[f[0]][f[1]],b=board[t[0]][t[1]];
@@ -699,16 +779,16 @@ var Heneral=(function(){
     sel=null;
     if(winner!=null){end();return}
     turn=1-me;
-    if(mode==='ai'){render();if(turn===1){busy=true;aiTimer=setTimeout(ai,750)}}
+    if(mode==='ai'){render();if(turn===1){busy=true;aiTimer=setTimeout(ai,1050)}}
     else{busy=true;render();turn=me;var nt=1-me;aiTimer=setTimeout(function(){busy=false;turn=nt;hand('play','Ipasa kay '+TEAM[nt],msg)},550)}
   }
   function end(){
     phase='over';render();
     var t,p;
-    if(mode==='ai'){t=winner===0?'Panalo ka!':'Talo ka';p=winner===0?'Magaling, Heneral! Tingnan ang board para makita ang lahat ng piyesa ng kalaban.':'Nakuha ng computer ang tagumpay. Subukan ulit!';
+    if(mode==='ai'){t=winner===0?'TAGUMPAY!':'PAGKATALO';p=winner===0?'Magaling, Heneral! Tingnan ang board para makita ang lahat ng piyesa ng kalaban.':'Nakuha ng computer ang tagumpay. Subukan ulit!';
       if(winner===0){var b=store.get('best',{});b.heneral=(b.heneral||0)+1;store.set('best',b)}}
-    else{t='Panalo si '+TEAM[winner]+'!';p='Nakabukas na ang lahat ng piyesa sa board.'}
-    $('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
+    else{t='TAGUMPAY NG '+TEAM[winner].toUpperCase()+'!';p='Nakabukas na ang lahat ng piyesa sa board.'}
+    $('hOver').classList.toggle('lose',mode==='ai'&&winner!==0);$('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
     if(mode==='pvp'||winner===0){confetti();sfx('win')}
     setTimeout(function(){if(phase==='over')panel('hOver')},mode==='pvp'||winner===0?900:300);
   }
@@ -737,6 +817,57 @@ var Heneral=(function(){
     if(best)move(best[0],best[1]);
   }
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,anim=null,deal=false,muted=store.get('mute',false),AC=null;
+  var bannerTurn=null,introNext=false;
+  function star(cx,cy,r){var s='';for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;s+=(cx+Math.cos(a)*rr).toFixed(1)+','+(cy+Math.sin(a)*rr).toFixed(1)+' '}return'<polygon points="'+s+'"/>'}
+  function dia(cx,cy,r){return'<polygon points="'+cx+','+(cy-r)+' '+(cx+r*.7)+','+cy+' '+cx+','+(cy+r)+' '+(cx-r*.7)+','+cy+'"/>'}
+  function chev(y){return'<path d="M8 '+y+' L20 '+(y+8)+' L32 '+y+'" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round"/>'}
+  function bars(n){var s='',w=6,g=4,x0=20-(n*w+(n-1)*g)/2;for(var i=0;i<n;i++)s+='<rect x="'+(x0+i*(w+g))+'" y="8" width="'+w+'" height="24" rx="1.5"/>';return s}
+  var SP={1:[[20,20]],2:[[11,20],[29,20]],3:[[20,11],[11,27],[29,27]],4:[[12,12],[28,12],[12,28],[28,28]],5:[[7,15],[20,12],[33,15],[13,29],[27,29]]};
+  function ins(k){var g='';
+    if(k[0]==='G'){var n=+k[1],r=n>=4?7.5:n===3?8.5:n===2?9.5:13;SP[n].forEach(function(p){g+=star(p[0],p[1],r)})}
+    else if(k==='COL')g=dia(8,20,9)+dia(20,20,9)+dia(32,20,9);
+    else if(k==='LTC')g=dia(13,20,10)+dia(27,20,10);
+    else if(k==='MAJ')g=dia(20,20,15);
+    else if(k==='CPT')g=bars(3);else if(k==='LT1')g=bars(2);else if(k==='LT2')g=bars(1);
+    else if(k==='SGT')g=chev(7)+chev(16)+chev(25);
+    else if(k==='PVT')g=chev(14);
+    else if(k==='SPY')g='<path d="M3 20 Q20 5 37 20 Q20 35 3 20Z" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="20" cy="20" r="6"/>';
+    else if(k==='FLG')g='<rect x="9" y="5" width="3.5" height="31" rx="1"/><path d="M12.5 6 L34 12 L12.5 20Z"/>';
+    return'<svg viewBox="0 0 40 40" aria-hidden="true" fill="currentColor">'+g+'</svg>'}
+  function emblem(o){var g='';
+    if(o===0){g='<circle cx="20" cy="20" r="7.5"/>';for(var i=0;i<8;i++)g+='<path d="M20 2 L23 11 L17 11Z" transform="rotate('+(i*45)+' 20 20)"/>'}
+    else{g=star(20,21,15)}
+    return'<svg viewBox="0 0 40 40" aria-hidden="true" fill="currentColor">'+g+'</svg>'}
+  function beats(k){var v=R[k][2];
+    if(k==='FLG')return'Bandila ng kalaban kung ikaw ang aatake. Talo sa lahat ng iba.';
+    if(k==='SPY')return'Lahat ng Heneral, opisyal at Sarhento. Talo sa Sundalo.';
+    if(k==='PVT')return'Espiya at Bandila.';
+    if(k==='SGT')return'Sundalo at Bandila. Talo sa Espiya.';
+    return'Lahat ng mas mababa sa '+R[k][1]+'. Talo sa Espiya at mas mataas.'}
+  function typeLine(k){return k[0]==='G'?'Heneral · Ranggo '+R[k][2]:k==='SPY'?'Espesyal':k==='FLG'?'Layunin':(k==='SGT'||k==='PVT')?'Kawal · Ranggo '+R[k][2]:'Opisyal · Ranggo '+R[k][2]}
+  function showBanner(text,o){var B=$('hBanner');B.textContent=text;B.className='hbanner b'+o;
+    if(reduce){B.animate([{opacity:1},{opacity:1},{opacity:0}],{duration:900});return}
+    B.animate([{opacity:0,transform:'translateX(-45%) skewX(-14deg)'},{opacity:1,transform:'none',offset:.2},{opacity:1,transform:'none',offset:.72},{opacity:0,transform:'translateX(45%) skewX(-14deg)'}],{duration:1150,easing:'cubic-bezier(.3,.7,.3,1)'})}
+  function intro(cb){var I=$('hIntro'),L=$('iL'),Rr=$('iR'),G=$('iGo');
+    $('iLA').innerHTML=emblem(0);$('iRA').innerHTML=emblem(1);
+    $('iLN').textContent=mode==='ai'?'Ikaw':'Ginto';$('iRN').textContent=mode==='ai'?'Heneral AI':'Asul';
+    I.hidden=false;sfx('whoosh');
+    if(reduce){setTimeout(function(){I.hidden=true;cb()},700);return}
+    L.animate([{transform:'translateX(-100vw)'},{transform:'translateX(8px)',offset:.8},{transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'});
+    Rr.animate([{transform:'translateX(100vw)'},{transform:'translateX(-8px)',offset:.8},{transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'});
+    $('iVs').animate([{transform:'scale(3)',opacity:0},{transform:'scale(3)',opacity:0,offset:.5},{transform:'scale(1)',opacity:1}],{duration:800,fill:'backwards'});
+    setTimeout(function(){sfx('hit');G.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1.1)',offset:.6},{opacity:1,transform:'none'}],{duration:450,fill:'forwards'})},850);
+    setTimeout(function(){I.animate([{opacity:1},{opacity:0}],{duration:300}).onfinish=function(){I.hidden=true;G.getAnimations().forEach(function(a){a.cancel()});cb()}},1800)}
+  var fx=$('hFx'),fctx=fx.getContext('2d'),emb=[],fxOn=false;
+  function fxSize(){var d=Math.min(devicePixelRatio||1,2);fx.width=innerWidth*d;fx.height=innerHeight*d;fctx.setTransform(d,0,0,d,0,0)}
+  addEventListener('resize',function(){if(fxOn)fxSize()});
+  function fxStart(){if(fxOn)return;fxOn=true;fxSize();emb=[];
+    for(var i=0;i<46;i++)emb.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8+.5,vy:-(8+Math.random()*26),vx:Math.random()*8-4,a:Math.random()});
+    var lt=performance.now();
+    (function f(t){if(!ov.classList.contains('on')){fxOn=false;return}var dt=Math.min(.05,(t-lt)/1000);lt=t;fctx.clearRect(0,0,innerWidth,innerHeight);
+      for(var i=0;i<emb.length;i++){var e=emb[i];if(!reduce){e.y+=e.vy*dt;e.x+=e.vx*dt+Math.sin(t/900+e.a*9)*.25;if(e.y<-10){e.y=innerHeight+10;e.x=Math.random()*innerWidth}}
+        fctx.globalAlpha=.3+.3*Math.sin(t/380+e.a*20);fctx.fillStyle=e.a>.5?'#ffb347':'#ffe08a';fctx.beginPath();fctx.arc(e.x,e.y,e.r,0,6.283);fctx.fill()}
+      fctx.globalAlpha=1;requestAnimationFrame(f)})(lt)}
   function sfx(k){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
     var t=AC.currentTime,g=AC.createGain();g.connect(AC.destination);
     function noise(d){var b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0);for(var i=0;i<x.length;i++)x[i]=Math.random()*2-1;var s=AC.createBufferSource();s.buffer=b;return s}
@@ -755,7 +886,9 @@ var Heneral=(function(){
         el.animate([{transform:'translate('+(a.left-b.left)+'px,'+(a.top-b.top)+'px) scale(1.2)',boxShadow:'0 14px 18px rgba(0,0,0,.6)'},{transform:'none'}],{duration:340,easing:'cubic-bezier(.2,.9,.25,1)'})}
       anim=null}
   }
-  function face(p,show){return '<div class="cface t'+p.o+(show?'':' back')+'"><span class="crank">'+(show?R[p.k][0]:'?')+'</span><span class="cname">'+(show?R[p.k][1]:'Lihim na piyesa')+'</span><span class="cteam">'+TEAM[p.o]+'</span></div>'}
+  function face(p,show){
+    return '<div class="cface t'+p.o+(show?'':' back')+'">'+(show?'<div class="ctitle">'+R[p.k][1]+'</div><div class="cart">'+ins(p.k)+'</div><div class="ctype">'+typeLine(p.k)+'</div><div class="ctext">Tinatalo: '+beats(p.k)+'</div>'
+      :'<div class="cart back">'+emblem(p.o)+'</div><div class="ctitle">Lihim na piyesa</div>')+'<span class="cteam">'+TEAM[p.o]+'</span></div>'}
   function shatter(card){var f=card.firstChild,P=['polygon(0 0,55% 0,45% 40%,0 28%)','polygon(55% 0,100% 0,100% 35%,45% 40%)','polygon(0 28%,45% 40%,35% 70%,0 75%)','polygon(45% 40%,100% 35%,100% 72%,35% 70%)','polygon(0 75%,35% 70%,50% 100%,0 100%)','polygon(35% 70%,100% 72%,100% 100%,50% 100%)'];
     P.forEach(function(cp,i){var s=f.cloneNode(true);s.classList.add('shard');s.style.clipPath=cp;card.appendChild(s);
       var dx=(i%2?1:-1)*(50+Math.random()*90),dy=(Math.floor(i/2)-1)*(70+Math.random()*60)+20;
@@ -814,14 +947,16 @@ var Heneral=(function(){
     else if(id==='hResign'){winner=1-viewer();msg=TEAM[viewer()]+' ay sumuko.';end()}
     else if(id==='hAgain2')panel('hStart');
   });
-  function open(){ov.classList.add('on');document.body.classList.add('locked');phase='menu';board=null;bd.innerHTML='';
+  function open(){ov.classList.add('on');document.body.classList.add('locked');fxStart();phase='menu';board=null;bd.innerHTML='';
     $('hBar').innerHTML='';$('hMsg').textContent='';$('hLost').textContent='';$('hTurn').textContent='';panel('hStart')}
   function quit(){clearTimeout(aiTimer);closeAll()}
   var prev=null;
   $('hHelp').onclick=function(){prev=['hStart','hHand','hOver'].filter(function(p){return $(p).classList.contains('on')})[0]||null;panel('hRules')};
   $('hRulesOk').onclick=function(){panel(prev)};
   $('hAi').onclick=function(){newGame('ai')};$('hPvp').onclick=function(){newGame('pvp')};
-  $('hHandGo').onclick=function(){if(handNext==='setup1')deal=true;phase=handNext;panel(null);render()};
+  $('hHandGo').onclick=function(){if(handNext==='setup1')deal=true;phase=handNext;panel(null);
+    if(introNext&&handNext==='play'){introNext=false;bannerTurn=0;busy=true;render();intro(function(){busy=false;bannerTurn=null;render()});return}
+    render()};
   $('hAgain').onclick=function(){panel('hStart')};$('hView').onclick=function(){panel(null)};
   $('hQuit').onclick=quit;$('hQuit2').onclick=quit;
   return{open:open};
