@@ -1489,8 +1489,9 @@ var WORKS = [
   var head=$('site-head'), foot=$('site-foot');
   var navLinks=document.querySelectorAll('[data-nav]');
   var SITE='Talata';
+  var SUPPORT_URL='';   // ilagay dito ang link ng Ko-fi/Patreon mo para lumabas ang "Suportahan"
   var NEWSLETTER={buttondown:''};   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
-  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a></div>'+
+  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
     (NEWSLETTER.buttondown?'<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="sub-email">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="sub-email" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>':'')+
     '<div>\u00A9 2026 '+esc(PEN.name)+'. All rights reserved.</div>';
 
@@ -1963,6 +1964,42 @@ var WORKS = [
     var b=e.target.closest&&e.target.closest('[data-share]'); if(b){e.preventDefault(); shareHere(document.title)}
   });
 
+  /* ---------- Mga Bilang (hindi nakalista; galing sa GoatCounter) ---------- */
+  function renderStats(){
+    var GC='https://talata.goatcounter.com';
+    var rows=[];
+    WORKS.forEach(function(w){
+      rows.push({label:w.title+' (pahina)',paths:['/w/'+w.id,'/#/w/'+w.id]});
+      w.chapters.forEach(function(c,i){ if(!c.soon) rows.push({label:w.title+': '+c.label,paths:['/read/'+w.id+'/'+(i+1),'/#/read/'+w.id+'/'+(i+1)]}) });
+    });
+    views.learn.innerHTML='<div class="cat-head"><h1 tabindex="-1" id="stats-title">Mga Bilang</h1><p>Bilang ng pagbukas ng bawat pahina at kabanata. Hindi ito nakalista sa menu.</p></div>'+
+      '<section class="section"><p id="stats-msg">Kinukuha ang mga bilang\u2026</p><div id="stats-body"></div>'+
+      '<p><a class="cm-btn" href="'+GC+'" target="_blank" rel="noopener">Buksan ang buong dashboard (bansa, pinanggalingan, device)</a></p></section>';
+    var failed=0;
+    function one(path){
+      return fetch(GC+'/counter/'+encodeURIComponent(path)+'.json').then(function(r){
+        if(r.status===404) return 0;
+        if(!r.ok) throw new Error(r.status);
+        return r.json().then(function(j){return parseInt(String(j.count||'0').replace(/\D/g,''),10)||0});
+      });
+    }
+    Promise.all(rows.map(function(r){
+      return Promise.all(r.paths.map(function(p){return one(p).catch(function(){failed++;return 0})})).then(function(a){r.n=a.reduce(function(x,y){return x+y},0)});
+    })).then(function(){
+      if(!$('stats-body')) return;
+      if(failed>=rows.length*2){
+        $('stats-msg').innerHTML='Hindi makuha ang mga bilang. Sa GoatCounter, buksan ang <strong>Settings \u2192 Site</strong> at i-check ang <strong>"Allow adding visitor counts on your website"</strong>, tapos i-save at i-refresh ito.';
+        return;
+      }
+      var tot=rows.reduce(function(a,r){return a+r.n},0), max=Math.max.apply(null,rows.map(function(r){return r.n}).concat([1]));
+      rows.sort(function(a,b){return b.n-a.n});
+      $('stats-msg').textContent='Kabuuang pagbukas ng mga pahinang ito: '+tot.toLocaleString('en-US')+'. Pinakabasa ang nasa itaas.';
+      $('stats-body').innerHTML='<ul class="latest">'+rows.map(function(r){
+        return '<li><div>'+esc(r.label)+' <small>'+r.n.toLocaleString('en-US')+'</small></div><div style="height:6px;border-radius:3px;background:currentColor;opacity:.5;width:'+Math.max(2,Math.round(r.n/max*100))+'%"></div></li>';
+      }).join('')+'</ul>';
+    });
+  }
+
   /* ---------- Privacy / Terms ---------- */
   function renderPolicy(kind){
     var h;
@@ -2059,6 +2096,8 @@ var WORKS = [
 
     if(parts[0]==='c' && CATS[parts[1]]){
       name='cat'; navKey=parts[1]; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
+    }else if(parts[0]==='stats'){
+      name='learn'; navKey='about'; renderStats(); title='Mga Bilang \u2014 '+SITE; focusId='stats-title';
     }else if(parts[0]==='privacy'||parts[0]==='terms'){
       name='learn'; navKey='about'; renderPolicy(parts[0]); title=(parts[0]==='privacy'?'Privacy':'Mga Tuntunin')+' — '+SITE; focusId='policy-title';
     }else if(parts[0]==='a' && AUTHORS[parts[1]]){
@@ -2251,6 +2290,7 @@ var WORKS = [
     try{
       if(window.goatcounter&&window.goatcounter.count){
         var p=(location.hash&&location.hash.indexOf('#/')===0)?'/'+location.hash.slice(2):(location.pathname||'/');
+        if(p.length>1) p=p.replace(/\/+$/,'');
         if(p===window.__lastHit) return; window.__lastHit=p;
         window.goatcounter.count({path:p});
       }

@@ -115,6 +115,7 @@ for path, title, desc in [
     ('about', 'About — Talata', 'Tungkol sa may-akda at sa Talata.'),
     ('privacy', 'Privacy — Talata', 'Paano ginagamit ng Talata ang impormasyon ng mga bisita.'),
     ('terms', 'Mga Tuntunin — Talata', 'Mga tuntunin sa karapatan, pagsusumite, at komento.'),
+    ('stats', 'Mga Bilang — Talata', 'Bilang ng pagbukas ng mga pahina.'),
 ]:
     pages.append((path, title, desc, '/og-default.jpg', 'website', f'<h1>{esc(title)}</h1><p>{esc(desc)}</p>'))
 
@@ -126,7 +127,8 @@ def make(path, title, desc, image, kind, body):
            f'<meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}{image}">'
            f'<meta name="twitter:card" content="{"summary_large_image" if image.endswith("og-default.jpg") else "summary"}">'
            f'<meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}">'
-           f'<meta name="twitter:image" content="{BASE}{image}">')
+           f'<meta name="twitter:image" content="{BASE}{image}">'
+           + ('<meta name="robots" content="noindex,nofollow">' if path == 'stats' else ''))
     out = tpl.replace('<!--SEO--><!--/SEO-->', f'<!--SEO-->{seo}<!--/SEO-->')
     out = out.replace('<!--NS--><!--/NS-->', f'<!--NS--><noscript><main>{body}</main></noscript><!--/NS-->')
     out = re.sub(r'<title>.*?</title>', lambda m: f'<title>{esc(title)}</title>', out, count=1, flags=re.S)
@@ -134,7 +136,7 @@ def make(path, title, desc, image, kind, body):
     return out
 
 # linisin ang mga lumang nabuong folder
-for d in ['w', 'read', 'c', 'a', 'learn', 'submit', 'about', 'privacy', 'terms']:
+for d in ['w', 'read', 'c', 'a', 'learn', 'submit', 'about', 'privacy', 'terms', 'stats']:
     shutil.rmtree(d, ignore_errors=True)
 
 for path, title, desc, image, kind, body in pages:
@@ -147,7 +149,7 @@ for path, title, desc, image, kind, body in pages:
         open(os.path.join(path, 'index.html'), 'w', encoding='utf-8').write(out)
 
 # ---------- sitemap + robots ----------
-urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages] + [f'{BASE}/laro.html', f'{BASE}/bigkas.html']
+urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages if p != 'stats'] + [f'{BASE}/laro.html', f'{BASE}/bigkas.html']
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
      ''.join(f'<url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n'
 open('sitemap.xml', 'w', encoding='utf-8').write(sm)
