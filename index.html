@@ -135,6 +135,13 @@
   .learn-list li{padding:1.2rem 1.3rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
   .learn-list h3{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--head);margin:.3rem 0 .4rem}
   .learn-list a{color:var(--head)}
+.lt-tabs{display:flex;gap:.5rem;flex-wrap:wrap;max-width:1250px;margin:0 auto;padding:.5rem 5vw 0;font-family:var(--sans)}
+.lt-tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:2px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-weight:600}
+.lt-tabs a:hover{color:var(--text);border-color:var(--gold)}
+.lt-tabs a[aria-current="page"]{background:var(--head);border-color:var(--head);color:var(--bg,#111)}
+.lt-lede{max-width:40rem;color:var(--muted);margin-bottom:1rem}
+.lt-h3{font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--head);margin:1.6rem 0 .6rem}
+#magsumite{margin-top:2.5rem}
 .bigkas-card{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;max-width:44rem;margin:0 0 2.5rem;padding:1.3rem 1.4rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
 .bigkas-card .bk-bay{font-size:2rem;line-height:1;color:var(--head)}
 .bigkas-card div{flex:1;min-width:14rem}
@@ -719,9 +726,6 @@ html[data-grace] #splash .sp-text{color:var(--head)}
     <a href="#/c/alamat" data-nav="alamat"><span class="n-en">Alamat</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜎᜋᜆ᜔</span></a>
     <a href="#/c/tula" data-nav="tula"><span class="n-en">Tula</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜎ</span></a>
     <a href="#/learn" data-nav="learn"><span class="n-en">Learning</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
-    <a href="#/submit" data-nav="submit"><span class="n-en">Magsumite</span></a>
-    <a href="/laro.html"><span class="n-en">Laro</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span></a>
-    <a href="#/about" data-nav="about"><span class="n-en">About</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜅ᜔ᜃᜓᜎ᜔</span></a>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
 </header>
@@ -1716,48 +1720,62 @@ var WORKS = [
       '<h3>The kudlit</h3><p>A mark above changes the vowel to <em>i</em> or <em>e</em>. A mark below changes it to <em>u</em> or <em>o</em>. A cross-shaped mark (the <em>pamudpod</em>) removes the vowel, leaving only the consonant.</p>'+
       '<div class="bb-grid">'+K.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
       '<h3>Try reading</h3><div class="bb-grid bb-words">'+W.map(function(x){return bbCell(x[0],x[1])}).join('')+'</div>'+
-      '<p class="bb-note">Spelling practice has varied over time and between writers. This is a simple modern guide, not the only way to write it.</p></div>'+
-      '<h2 class="learn-h">Keep learning</h2>';
+      '<p class="bb-note">Spelling practice has varied over time and between writers. This is a simple modern guide, not the only way to write it.</p></div>';
   }
-  function renderSubmit(){
+  function submitHTML(){
     var M='kagawaran@talata-studio.com';
     var sub=encodeURIComponent('Pagsusumite ng akda sa Talata');
     var body=encodeURIComponent('Pangalan / pen name:\nUri (nobela, kuwento, pambata, alamat, tula):\nPamagat:\nWika:\nMaikling buod:\n\nIlalagay ko sa email ang akda (o link sa dokumento).\n\nPinapatunayan kong ako ang sumulat nito at pinapahintulutan ko ang Talata na ilathala ito.');
-    var h='<div class="cat-head"><h1 tabindex="-1" id="submit-title">Magsumite ng Akda</h1><p>Bukas ang Talata sa mga malayang manunulat. Kung gusto mong mailathala ang akda mo rito, ipadala mo sa amin.</p></div><section class="section">'+
-      '<h2 class="learn-h">Ano ang tinatanggap</h2>'+
+    return '<h2 class="learn-h" id="magsumite" tabindex="-1">Magsumite ng Akda</h2><p class="lt-lede">Bukas ang Talata sa mga malayang manunulat. Kung gusto mong mailathala ang akda mo rito, ipadala mo sa amin.</p>'+
+      '<h3 class="lt-h3">Ano ang tinatanggap</h3>'+
       '<ul class="learn-list"><li><span class="learn-kind">Serye</span><h3>Nobela</h3><p>Kabanata-kabanata, tulad ng mga nobela sa site.</p></li>'+
       '<li><span class="learn-kind">Isang akda</span><h3>Maikling kuwento at pambata</h3><p>Kuwentong kayang basahin nang isang upuan.</p></li>'+
       '<li><span class="learn-kind">Isang akda</span><h3>Alamat</h3><p>Alamat at kuwentong-bayan.</p></li>'+
       '<li><span class="learn-kind">Isang akda</span><h3>Tula</h3><p>Tula at maiikling piraso.</p></li></ul>'+
-      '<h2 class="learn-h">Mga patnubay</h2><ul class="sub-list">'+
+      '<h3 class="lt-h3">Mga patnubay</h3><ul class="sub-list">'+
       '<li>Ikaw dapat ang sumulat ng akda at ikaw ang may karapatan dito. Mananatili sa iyo ang karapatan.</li>'+
       '<li>Walang akdang nakasisira, mapang-abuso, o hindi angkop sa mga bata kapag nasa Kids o Pambata.</li>'+
       '<li>Tagalog o Ingles ang tinatanggap. Dapat malinis ang pagkakasulat.</li>'+
       '<li>Binabasa ng may-ari ng site ang bawat isa bago ilathala. Maaaring humingi ng pagbabago o tumanggi nang walang paliwanag.</li>'+
       '<li>Kasama ang pangalan o pen name mo bilang may-akda. Kung gusto mong tanggalin ang akda mo, sumulat lang at aalisin namin ito.</li>'+
       '<li>Walang bayad sa pagsusumite at walang bayad na ibinibigay sa ngayon.</li></ul>'+
-      '<h2 class="learn-h">Paano magsumite</h2><ol class="sub-list">'+
+      '<h3 class="lt-h3">Paano magsumite</h3><ol class="sub-list">'+
       '<li>Ihanda ang akda sa dokumento (Word, Google Docs, o ilagay mismo sa email).</li>'+
       '<li>Pindutin ang button sa ibaba. Mabubuksan ang email na may form na sasagutan.</li>'+
       '<li>Ipadala. Sasagot kami kapag nabasa na.</li></ol>'+
       '<p><a class="cm-btn" href="mailto:'+M+'?subject='+sub+'&body='+body+'">Ipadala sa email</a></p>'+
-      '<p class="cm-note">Kung hindi bumukas ang email app, isulat mo sa: <strong>'+M+'</strong></p></section>';
-    views.learn.innerHTML=h;
+      '<p class="cm-note">Kung hindi bumukas ang email app, isulat mo sa: <strong>'+M+'</strong></p>';
   }
-  function renderLearn(){
-    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Study notes, guides and activities that go with the stories.</p></div><section class="section">'+'<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+renderPrimer();
-    if(LEARN.length){
-      h+='<ul class="learn-list">'+LEARN.map(function(m){
-        var t=m.href?'<a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a>':esc(m.title);
-        return '<li><span class="learn-kind">'+esc(m.kind||'Material')+'</span><h3>'+t+'</h3><p>'+esc(m.blurb||'')+'</p></li>';
-      }).join('')+'</ul>';
-    }else{h+='<div class="empty"><h3>Coming soon</h3><p>Learning materials are on the way. Check back soon.</p></div>'}
-    h+='<h2 class="learn-h">Sinaunang Panulat sa Pilipinas</h2>'+
-      '<p>Mas matanda pa kaysa pagdating ng mga Kastila ang pagsulat sa ating kapuluan. Ipinapakita ng tatlong bagay na ito, na nasa National Museum of the Philippines, kung gaano ito katagal at kaiba-iba.</p>'+
-      '<ul class="learn-list">'+INSCRIPTIONS.map(function(m){
-        return '<li>'+(m.img?'<figure class="spin-fig"><img class="spin-img" src="'+m.img+'" alt="Photo of the Laguna Copperplate Inscription, a copper plate covered in lines of Kawi script"><figcaption>Photo: Wikimedia Commons / National Museum of the Philippines</figcaption></figure>':'')+'<span class="learn-kind">'+esc(m.kind)+'</span><h3><a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a></h3><p>'+esc(m.blurb)+'</p></li>';
-      }).join('')+'</ul>';
-    h+='<h2 class="learn-h" id="komentarista">Paano maging mabuting komentarista</h2><div class="cm-guide">'+GUIDE+'</div>';
+  var LEARN_TABS=[['aralin','Aralin','#/learn'],['laro','Laro','#/learn/laro'],['info','Materials at Info','#/learn/info']];
+  function renderLearn(tab){
+    if(!LEARN_TABS.some(function(t){return t[0]===tab}))tab='aralin';
+    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Mga aralin, laro, at materyales na kasama ng mga kuwento.</p></div>'+
+      '<nav class="lt-tabs" aria-label="Learning">'+LEARN_TABS.map(function(t){return '<a href="'+t[2]+'"'+(t[0]===tab?' aria-current="page"':'')+'>'+t[1]+'</a>'}).join('')+'</nav><section class="section">';
+    if(tab==='aralin'){
+      h+='<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+renderPrimer();
+    }else if(tab==='laro'){
+      h+='<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span><div><span class="learn-kind">Strategy · 1–2 players</span><h2>Heneral</h2><p>Larong digmaan na lihim ang ranggo. 21 piyesa, isang arbiter, at isang bandilang dapat ipagtanggol. Laban sa computer o sa kaibigan.</p></div><a class="bk-go" href="/laro.html#heneral">Laruin</a></div>'+
+        '<ul class="learn-list">'+
+        '<li><span class="learn-kind">Puzzle · Tagalog</span><h3><a href="/laro.html#salitaan">Salitaan</a></h3><p>Ayusin ang mga letra para mabuo ang salitang Tagalog bago maubos ang oras.</p></li>'+
+        '<li><span class="learn-kind">Arcade</span><h3><a href="/laro.html#bituin">Bituin</a></h3><p>Neon space shooter na may waves ng kalaban, power-ups, at combo.</p></li>'+
+        '<li><span class="learn-kind">Game store</span><h3><a href="/laro.html">Lahat ng laro</a></h3><p>Buksan ang Talata Laro para makita ang lahat ng laro, ang iyong library, at ang mga paparating pa.</p></li></ul>';
+    }else{
+      h+='<h2 class="learn-h">Materials</h2>';
+      if(LEARN.length){
+        h+='<ul class="learn-list">'+LEARN.map(function(m){
+          var t=m.href?'<a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a>':esc(m.title);
+          return '<li><span class="learn-kind">'+esc(m.kind||'Material')+'</span><h3>'+t+'</h3><p>'+esc(m.blurb||'')+'</p></li>';
+        }).join('')+'</ul>';
+      }else{h+='<div class="empty"><h3>Coming soon</h3><p>Learning materials are on the way. Check back soon.</p></div>'}
+      h+='<h2 class="learn-h">Sinaunang Panulat sa Pilipinas</h2>'+
+        '<p class="lt-lede">Mas matanda pa kaysa pagdating ng mga Kastila ang pagsulat sa ating kapuluan. Ipinapakita ng tatlong bagay na ito, na nasa National Museum of the Philippines, kung gaano ito katagal at kaiba-iba.</p>'+
+        '<ul class="learn-list">'+INSCRIPTIONS.map(function(m){
+          return '<li>'+(m.img?'<figure class="spin-fig"><img class="spin-img" src="'+m.img+'" alt="Photo of the Laguna Copperplate Inscription, a copper plate covered in lines of Kawi script"><figcaption>Photo: Wikimedia Commons / National Museum of the Philippines</figcaption></figure>':'')+'<span class="learn-kind">'+esc(m.kind)+'</span><h3><a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a></h3><p>'+esc(m.blurb)+'</p></li>';
+        }).join('')+'</ul>';
+      h+='<h2 class="learn-h" id="komentarista">Paano maging mabuting komentarista</h2><div class="cm-guide">'+GUIDE+'</div>';
+      h+=submitHTML();
+      h+='<h2 class="learn-h">Tungkol sa Talata</h2><ul class="learn-list"><li><span class="learn-kind">Info</span><h3><a href="#/about">Tungkol sa may-akda</a></h3><p>Kilalanin ang sumusulat ng mga kuwento sa Talata at kung paano siya makokontak.</p></li></ul>';
+    }
     h+='</section>';
     views.learn.innerHTML=h;
   }
@@ -1765,14 +1783,14 @@ var WORKS = [
   /* ---------- ROUTER ---------- */
   function route(){
     var parts=(location.hash||'#/').replace(/^#\/?/,'').split('/');
-    var name='home', navKey='home', title=SITE+' — Novels, Kids Stories, Alamat at Tula', focusId=null, about=false, rw=null, n=0, sp=null;
+    var name='home', navKey='home', title=SITE+' — Novels, Kids Stories, Alamat at Tula', focusId=null, about=false, sub=false, rw=null, n=0, sp=null;
 
     if(parts[0]==='c' && CATS[parts[1]]){
       name='cat'; navKey=parts[1]; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
     }else if(parts[0]==='submit'){
-      name='learn'; navKey='submit'; renderSubmit(); title='Magsumite — '+SITE; focusId='submit-title';
+      name='learn'; navKey='learn'; renderLearn('info'); title='Magsumite — '+SITE; focusId='magsumite'; sub=true;
     }else if(parts[0]==='learn'){
-      name='learn'; navKey='learn'; renderLearn(); title='Learning — '+SITE; focusId='learn-title';
+      name='learn'; navKey='learn'; renderLearn(parts[1]); title=(parts[1]==='laro'?'Laro':parts[1]==='info'?'Materials at Info':'Learning')+' — '+SITE; focusId='learn-title';
     }else if(parts[0]==='w' && byId(parts[1])){
       var w=byId(parts[1]); name='work'; navKey=w.cat; renderWork(w); title=(w.subtitle||w.title)+' — '+SITE; focusId='work-title';
     }else if(parts[0]==='read' && byId(parts[1]) && validChapter(byId(parts[1]),+parts[2]||1)){
@@ -1788,7 +1806,7 @@ var WORKS = [
     head.style.display=foot.style.display=$('weave').style.display=(name==='read')?'none':'';
     navLinks.forEach(function(a){ if(a.dataset.nav===navKey) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     document.title=title;
-    if(about){var el=$('about'); if(el) el.scrollIntoView()} else window.scrollTo(0,0);
+    if(about){var el=$('about'); if(el) el.scrollIntoView()} else if(sub){var sm=$('magsumite'); if(sm) sm.scrollIntoView()} else window.scrollTo(0,0);
     if(focusId){var f=$(focusId); if(f) f.focus({preventScroll:true})}
     if(name==='read' && sp && sp.ch===n && sp.pct>3 && sp.pct<97){
       requestAnimationFrame(function(){
