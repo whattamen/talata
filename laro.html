@@ -232,6 +232,18 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 #hOverT{font-size:clamp(40px,11vw,60px);letter-spacing:.04em;background:linear-gradient(180deg,#fff6d0,#ffd76a 50%,#c98a1c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 14px rgba(255,170,40,.45))}
 #hOver.lose #hOverT{background:linear-gradient(180deg,#e8e8f0,#8a8aa0);-webkit-background-clip:text;background-clip:text;filter:none}
 @media(prefers-reduced-motion:reduce){.cell.tgt::after,.cface::after,#hOver .box::before{animation:none}}
+.chscroll{max-height:62vh;overflow:auto;margin:0 0 16px;padding-right:4px}
+.cheat{display:grid;gap:6px;text-align:left}
+.chrow{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.chrow .pc{width:36px;height:42px}
+.chrow b{font:600 14px/1.25 Fraunces,Georgia,serif;color:#ffe9b0;display:block}
+.chrow b i{font:500 11px Inter,sans-serif;color:#b5a98a;font-style:normal}
+.chrow small{color:#cfc4a5;font-size:12px;line-height:1.35;display:block}
+.chrow .n{font:800 13px Inter,sans-serif;color:#ffd76a;font-variant-numeric:tabular-nums}
+.chrow.sp{border-color:rgba(255,79,163,.45);background:rgba(255,79,163,.07)}
+.chlab{font:800 10px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#9d99c8;margin:8px 0 2px;text-align:left}
+.ch-h{font:600 18px Fraunces,Georgia,serif;margin:16px 0 6px;text-align:left}
+#hRules .ranks{max-height:none;overflow:visible;margin:0}
 @media(prefers-reduced-motion:reduce){.card,.card:hover{transform:none;transition:none}}
 </style>
 </head>
@@ -352,7 +364,7 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
     <button class="x" id="hQuit" aria-label="Isara">✕</button>
     <span class="t" id="hTurn"></span>
     <button id="hMute" aria-label="I-mute">🔊</button>
-    <button id="hHelp" aria-label="Mga ranggo at rules" style="margin-left:0">?</button>
+    <button id="hHelp" aria-label="Cheat sheet ng ranggo at rules" style="margin-left:0">📋</button>
   </div>
   <div class="hbanner" id="hBanner" aria-hidden="true"></div>
   <div class="intro" id="hIntro" hidden><div class="iside" id="iL"><span class="av big t0" id="iLA"></span><b id="iLN"></b></div><div class="ivs" id="iVs">VS</div><div class="iside" id="iR"><span class="av big t1" id="iRA"></span><b id="iRN"></b></div><div class="igo" id="iGo">LABANAN!</div></div>
@@ -360,19 +372,22 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
   <div class="panel on" id="hStart"><div class="box wide">
     <h2>Heneral</h2>
     <p>Larong digmaan na lihim ang ranggo. Hindi mo alam kung sino ang kalaban hanggang magsalpukan. Kunin ang bandila ng kalaban, o dalhin ang bandila mo sa dulo ng board.</p>
-    <div class="row"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button></div>
+    <div class="row"><button class="cta ghost" id="hCheatBtn">📋 Cheat sheet ng ranggo</button></div>
+    <div class="row" style="margin-top:10px"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button></div>
   </div></div>
   <div class="panel" id="hRules"><div class="box wide">
-    <h2>Mga Rules</h2>
-    <ol class="ranks">
-      <li><b>5★ → 1★ Heneral</b>, Koronel (Col), Tenyente Koronel (LtC), Mayor (Maj), Kapitan (Cpt), Primer Tenyente (1Lt), Segundo Tenyente (2Lt), Sarhento (Sgt), Sundalo (Pvt): mas mataas ang ranggo, panalo.</li>
-      <li><b>Espiya (Spy)</b>: talo nito ang lahat ng opisyal at Sarhento, pero talo ito sa <b>Sundalo</b>.</li>
-      <li><b>Bandila (⚑)</b>: talo sa kahit anong piyesa. Kapag bandila laban sa bandila, panalo ang umatake.</li>
-      <li>Parehong ranggo: parehong matatanggal.</li>
+    <h2>Cheat Sheet</h2>
+    <div class="chscroll">
+    <p class="help">Pinakamalakas sa itaas, pinakamahina sa ibaba. Sa hamon, panalo ang mas mataas na ranggo. Kapag pareho, parehong matatanggal.</p>
+    <div class="cheat" id="hCheat"></div>
+    <h3 class="ch-h">Iba pang rules</h3>
+    <ul class="ranks">
       <li>Isang hakbang lang bawat tira: pataas, pababa, pakaliwa o pakanan.</li>
+      <li>Hindi mo makikita ang ranggo ng kalaban. Ang arbiter lang ang nagsasabi kung sino ang natanggal.</li>
       <li>Panalo kapag nakuha ang bandila ng kalaban, o kapag nakarating ang bandila mo sa dulong hanay. Kung may katabing kalaban pagdating doon, dapat itong makaligtas ng isa pang tira.</li>
       <li>Sa simula, ayusin ang 21 piyesa mo sa unang 3 hanay. I-tap ang dalawang piyesa para pagpalitin.</li>
-    </ol>
+    </ul>
+    </div>
     <div class="row"><button class="cta" id="hRulesOk">Sige</button></div>
   </div></div>
   <div class="panel solid" id="hHand"><div class="box">
@@ -843,6 +858,7 @@ var Heneral=(function(){
     if(k==='SPY')return'Lahat ng Heneral, opisyal at Sarhento. Talo sa Sundalo.';
     if(k==='PVT')return'Espiya at Bandila.';
     if(k==='SGT')return'Sundalo at Bandila. Talo sa Espiya.';
+    if(k==='G5')return'Lahat ng piyesa maliban sa Espiya.';
     return'Lahat ng mas mababa sa '+R[k][1]+'. Talo sa Espiya at mas mataas.'}
   function typeLine(k){return k[0]==='G'?'Heneral · Ranggo '+R[k][2]:k==='SPY'?'Espesyal':k==='FLG'?'Layunin':(k==='SGT'||k==='PVT')?'Kawal · Ranggo '+R[k][2]:'Opisyal · Ranggo '+R[k][2]}
   function showBanner(text,o){var B=$('hBanner');B.textContent=text;B.className='hbanner b'+o;
@@ -959,6 +975,15 @@ var Heneral=(function(){
     render()};
   $('hAgain').onclick=function(){panel('hStart')};$('hView').onclick=function(){panel(null)};
   $('hQuit').onclick=quit;$('hQuit2').onclick=quit;
+  var EN={G5:'General of the Army',G4:'General',G3:'Lieutenant General',G2:'Major General',G1:'Brigadier General',COL:'Colonel',LTC:'Lieutenant Colonel',MAJ:'Major',CPT:'Captain',LT1:'First Lieutenant',LT2:'Second Lieutenant',SGT:'Sergeant',PVT:'Private',SPY:'Spy',FLG:'Flag'};
+  function SHORT(k){return k==='G5'?'Talo lahat, maliban sa Espiya':k==='SPY'?'Talo ang lahat ng Heneral, Opisyal at Sarhento. Natatalo lang sa Sundalo.':k==='FLG'?'Walang tinatalo. Ipagtanggol ito!':k==='PVT'?'Talo ang Espiya':'Talo ang lahat ng nasa ibaba nito. Natatalo sa Espiya.'}
+  function chRow(k,i){var n=ARMY.filter(function(x){return x===k}).length,sp=k==='SPY'||k==='FLG';
+    return '<div class="chrow'+(sp?' sp':'')+'"><span class="pc p0">'+ins(k)+'<b>'+R[k][0]+'</b></span><div><b>'+(sp?'':(i+1)+'. ')+R[k][1]+' <i>· '+EN[k]+'</i></b><small>'+SHORT(k)+'</small></div><span class="n">×'+n+'</span></div>'}
+  $('hCheat').innerHTML='<div class="chlab">Mga Heneral</div>'+['G5','G4','G3','G2','G1'].map(chRow).join('')+
+    '<div class="chlab">Mga Opisyal</div>'+['COL','LTC','MAJ','CPT','LT1','LT2'].map(function(k,i){return chRow(k,i+5)}).join('')+
+    '<div class="chlab">Mga Kawal</div>'+['SGT','PVT'].map(function(k,i){return chRow(k,i+11)}).join('')+
+    '<div class="chlab">Espesyal</div>'+['SPY','FLG'].map(chRow).join('');
+  $('hCheatBtn').onclick=function(){$('hHelp').onclick()};
   return{open:open};
 })();
 
