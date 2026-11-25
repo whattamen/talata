@@ -452,6 +452,7 @@
 .cm-note{font-size:.88rem;opacity:.75;margin:0 0 1rem}
 .cm-btn{font:inherit;font-size:.95rem;padding:.6rem 1.1rem;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
 .cm-btn:hover{background:rgba(0,0,0,.06)}
+.trailer{display:block;width:100%;max-width:360px;margin:0 auto;border-radius:8px;background:#000}
 .foot-links{margin-bottom:.6rem;font-family:var(--sans);font-size:.9rem}
 .foot-links a{color:inherit}
 .sub-form{margin:.4rem auto 1rem;max-width:30rem;font-family:var(--sans);font-size:.9rem}
@@ -854,6 +855,8 @@ var COVER_HULING = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUEB
 var WORKS = [
   {
     id: 'huling-tagapag-ingat',
+    trailer: '/media/trailer-huling-tagapag-ingat.mp4',
+    trailerPoster: '/media/trailer-huling-tagapag-ingat.jpg',
     cat: 'novel',
     featured: true,
     coverArt: 'cover-huling',
@@ -1569,13 +1572,15 @@ var WORKS = [
       '<button class="btn btn-ghost" id="copy" type="button">Ibahagi</button>'+
       '<a class="btn btn-ghost" id="epub-dl" href="/epub/'+w.id+'.epub" download hidden>I-download (ePub)</a></div></div></div>'+
       '<div class="tabs" role="tablist" aria-label="Details"><button role="tab" id="tab-syn" aria-selected="true" aria-controls="panel-syn">Synopsis</button>'+
-      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Chapters</button></div>'+
+      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Chapters</button>'+(w.trailer?'<button role="tab" id="tab-tr" aria-selected="false" aria-controls="panel-tr">Trailer</button>':'')+'</div>'+
       '<div class="panel active" id="panel-syn" role="tabpanel" aria-labelledby="tab-syn">'+(w.synopsis||[]).map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+(w.credit?'<p class="credit">'+esc(w.credit)+'</p>':'')+'</div>'+
-      '<div class="panel" id="panel-ch" role="tabpanel" aria-labelledby="tab-ch">'+chapterList(w)+'</div></div>';
+      '<div class="panel" id="panel-ch" role="tabpanel" aria-labelledby="tab-ch">'+chapterList(w)+'</div>'+
+      (w.trailer?'<div class="panel" id="panel-tr" role="tabpanel" aria-labelledby="tab-tr"><video class="trailer" controls playsinline preload="none" poster="'+esc(w.trailerPoster||'')+'" aria-label="Trailer ng '+esc(w.title)+'"><source src="'+esc(w.trailer)+'" type="video/mp4"></video></div>':'')+'</div>';
     views.work.innerHTML=h;
     var tabs=views.work.querySelectorAll('[role="tab"]');
     tabs.forEach(function(t){t.addEventListener('click',function(){
       tabs.forEach(function(o){var on=o===t;o.setAttribute('aria-selected',on);$(o.getAttribute('aria-controls')).classList.toggle('active',on)});
+      var tv=views.work.querySelector('video'); if(tv&&t.id!=='tab-tr') tv.pause();
     })});
     siteData(function(d){var a=$('epub-dl'); if(a&&d&&d.epub&&d.epub.indexOf(w.id)>-1) a.hidden=false});
     $('copy').addEventListener('click',function(){shareHere(w.title)});
