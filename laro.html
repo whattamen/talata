@@ -457,6 +457,16 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
 .coach p{margin:0}.coach p+p{margin-top:6px}.coach b{color:#ffd76a}.coach .ok{color:#9ff0b8}
 .cell.tuthl{animation:tuth 1s ease-in-out infinite;z-index:2}
 @keyframes tuth{0%,100%{box-shadow:inset 0 0 0 3px rgba(255,215,106,.95),0 0 12px rgba(255,215,106,.6)}50%{box-shadow:inset 0 0 0 3px rgba(255,215,106,.4),0 0 4px rgba(255,215,106,.2)}}
+.stt{width:100%;border-collapse:collapse;font:500 15px Inter,sans-serif;color:#e9e6ff;margin:6px 0 14px;font-variant-numeric:tabular-nums}
+.stt th,.stt td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}
+.stt tbody th{text-align:left;font-weight:600}
+.stt thead th{font-size:12px;color:#9d99c8;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.stbadges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stbadges div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 6px}
+.stbadges b{display:block;font:800 24px Inter,sans-serif;color:#ffd76a}.stbadges small{font-size:11px;color:#b9b5dd;line-height:1.25;display:block}
+.stach{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:8px}
+.stach span{font:600 12px Inter,sans-serif;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.35);border:1px dashed rgba(255,255,255,.2)}
+.stach span.on{background:rgba(255,215,106,.15);color:#ffe9a8;border:1px solid rgba(255,215,106,.55)}
 @media(prefers-reduced-motion:reduce){.card,.card:hover{transform:none;transition:none}}
 </style>
 </head>
@@ -592,7 +602,7 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
     <p>Larong digmaan na lihim ang ranggo. Hindi mo alam kung sino ang kalaban hanggang magsalpukan. Kunin ang bandila ng kalaban, o dalhin ang bandila mo sa dulo ng board.</p>
     <div class="names"><label for="hN0">Pangalan mo<input id="hN0" type="text" maxlength="16" autocomplete="nickname" enterkeyhint="done"></label><label for="hN1"><span>Player 2 <small>(2 players)</small></span><input id="hN1" type="text" maxlength="16" autocomplete="off" enterkeyhint="done"></label></div>
     <div class="row thm"><span class="help" style="width:100%">Estilo</span><button class="tbtn" data-th="sf" type="button">🛰 Futuristic</button><button class="tbtn" data-th="rv" type="button">🇵🇭 Rebolusyon</button><button class="tbtn" data-th="cl" type="button">🏛 Klasiko</button></div>
-    <div class="row" style="margin-top:10px"><button class="cta ghost" id="hTut" type="button">🎓 Tutorial</button><button class="cta ghost" id="hTrailer" type="button">🎬 Trailer</button><button class="cta ghost" id="hCheatBtn">📋 Cheat sheet ng ranggo</button></div>
+    <div class="row" style="margin-top:10px"><button class="cta ghost" id="hTut" type="button">🎓 Tutorial</button><button class="cta ghost" id="hTrailer" type="button">🎬 Trailer</button><button class="cta ghost" id="hStatsBtn" type="button">📊 Rekord</button><button class="cta ghost" id="hCheatBtn">📋 Cheat sheet ng ranggo</button></div>
     <div class="row" id="hResumeRow" hidden style="margin-top:10px"><button class="cta" id="hResume" type="button">▶ Ituloy ang laro (laban sa computer)</button></div>
     <div class="row thm" style="margin-top:12px"><span class="help" style="width:100%">Hirap ng computer</span><button class="tbtn dbtn" data-df="easy" type="button">🙂 Madali</button><button class="tbtn dbtn" data-df="mid" type="button">😐 Katamtaman</button><button class="tbtn dbtn" data-df="hard" type="button">😈 Mahirap</button></div>
     <div class="row" style="margin-top:10px"><button class="cta" id="hAi">🤖 Laban sa Computer</button><button class="cta ghost" id="hPvp">👥 2 Players (iisang device)</button><button class="cta ghost" id="hNetBtn" type="button">🌐 Online (magkaibang phone)</button></div>
@@ -600,13 +610,18 @@ footer{color:var(--soft);font-size:13px;padding:40px 0 60px}
   <div class="panel" id="hNet"><div class="box wide">
     <h2>Online</h2>
     <div id="nMenu"><p>Maglaro laban sa kaibigan gamit ang dalawang magkaibang phone.</p>
-      <div class="row"><button class="cta" id="nHost" type="button">➕ Gumawa ng laro</button></div>
+      <div class="row"><button class="cta" id="nFind" type="button">🎲 Maghanap ng kalaban</button><button class="cta ghost" id="nHost" type="button">➕ Gumawa ng laro para sa kaibigan</button></div>
       <p class="help" style="margin:16px 0 8px">o ilagay ang code ng kaibigan mo:</p>
       <div class="row"><input id="nCode" class="ncode" maxlength="6" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code ng laro"><button class="cta ghost" id="nJoin" type="button">Sumali</button></div></div>
     <div id="nWait" hidden><p>Ibigay ang code na ito sa kalaban mo:</p><div class="nbig" id="nShow">------</div><p class="nlink" id="nLink"></p>
       <div class="row"><button class="cta ghost" id="nCopy" type="button">📤 Ibahagi ang link</button></div></div>
     <p class="help nstat" id="nStat" aria-live="polite"></p>
     <div class="row" style="margin-top:12px"><button class="cta" id="nRetry" type="button" hidden>🔄 Kumonekta ulit</button><button class="cta ghost" id="nBack" type="button">Bumalik</button></div>
+  </div></div>
+  <div class="panel" id="hStats"><div class="box wide">
+    <h2>Rekord</h2>
+    <div id="hStatsBody"></div>
+    <div class="row" style="margin-top:12px"><button class="cta" id="hStatsOk" type="button">Sige</button></div>
   </div></div>
   <div class="panel" id="hRules"><div class="box wide">
     <h2>Cheat Sheet</h2>
@@ -964,7 +979,7 @@ var Heneral=(function(){
   function adjEnemy(r,c,o){return DIRS.some(function(d){var q=inB(r+d[0],c+d[1])&&board[r+d[0]][c+d[1]];return q&&q.o!==o})}
   function find(p){for(var r=0;r<8;r++)for(var c=0;c<9;c++)if(board[r][c]===p)return[r,c];return null}
   function viewer(){if(mode==='net')return NET.host?0:1;if(mode==='ai')return 0;if(phase==='setup0')return 0;if(phase==='setup1')return 1;return turn}
-  function panel(id){['hStart','hRules','hHand','hOver','hNet'].forEach(function(p){$(p).classList.toggle('on',p===id)})}
+  function panel(id){['hStart','hRules','hHand','hOver','hNet','hStats'].forEach(function(p){$(p).classList.toggle('on',p===id)})}
   function learn(win,lose){ // what the winning piece revealed about itself
     if(lose.k==='SPY')win.known='PVT';else win.beat=Math.max(win.beat,lose.v)}
   function render(){
@@ -1066,6 +1081,7 @@ var Heneral=(function(){
     else if(mode==='net'){t=winner===ME()?'TAGUMPAY!':'PAGKATALO';p='Panalo si '+PN(winner)+'. Nakabukas na ang lahat ng piyesa sa board.'}
     else{t='TAGUMPAY NI '+PN(winner).toUpperCase()+'!';p='Nakabukas na ang lahat ng piyesa sa board.'}
     var won=mode==='pvp'||(mode==='net'?winner===ME():winner===0);$('hOver').classList.toggle('lose',!won);$('hOverT').textContent=t;$('hOverP').textContent=msg+' '+p;
+    recordEnd();
     if(won){confetti();sfx('win')}
     $('hRematch').hidden=mode!=='net';$('hRematch').textContent='⚔ Rematch';
     setTimeout(function(){if(phase==='over')panel('hOver')},won?900:300);
@@ -1695,14 +1711,14 @@ var Heneral=(function(){
   function nStat(t){$('nStat').textContent=t}
   function netView(v){$('nMenu').hidden=v!=='menu';$('nWait').hidden=v!=='wait';if(v!=='none')$('nRetry').hidden=true}
   function netOpen(){netReset();panel('hNet');netView('menu');nStat('');}
-  function netReset(){try{if(NET.conn)NET.conn.close()}catch(e){}try{if(NET.peer)NET.peer.destroy()}catch(e){}netFresh()}
+  function netReset(){stopMatch();try{if(NET.conn)NET.conn.close()}catch(e){}try{if(NET.peer)NET.peer.destroy()}catch(e){}netFresh()}
   function send(m){try{if(NET.conn&&NET.conn.open)NET.conn.send(JSON.stringify(m))}catch(e){}}
   function genCode(){var s='';for(var i=0;i<6;i++)s+=CODECH[Math.floor(Math.random()*CODECH.length)];return s}
   function hostGame(){netReset();NET.host=true;nStat('Kumokonekta sa server…');
     ensurePeer(function(ok){if(!ok){nStat('Hindi ma-load ang online na bahagi. Suriin ang internet at subukan ulit.');return}
       var code=genCode(),pr=new Peer(PFX+code,peerOpts());NET.peer=pr;NET.code=code;
       pr.on('open',function(){netView('wait');$('nShow').textContent=code;$('nLink').textContent=netLink(code);nStat('Hinihintay ang kalaban na sumali…')});
-      pr.on('connection',function(c){if(NET.conn){try{c.close()}catch(e){}return}wire(c)});
+      pr.on('connection',function(c){bufc(c);var acc=function(){if(NET.conn){try{c.close()}catch(e){}return}wire(c)};if(c.open)acc();else c.on('open',acc)});
       pr.on('disconnected',function(){try{pr.reconnect()}catch(e){}});
       pr.on('error',function(e){if(e&&e.type==='unavailable-id'){hostGame();return}nStat('May problema sa koneksyon ('+(e&&e.type||'error')+'). Subukan ulit.')});
     })}
@@ -1715,14 +1731,18 @@ var Heneral=(function(){
       pr.on('open',function(){wire(pr.connect(PFX+code,{reliable:true}))});
       pr.on('error',function(e){nStat(e&&e.type==='peer-unavailable'?'Walang larong may code na '+code+'. Pakisuri ang code.':'May problema sa koneksyon ('+(e&&e.type||'error')+'). Subukan ulit.')});
     })}
+  function bufc(c){if(c._buf!==undefined)return c;c._buf=[];c.on('data',function(d){if(c._buf)c._buf.push(d)});return c}
   function wire(c){NET.conn=c;
-    c.on('open',function(){$('nRetry').hidden=true;if(mode==='net'&&board&&!NET.host){panel(null)}nStat('Nakakonekta! Inihahanda ang laro…');NET.names[ME()]=NM[0]||'';send({t:'hello',name:NM[0]||''})});
-    c.on('data',function(d){var m;try{m=typeof d==='string'?JSON.parse(d):d}catch(e){return}if(m&&typeof m==='object')onNet(m)});
+    var onOpen=function(){$('nRetry').hidden=true;if(mode==='net'&&board&&!NET.host){panel(null)}nStat('Nakakonekta! Inihahanda ang laro…');NET.names[ME()]=NM[0]||'';send({t:'hello',name:NM[0]||''})};
+    if(c.open)onOpen();else c.on('open',onOpen);
+    var onData=function(d){var m;try{m=typeof d==='string'?JSON.parse(d):d}catch(e){return}if(m&&typeof m==='object')onNet(m)};c.on('data',onData);
+    if(c._buf){var bq=c._buf;c._buf=null;bq.forEach(onData)}
     c.on('close',function(){if(NET.conn===c)netLost()});
     c.on('error',function(){if(NET.conn===c)netLost()});
   }
   function netLost(){NET.conn=null;if(mode!=='net'||phase==='over'||!ov.classList.contains('on'))return;busy=true;panel('hNet');
-    if(NET.host){netView('wait');$('nShow').textContent=NET.code;$('nLink').textContent=netLink(NET.code);$('nRetry').hidden=true;nStat('Naputol ang koneksyon kay '+PN(1)+'. Ipabukas ulit sa kaniya ang link o ang code para makabalik sa laro.')}
+    if(NET.lobby){netView('none');$('nRetry').hidden=true;nStat('Naputol ang koneksyon sa kalaban. Bumalik para maghanap ng bago.')}
+    else if(NET.host){netView('wait');$('nShow').textContent=NET.code;$('nLink').textContent=netLink(NET.code);$('nRetry').hidden=true;nStat('Naputol ang koneksyon kay '+PN(1)+'. Ipabukas ulit sa kaniya ang link o ang code para makabalik sa laro.')}
     else{netView('none');$('nRetry').hidden=false;nStat('Naputol ang koneksyon kay '+PN(0)+'. Pindutin ang "Kumonekta ulit".')}}
   function guestRejoin(){if(!NET.code)return;nStat('Kumokonekta ulit…');$('nRetry').hidden=true;try{if(NET.peer)NET.peer.destroy()}catch(e){}
     ensurePeer(function(ok){if(!ok){nStat('Walang internet. Subukan ulit.');$('nRetry').hidden=false;return}var pr=new Peer(peerOpts());NET.peer=pr;
@@ -1852,6 +1872,46 @@ var Heneral=(function(){
     else{turn=0;render()}}
   function coach(){var el=$('hCoach');if(!TUT||phase==='over'){el.hidden=true;return}el.hidden=false;var st=TSTEPS[TUT.i];
     el.innerHTML='<span class="cav" aria-hidden="true">🎖</span><div>'+(TUT.prev?'<p class="ok">'+TUT.prev+'</p>':'')+(st?'<p>'+(turn===0&&!busy?st.say:'Hintayin ang galaw ng kalaban…')+'</p>':'')+'</div>'}
+  /* ---------- Stats ---------- */
+  function stats(){var s=store.get('hstats',null);if(!s||typeof s!=='object')s={};['easy','mid','hard','net'].forEach(function(k){if(!s[k])s[k]={w:0,l:0}});s.pvp=s.pvp||0;s.streak=s.streak||0;s.best=s.best||0;s.tut=!!s.tut;return s}
+  function recordEnd(){var s=stats();
+    if(TUT)s.tut=true;
+    else if(mode==='ai'){var d=s[diff]||(s[diff]={w:0,l:0});if(winner===0){d.w++;s.streak++;s.best=Math.max(s.best,s.streak)}else{d.l++;s.streak=0}}
+    else if(mode==='net'){if(winner===ME())s.net.w++;else s.net.l++}
+    else if(mode==='pvp')s.pvp++;
+    store.set('hstats',s)}
+  function showStats(){var s=stats(),row=function(n,o){var t=o.w+o.l;return'<tr><th>'+n+'</th><td>'+o.w+'</td><td>'+o.l+'</td><td>'+(t?Math.round(o.w*100/t)+'%':'–')+'</td></tr>'};
+    $('hStatsBody').innerHTML='<table class="stt"><thead><tr><th></th><th>Panalo</th><th>Talo</th><th>%</th></tr></thead><tbody>'+row('🙂 Madali',s.easy)+row('😐 Katamtaman',s.mid)+row('😈 Mahirap',s.hard)+row('🌐 Online',s.net)+'</tbody></table>'+
+      '<div class="stbadges"><div><b>'+s.streak+'</b><small>sunod-sunod na panalo ngayon</small></div><div><b>'+s.best+'</b><small>pinakamahabang sunod-sunod</small></div><div><b>'+s.pvp+'</b><small>larong 2 players</small></div></div>'+
+      '<div class="stach">'+[[s.tut,'🎓','Natapos ang tutorial'],[s.easy.w+s.mid.w+s.hard.w>0,'🎖','Unang panalo sa computer'],[s.hard.w>0,'😈','Tinalo ang Mahirap'],[s.best>=3,'🔥','3 sunod-sunod na panalo'],[s.net.w>0,'🌐','Unang panalo online'],[s.net.w>=5,'🏆','5 panalo online']].map(function(a){return'<span class="'+(a[0]?'on':'')+'">'+a[1]+' '+a[2]+'</span>'}).join('')+'</div>'+
+      '<p class="help">Naka-save ang rekord sa phone na ito lamang.</p>';
+    panel('hStats')}
+  $('hStatsBtn').onclick=showStats;$('hStatsOk').onclick=function(){panel('hStart')};
+  /* ---------- Random opponent (serverless lobby slots) ---------- */
+  var LOBBY=8,MM=null;
+  function lobbyId(i){return PFX+'lobby-'+i}
+  function findMatch(){netReset();NET.lobby=true;panel('hNet');netView('none');$('nRetry').hidden=true;nStat('Naghahanap ng kalaban…');
+    ensurePeer(function(ok){if(!ok){nStat('Hindi ma-load ang online na bahagi. Suriin ang internet.');return}
+      var gp=new Peer(peerOpts());MM={gp:gp,hp:null,timer:0,stop:false};
+      gp.on('error',function(){});
+      function attempt(i,limit,onFail){if(MM.stop||NET.conn)return;if(limit<=0){onFail();return}
+        var won=false,cs=[];
+        for(var k=0;k<limit;k++)(function(k){var c=bufc(gp.connect(lobbyId(k),{reliable:true}));cs.push(c);
+          c.on('open',function(){if(won||MM.stop||NET.conn){try{c.close()}catch(e){}return}won=true;cs.forEach(function(o){if(o!==c)try{o.close()}catch(e){}});
+            if(MM.hp){try{MM.hp.destroy()}catch(e){}MM.hp=null}clearInterval(MM.timer);NET.host=false;NET.peer=gp;wire(c)})})(k);
+        setTimeout(function(){if(won)return;cs.forEach(function(o){try{o.close()}catch(e){}});onFail()},3000)}
+      function host(i){if(MM.stop)return;if(i>=LOBBY){nStat('Puno ang lahat ng puwesto. Subukan ulit mamaya.');return}
+        var hp=new Peer(lobbyId(i),peerOpts());
+        hp.on('open',function(){if(MM.stop){hp.destroy();return}MM.hp=hp;MM.slot=i;nStat('Naghahanap ng kalaban… (puwesto '+(i+1)+')');
+          MM.timer=setInterval(function(){if(NET.conn||MM.stop||i===0)return;attempt(0,i,function(){})},4000)});
+        hp.on('connection',function(c){if(c.peer===gp.id){try{c.close()}catch(e){}return}bufc(c);
+          var acc=function(){if(NET.conn||MM.stop){try{c.close()}catch(e){}return}clearInterval(MM.timer);NET.host=true;NET.peer=hp;try{gp.destroy()}catch(e){}wire(c)};if(c.open)acc();else c.on('open',acc)});
+        hp.on('error',function(e){if(e&&e.type==='unavailable-id'){try{hp.destroy()}catch(x){}host(i+1)}});
+        hp.on('disconnected',function(){try{hp.reconnect()}catch(e){}})}
+      gp.on('open',function(){attempt(0,LOBBY,function(){host(0)})});
+    })}
+  function stopMatch(){if(MM){MM.stop=true;clearInterval(MM.timer);try{MM.gp.destroy()}catch(e){}try{if(MM.hp&&MM.hp!==NET.peer)MM.hp.destroy()}catch(e){}MM=null}}
+  $('nFind').onclick=findMatch;
   bd.addEventListener('click',function(e){
     var b=e.target.closest('.cell');if(!b)return;tapCell(+b.dataset.r,+b.dataset.c)});
   function tapCell(r,c){
