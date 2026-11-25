@@ -1389,7 +1389,7 @@ var WORKS = [
   var navLinks=document.querySelectorAll('[data-nav]');
   var SITE='Talata';
   var NEWSLETTER={buttondown:''};   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
-  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a></div>'+
+  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a></div>'+
     (NEWSLETTER.buttondown?'<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="sub-email">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="sub-email" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>':'')+
     '<div>\u00A9 2026 '+esc(PEN.name)+'. All rights reserved.</div>';
 
@@ -2061,6 +2061,21 @@ var WORKS = [
   })();
 
   onNav();
+  (function(){
+    var dp=null, link=$('install-link'), sep=$('install-sep');
+    var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
+    if(!link||standalone) return;
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    function show(){link.hidden=false; sep.hidden=false}
+    window.addEventListener('beforeinstallprompt',function(e){e.preventDefault(); dp=e; show()});
+    window.addEventListener('appinstalled',function(){link.hidden=true; sep.hidden=true; dp=null});
+    if(ios) show();
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      if(dp){ dp.prompt(); dp.userChoice.finally(function(){dp=null; link.hidden=true; sep.hidden=true}); return }
+      toast(ios?'Pindutin ang Share, tapos "Add to Home Screen"':'Buksan ang menu ng browser at piliin ang "Install app"');
+    });
+  })();
   if(IS_HTTP&&'serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
 
   /* ---------- splash: show once per browser tab, then remove ---------- */
