@@ -106,6 +106,8 @@ for slug, a in AUTHORS.items():
 
 for path, title, desc in [
     ('learn', 'Learning — Talata', 'Mga gabay, kasaysayan ng sinaunang panulat sa Pilipinas, at mga aktibidad.'),
+    ('learn/laro', 'Laro — Talata', 'Mga laro sa Talata: Heneral, Salitaan, Bituin at iba pa.'),
+    ('learn/info', 'Materials at Info — Talata', 'Mga materyales, sinaunang panulat, gabay sa komento, at pagsusumite.'),
     ('submit', 'Magsumite ng Akda — Talata', 'Bukas ang Talata sa mga malayang manunulat. Alamin kung paano magsumite.'),
     ('about', 'About — Talata', 'Tungkol sa may-akda at sa Talata.'),
     ('privacy', 'Privacy — Talata', 'Paano ginagamit ng Talata ang impormasyon ng mga bisita.'),
@@ -142,7 +144,7 @@ for path, title, desc, image, kind, body in pages:
         open(os.path.join(path, 'index.html'), 'w', encoding='utf-8').write(out)
 
 # ---------- sitemap + robots ----------
-urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages]
+urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages] + [f'{BASE}/laro.html', f'{BASE}/bigkas.html']
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
      ''.join(f'<url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n'
 open('sitemap.xml', 'w', encoding='utf-8').write(sm)
@@ -172,6 +174,8 @@ for fn in os.listdir('epub'):
     if fn.endswith('.epub'):
         os.remove(os.path.join('epub', fn))
 epub_ids = []
+def zi(n):
+    return zipfile.ZipInfo(n, (2026, 1, 1, 0, 0, 0))   # pirmeng petsa para hindi nagbabago ang file kapag walang pagbabago
 XH = '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tl" lang="tl"><head><meta charset="utf-8"/><title>{t}</title><style>body{{font-family:serif;line-height:1.6}}p{{text-indent:1.2em;margin:.3em 0}}h1,h2{{text-align:center}}</style></head><body>{b}</body></html>'
 for w in WORKS:
     chs = [(i, c) for i, c in enumerate(w['chapters'], 1) if not c.get('soon') and c.get('paras')]
@@ -209,14 +213,14 @@ for w in WORKS:
     nav = XH.format(t='Nilalaman', b=f'<nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="toc"><h1>Nilalaman</h1><ol>{navli}</ol></nav>')
     fn = f'epub/{w["id"]}.epub'
     with zipfile.ZipFile(fn, 'w') as z:
-        z.writestr(zipfile.ZipInfo('mimetype'), 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
-        z.writestr('META-INF/container.xml', '<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>', compress_type=zipfile.ZIP_DEFLATED)
-        z.writestr('OEBPS/content.opf', opf, compress_type=zipfile.ZIP_DEFLATED)
-        z.writestr('OEBPS/nav.xhtml', nav, compress_type=zipfile.ZIP_DEFLATED)
+        z.writestr(zi('mimetype'), 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
+        z.writestr(zi('META-INF/container.xml'), '<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>', compress_type=zipfile.ZIP_DEFLATED)
+        z.writestr(zi('OEBPS/content.opf'), opf, compress_type=zipfile.ZIP_DEFLATED)
+        z.writestr(zi('OEBPS/nav.xhtml'), nav, compress_type=zipfile.ZIP_DEFLATED)
         for name, data in files:
-            z.writestr(name, data, compress_type=zipfile.ZIP_DEFLATED)
+            z.writestr(zi(name), data, compress_type=zipfile.ZIP_DEFLATED)
         if cover_file:
-            z.writestr(cover_file[0], cover_file[1], compress_type=zipfile.ZIP_DEFLATED)
+            z.writestr(zi(cover_file[0]), cover_file[1], compress_type=zipfile.ZIP_DEFLATED)
     epub_ids.append(w['id'])
 
 json.dump({'dates': dates, 'epub': epub_ids, 'built': today}, open('site-data.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
