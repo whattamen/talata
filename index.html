@@ -61,7 +61,17 @@
   /* ---------- HEADER ---------- */
   .site-head{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1.5rem;padding:.8rem 5vw;background:var(--head-bg);border-bottom:1px solid var(--line)}
   .brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;color:var(--gold-soft);white-space:nowrap}
-  .site-head nav{display:flex;gap:1.3rem;margin-left:auto;font-family:var(--sans);font-size:.95rem;overflow-x:auto;scrollbar-width:none}
+  .site-head nav{display:flex;gap:1.3rem;margin-left:auto;font-family:var(--sans);font-size:.95rem;overflow:visible}
+.nd{position:relative;display:flex}
+.nd .dd{position:absolute;top:calc(100% + .35rem);left:50%;transform:translateX(-50%) translateY(-4px);min-width:13rem;display:flex;flex-direction:column;padding:.4rem;border-radius:12px;background:var(--head-bg,#141413);border:1px solid var(--gold,#c9a45c);box-shadow:0 14px 34px rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s;z-index:40}
+.nd .dd::before{content:"";position:absolute;left:0;right:0;top:-.5rem;height:.5rem}
+.nd.open .dd{opacity:1;visibility:visible;transform:translateX(-50%)}
+.site-head nav .nd:last-child .dd{left:auto;right:0;transform:translateY(-4px)}
+.site-head nav .nd:last-child.open .dd{transform:none}
+@media (hover:hover){.site-head nav .nd:last-child:hover .dd,.site-head nav .nd:last-child:focus-within .dd{transform:none}}
+@media (hover:hover){.nd:hover .dd,.nd:focus-within .dd{opacity:1;visibility:visible;transform:translateX(-50%)}}
+.site-head nav .nd .dd a{display:block;flex-direction:row;padding:.6rem .8rem;border-radius:8px;border:0;color:var(--text);font-size:.95rem;white-space:nowrap}
+.site-head nav .nd .dd a:hover,.site-head nav .nd .dd a:focus-visible{background:rgba(201,164,92,.16);color:var(--head)}
   .site-head nav::-webkit-scrollbar{display:none}
   .site-head nav a{text-decoration:none;color:var(--muted);padding:.2rem 0;border-bottom:2px solid transparent;white-space:nowrap}
   .site-head nav a:hover,.site-head nav a[aria-current="page"]{color:var(--text);border-bottom-color:var(--gold)}
@@ -778,8 +788,10 @@ html[data-grace] #splash .sp-text{color:var(--head)}
   <nav aria-label="Main">
     <a href="#/" data-nav="home"><span class="n-en">Tahanan</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜑᜈᜈ᜔</span></a>
     <a href="/laro.html" class="nav-laro"><span class="n-en">🎮 Laro</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span></a>
-    <a href="#/katha" data-nav="katha"><span class="n-en">Katha</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜆ</span></a>
-    <a href="#/learn" data-nav="learn"><span class="n-en">Aralin</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+    <div class="nd"><a href="#/katha" data-nav="katha" aria-haspopup="true" aria-expanded="false"><span class="n-en">Katha ▾</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜆ</span></a>
+      <div class="dd" role="menu"><a role="menuitem" href="#/c/novel">📖 Nobela</a><a role="menuitem" href="#/c/kids">🧒 Kuwentong Pambata</a><a role="menuitem" href="#/c/alamat">🌋 Alamat</a><a role="menuitem" href="#/c/tula">🕯 Tula</a></div></div>
+    <div class="nd"><a href="#/learn" data-nav="learn" aria-haspopup="true" aria-expanded="false"><span class="n-en">Aralin ▾</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+      <div class="dd" role="menu"><a role="menuitem" href="#/learn">🔤 Aralin</a><a role="menuitem" href="#/learn/laro">🎮 Laro</a><a role="menuitem" href="#/learn/info">📚 Materyales at Info</a></div></div>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
 </header>
@@ -1971,6 +1983,16 @@ var WORKS = [
   var views = {home:$('view-home'),cat:$('view-cat'),work:$('view-work'),learn:$('view-learn'),read:$('view-read')};
   var head=$('site-head'), foot=$('site-foot');
   var navLinks=document.querySelectorAll('[data-nav]');
+  (function(){var nds=document.querySelectorAll('.site-head .nd'),touch=matchMedia('(hover: none)').matches;
+    function closeAll(ex){nds.forEach(function(n){if(n!==ex){n.classList.remove('open');n.firstElementChild.setAttribute('aria-expanded','false')}})}
+    nds.forEach(function(n){var a=n.firstElementChild;
+      a.addEventListener('click',function(e){if(touch&&!n.classList.contains('open')){e.preventDefault();closeAll(n);n.classList.add('open');a.setAttribute('aria-expanded','true')}});
+      a.addEventListener('keydown',function(e){if(e.key==='ArrowDown'||e.key===' '){e.preventDefault();closeAll(n);n.classList.add('open');a.setAttribute('aria-expanded','true');var f=n.querySelector('.dd a');if(f)f.focus()}});
+      n.querySelectorAll('.dd a').forEach(function(x){x.addEventListener('click',function(){closeAll()})})});
+    document.addEventListener('click',function(e){if(!e.target.closest('.site-head .nd'))closeAll()});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+    addEventListener('hashchange',function(){closeAll()});
+  })();
   var SITE='Talata';
   var SUPPORT_URL='';   // ilagay dito ang link ng Ko-fi/Patreon mo para lumabas ang "Suportahan"
   var NEWSLETTER={buttondown:'talata'};
