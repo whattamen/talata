@@ -1962,7 +1962,7 @@ var WORKS = [
     if(!NEWSLETTER.buttondown) return '';
     return '<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="'+id+'">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="'+id+'" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>';
   }   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
-  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a> \u00B7 <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
+  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="/guro.html">Para sa Guro</a> \u00B7 <a href="/pangalan.html">Pangalan sa Baybayin</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a> \u00B7 <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
     subForm('sub-email')+
     '<div>\u00A9 2026 '+esc(PEN.name)+'. Lahat ng karapatan ay nakalaan.</div>';
 
@@ -2548,13 +2548,15 @@ var WORKS = [
     views.learn.innerHTML=h;
   }
 
-  var LEARN_TABS=[['aralin','Aralin','#/learn'],['laro','Laro','#/learn/laro'],['info','Materials at Info','#/learn/info']];
+  var LEARN_TABS=[['aralin','Aralin','#/learn'],['laro','Laro','#/learn/laro'],['info','Materyales at Info','#/learn/info']];
   function renderLearn(tab){
     if(!LEARN_TABS.some(function(t){return t[0]===tab}))tab='aralin';
-    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Learning</h1><p>Mga aralin, laro, at materyales na kasama ng mga kuwento.</p></div>'+
-      '<nav class="lt-tabs" aria-label="Learning">'+LEARN_TABS.map(function(t){return '<a href="'+t[2]+'"'+(t[0]===tab?' aria-current="page"':'')+'>'+t[1]+'</a>'}).join('')+'</nav><section class="section">';
+    var h='<div class="cat-head"><h1 tabindex="-1" id="learn-title">Aralin</h1><p>Mga aralin, laro, at materyales na kasama ng mga kuwento.</p></div>'+
+      '<nav class="lt-tabs" aria-label="Aralin">'+LEARN_TABS.map(function(t){return '<a href="'+t[2]+'"'+(t[0]===tab?' aria-current="page"':'')+'>'+t[1]+'</a>'}).join('')+'</nav><section class="section">';
     if(tab==='aralin'){
-      h+='<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+renderPrimer();
+      h+='<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜊᜒᜃᜐ᜔</span><div><span class="learn-kind">Makinig</span><h2>Bigkas: pakinggan ang Tagalog</h2><p>Pindutin ang speaker para marinig ang bawat salita. Pagbati, pagpapakilala, numero, pagkain, pandiwa, at may maikling listening quiz.</p></div><a class="bk-go" href="/bigkas.html">Simulan</a></div>'+
+        '<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜉᜅᜎᜈ᜔</span><div><span class="learn-kind">Baybayin · Libre</span><h2>Ang pangalan mo sa Baybayin</h2><p>I-type ang pangalan mo, tingnan ito sa Baybayin, at i-download bilang larawan para sa MyDay o TikTok.</p></div><a class="bk-go" href="/pangalan.html">Subukan</a></div>'+
+        '<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜄᜓᜇᜓ</span><div><span class="learn-kind">Para sa mga guro · PDF</span><h2>Libreng worksheet sa Filipino</h2><p>Mga alamat at kuwentong-bayan na may talasalitaan, pag-unawa sa binasa, gawain, at susi sa pagwawasto. I-print at gamitin sa klase.</p></div><a class="bk-go" href="/guro.html">Buksan</a></div>'+renderPrimer();
     }else if(tab==='laro'){
       h+='<div class="bigkas-card"><span class="bk-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span><div><span class="learn-kind">Strategy · 1–2 players</span><h2>Heneral</h2><p>Larong digmaan na lihim ang ranggo. 21 piyesa, isang arbiter, at isang bandilang dapat ipagtanggol. Laban sa computer o sa kaibigan.</p></div><a class="bk-go" href="/laro.html#heneral">Laruin</a> <a class="bk-go" href="/laro.html#trailer">🎬 Trailer</a></div>'+
         '<ul class="learn-list">'+
@@ -2564,7 +2566,7 @@ var WORKS = [
         '<li><span class="learn-kind">Rhythm · Tula</span><h3><a href="/laro.html#tula">Tula Beats</a></h3><p>I-tap ang bawat pantig ng tula kasabay ng tambol. Ikaw ang tutugtog ng tula.</p></li>'+
         '<li><span class="learn-kind">Game store</span><h3><a href="/laro.html">Lahat ng laro</a></h3><p>Buksan ang Talata Laro para makita ang lahat ng laro, ang iyong library, at ang mga paparating pa.</p></li></ul>';
     }else{
-      h+='<h2 class="learn-h">Materials</h2>';
+      h+='<h2 class="learn-h">Materyales</h2>';
       if(LEARN.length){
         h+='<ul class="learn-list">'+LEARN.map(function(m){
           var t=m.href?'<a href="'+esc(m.href)+'" rel="noopener">'+esc(m.title)+'</a>':esc(m.title);

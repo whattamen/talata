@@ -1,0 +1,162 @@
+[
+ {
+  "id": "alamat-ng-pinya",
+  "title": "Alamat ng Pinya",
+  "type": "Alamat",
+  "level": "Baitang 3 hanggang 6",
+  "words": [
+   ["pawid", "dahon ng nipa na ginagamit na bubong"],
+   ["banig", "hinabing higaan na inilalatag sa sahig"],
+   ["kaldero", "lutuan ng kanin o ulam"],
+   ["sandok", "panandok o pangkuha ng kanin o sabaw"],
+   ["sinasadya", "ginagawa nang may intensiyon o layunin"]
+  ],
+  "questions": [
+   "Sino ang dalawang pangunahing tauhan sa alamat?",
+   "Bakit hindi marunong maghanap ng sariling gamit si Pinang?",
+   "Ano ang nangyari kay Aling Rosa na nagpabago sa takbo ng kuwento?",
+   "Ano ang nasabi ni Aling Rosa dahil sa sobrang pagod?",
+   "Anong halaman ang nakita ni Aling Rosa sa bakuran, at ano ang kakaiba sa bunga nito?"
+  ],
+  "think": [
+   "Ayon sa alamat, \"ang pagmamahal ay hindi lang pagbibigay, kundi pagtuturo.\" Sang-ayon ka ba? Ipaliwanag.",
+   "Kung ikaw si Pinang, ano ang gagawin mo para matulungan ang iyong ina noong siya ay may sakit?"
+  ],
+  "activity": "Gumuhit ng isang pinya at isulat sa paligid nito ang tatlong bagay na kaya mong gawin nang mag-isa sa bahay.",
+  "answers": [
+   "Si Aling Rosa (ang ina) at si Pinang (ang anak).",
+   "Dahil sa sobrang pagmamahal, hindi siya pinagawa ng kahit ano ng kanyang ina, kaya lagi siyang nagtatanong at naghihintay na iabot sa kanya ang kailangan niya.",
+   "Nagkasakit si Aling Rosa at hindi makabangon sa banig.",
+   "\"Sana'y tubuan ka ng maraming mata, nang makita mo ang lahat ng hinahanap mo!\"",
+   "Isang halamang may matutulis na dahon; ang bunga nito ay may makapal na balat na puno ng maliliit na \"mata\" (ang pinya)."
+  ]
+ },
+ {
+  "id": "alamat-ng-kuliglig",
+  "title": "Alamat ng Kuliglig",
+  "type": "Alamat",
+  "level": "Baitang 2 hanggang 5",
+  "words": [
+   ["nayon", "maliit na pamayanan o baryo"],
+   ["katahimikan", "kawalan ng anumang tunog o ingay"],
+   ["kaluskos", "mahinang tunog ng bagay na gumagalaw, gaya ng tuyong dahon"],
+   ["nilalang", "anumang bagay na may buhay"],
+   ["mahimbing", "malalim at payapang pagtulog"]
+  ],
+  "questions": [
+   "Ano ang kakaiba sa nayon ng Banaybanay tuwing gabi?",
+   "Ano ang kinatatakutan ni Ibyang, at bakit?",
+   "Ano ang payo ng lola kay Ibyang?",
+   "Bakit lumapit ang munting nilalang kay Ibyang?",
+   "Paano nakuha ng kuliglig ang kanyang pangalan?"
+  ],
+  "think": [
+   "Ano ang mga bagay na pinasasalamatan mo bago matulog? Magbigay ng tatlo.",
+   "Bakit kaya nakatulong kay Ibyang ang pagpapasalamat para hindi na siya matakot?"
+  ],
+  "activity": "Sumulat ng maikling liham ng pasasalamat (3 hanggang 5 pangungusap) para sa isang taong mahalaga sa iyo.",
+  "answers": [
+   "Wala nang anumang tunog paglubog ng araw; buong katahimikan ang bumabalot sa nayon.",
+   "Takot siya sa katahimikan, dahil naririnig niya ang tibok ng sarili niyang puso at pakiramdam niya ay mag-isa siya sa mundo.",
+   "Na subukan niyang magpasalamat kapag tahimik na tahimik.",
+   "Dahil narinig nitong si Ibyang lang sa buong nayon ang nagpapasalamat sa dilim, kaya binigyan siya nito ng regalo: ang awit.",
+   "Si Ibyang ang nagbigay ng pangalan, batay sa tunog nitong \"kri-kri-kri\"."
+  ]
+ },
+ {
+  "id": "the-turtle-and-the-lizard",
+  "title": "Ang Pagong at ang Butiki",
+  "type": "Kuwentong-bayan (Tinguian)",
+  "level": "Baitang 2 hanggang 5",
+  "words": [
+   ["palihim", "hindi ipinapaalam o nakatago"],
+   ["bao", "matigas na balat ng niyog"],
+   ["matakaw", "labis na mahilig kumain o kumuha"],
+   ["bitag", "patibong na panghuli ng hayop"],
+   ["matiyaga", "may tiyaga at hindi nagmamadali"]
+  ],
+  "questions": [
+   "Bakit pumasok ang pagong at ang butiki sa bukid ni Gotgotapa?",
+   "Ano ang ginawa ng butiki na nagpahamak sa kanila?",
+   "Saan nagtago ang pagong sa loob ng bahay?",
+   "Ano ang nangyari nang mauna ang butiki sa pulot-pukyutan?",
+   "Paano nahuli ang butiki sa huli?"
+  ],
+  "think": [
+   "Ano ang naging kapalit ng pagiging maingay at matakaw ng butiki?",
+   "Mabuti bang tularan ang lahat ng ginawa ng pagong? Bakit oo o bakit hindi? (Tandaan: nagnakaw din sila.)"
+  ],
+  "activity": "Gumawa ng talahanayan na may dalawang hanay: \"Ugali ng Pagong\" at \"Ugali ng Butiki\". Magsulat ng tatlong ugali sa bawat hanay.",
+  "answers": [
+   "Para magnakaw ng luya.",
+   "Sumigaw ito na napakasarap ng luya, kaya narinig sila ng may-ari.",
+   "Sa ilalim ng bao ng niyog na inuupuan ng may-ari.",
+   "Pinagpistahan siya ng mga bubuyog.",
+   "Sinabi ng pagong na ang bitag ay pilak na alambre ng kanyang lolo; tumakbo ang butiki para agawin ito at nahuli siya."
+  ]
+ },
+ {
+  "id": "juan-gathers-guavas",
+  "title": "Si Juan at ang mga Bayabas",
+  "type": "Kuwentong-bayan (Tagalog)",
+  "level": "Baitang 1 hanggang 4",
+  "words": [
+   ["hinog", "handa nang kainin ang bunga"],
+   ["kalokohan", "pilyong gawa o biro"],
+   ["putakti", "insektong nangangagat na parang bubuyog"],
+   ["ikinandado", "isinara at nilagyan ng kandado"],
+   ["namamaga", "lumaki o tumambok dahil sa sakit o kagat"]
+  ],
+  "questions": [
+   "Ano ang iniutos ng ama kay Juan?",
+   "Ano ang unang ginawa ni Juan pagdating sa mga puno ng bayabas?",
+   "Ano ang inilagay ni Juan sa basket?",
+   "Ano ang nangyari nang buksan ng ama ang basket?",
+   "Natuwa ba ang ama sa biro ni Juan?"
+  ],
+  "think": [
+   "Nakakatawa ba o nakakasakit ang biro ni Juan? Ipaliwanag.",
+   "Kung ikaw si Juan, paano mo sana sinunod ang utos ng iyong ama?"
+  ],
+  "activity": "Isulat muli ang wakas ng kuwento: ano kaya ang mangyayari kung dinala ni Juan ang mga hinog na bayabas sa mga bisita?",
+  "answers": [
+   "Na kumuha ng hinog na bayabas para sa kanilang mga bisita.",
+   "Kinain niya ang lahat ng bayabas na kaya ng kanyang tiyan.",
+   "Isang pugad ng putakti.",
+   "Lumipad palabas ang mga putakti at kinagat ang mga bisita; nagkagulo at namaga ang kanilang mga mukha.",
+   "Hindi. Hindi natuwa ang kanyang ama."
+  ]
+ },
+ {
+  "id": "fansler-suans-good-luck",
+  "title": "Ang Swerte ni Suan",
+  "type": "Kuwentong-bayan (Pampanga)",
+  "level": "Baitang 3 hanggang 6",
+  "words": [
+   ["manghuhula", "taong nagsasabing alam niya ang hindi nakikita o ang hinaharap"],
+   ["datu", "pinuno ng isang pamayanan noong sinaunang panahon"],
+   ["karibal", "kalaban o kakumpitensiya"],
+   ["bugtong", "palaisipang may nakatagong sagot"],
+   ["sumagip", "tumulong upang makaligtas"]
+  ],
+  "questions": [
+   "Paano nalaman ni Suan ang laman ng basket ng kanyang ina?",
+   "Bakit inakala ng ina na manghuhula si Suan?",
+   "Ano ang nawala sa anak na babae ng datu?",
+   "Paano nabawi ni Suan ang singsing?",
+   "Ano ang naging gantimpala ni Suan?"
+  ],
+  "think": [
+   "Talino ba, suwerte, o panlilinlang ang nagpanalo kay Suan? Ipaliwanag ang iyong sagot.",
+   "Tama ba na hindi sinabi ni Suan ang totoo sa kanyang ina at sa datu? Bakit?"
+  ],
+  "activity": "Gumawa ng sarili mong bugtong (dalawang linya) at ibigay ang sagot sa likod ng papel.",
+  "answers": [
+   "Nagtago siya sa isang puno at pinanood ang lahat ng binili ng kanyang ina, saka tumakbo pauwi sa mas maikling daan.",
+   "Dahil nasabi niya ang laman ng basket kahit hindi siya sumama sa palengke.",
+   "Ang kanyang singsing.",
+   "Tinitigan niya ang mga sundalo hanggang sa manginig ang nagnakaw; lumapit ito at ibinalik ang singsing kapalit ng pangakong hindi siya isusumbong.",
+   "Napangasawa niya ang anak ng datu, at kalaunan ay napanalunan niya ang ginto ng karibal na datu."
+  ]
+ }
+]

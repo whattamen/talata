@@ -149,7 +149,7 @@ for path, title, desc, image, kind, body in pages:
         open(os.path.join(path, 'index.html'), 'w', encoding='utf-8').write(out)
 
 # ---------- sitemap + robots ----------
-urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages if p != 'stats'] + [f'{BASE}/laro.html', f'{BASE}/bigkas.html']
+urls = [f'{BASE}/{p + "/" if p else ""}' for p, *_ in pages if p != 'stats'] + [f'{BASE}/laro.html', f'{BASE}/bigkas.html', f'{BASE}/pangalan.html', f'{BASE}/guro.html']
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
      ''.join(f'<url><loc>{u}</loc></url>\n' for u in urls) + '</urlset>\n'
 open('sitemap.xml', 'w', encoding='utf-8').write(sm)
@@ -230,6 +230,52 @@ for w in WORKS:
 
 # audio na gawa ng tools/make_audio.py (audio/<id>/<n>.mp3)
 audio_ids = sorted(f'{d}/{f[:-4]}' for d in (os.listdir('audio') if os.path.isdir('audio') else []) if os.path.isdir(f'audio/{d}') for f in os.listdir(f'audio/{d}') if f.endswith('.mp3'))
+# ---------- Podcast (Spotify / Apple): audio/<id>/<n>.mp3 -> podcast.xml ----------
+import shutil, subprocess
+def dur(fp):
+    if not shutil.which('ffprobe'):
+        return None
+    try:
+        out = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', fp],
+                             capture_output=True, text=True, timeout=30).stdout.strip()
+        sec = int(float(out)); return f'{sec // 3600:02d}:{sec % 3600 // 60:02d}:{sec % 60:02d}'
+    except Exception:
+        return None
+eps = []
+order = 0
+for w in WORKS:
+    for i, c in enumerate(w['chapters']):
+        aid = f'{w["id"]}/{i + 1}'
+        if c.get('soon') or aid not in audio_ids:
+            continue
+        order += 1
+        fp = f'audio/{aid}.mp3'
+        d = dates.get(aid, today)
+        when = (datetime.datetime.strptime(d, '%Y-%m-%d') + datetime.timedelta(hours=8, minutes=order)).strftime('%a, %d %b %Y %H:%M:%S +0000')
+        t = f'{w["title"]} — {c["label"]}' + (f': {c["title"]}' if c.get('title') and c['title'] != c['label'] else '')
+        if len(w['chapters']) == 1:
+            t = f'{w["title"]} ({c["label"]})'
+        first = snip((c.get('paras') or [''])[0], 280)
+        link = f'{BASE}/read/{aid}/'
+        du = dur(fp)
+        eps.append((when, f'<item><title>{esc(t)}</title><link>{link}</link><guid isPermaLink="false">talata-audio-{aid}</guid>'
+                          f'<pubDate>{when}</pubDate><description>{esc(first + " Basahin: " + link)}</description>'
+                          f'<enclosure url="{BASE}/{fp}" length="{os.path.getsize(fp)}" type="audio/mpeg"/>'
+                          + (f'<itunes:duration>{du}</itunes:duration>' if du else '') +
+                          '<itunes:explicit>false</itunes:explicit></item>'))
+eps.sort(key=lambda e: datetime.datetime.strptime(e[0], '%a, %d %b %Y %H:%M:%S +0000'), reverse=True)
+pod = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">'
+       '<channel><title>Talata Audio</title>'
+       f'<link>{BASE}/</link><atom:link href="{BASE}/podcast.xml" rel="self" type="application/rss+xml"/>'
+       '<description>Mga nobela, alamat, tula at kuwentong pambata ng Talata, binasa nang malakas sa Tagalog. Basahin din ang teksto nang libre sa talata-studio.com.</description>'
+       '<language>tl</language><copyright>© Talata</copyright>'
+       '<itunes:author>Ang Manunulat</itunes:author><itunes:owner><itunes:name>Talata</itunes:name><itunes:email>kagawaran@talata-studio.com</itunes:email></itunes:owner>'
+       f'<itunes:image href="{BASE}/img/podcast-cover.jpg"/><image><url>{BASE}/img/podcast-cover.jpg</url><title>Talata Audio</title><link>{BASE}/</link></image>'
+       '<itunes:category text="Arts"><itunes:category text="Books"/></itunes:category>'
+       '<itunes:explicit>false</itunes:explicit><itunes:type>episodic</itunes:type>'
+       + ''.join(e[1] for e in eps) + '</channel></rss>\n')
+open('podcast.xml', 'w', encoding='utf-8').write(pod)
+
 json.dump([{'id': w['id'], 'title': w['title'], 'chapters': [{'title': c.get('title'), 'paras': c.get('paras'), 'stanzas': c.get('stanzas'), 'soon': c.get('soon')} for c in w['chapters']]} for w in WORKS], open('tools/works.json', 'w', encoding='utf-8'), ensure_ascii=False)
 json.dump({'dates': dates, 'epub': epub_ids, 'audio': audio_ids, 'built': today}, open('site-data.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f'OK: {len(pages)} pahina, {len(epub_ids)} ePub, {len(dates)} kabanata')
