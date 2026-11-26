@@ -2270,6 +2270,13 @@ var WORKS = [
     try{speechSynthesis.cancel()}catch(e){}
     ttsClear(); ttsUi();
   }
+  /* Maikling bersyon ng tools/tts_normalize.py para sa boses ng browser (walang numero) */
+  function ttsNorm(t){
+    var A=[[/\bGng\./g,'Ginang'],[/\bBb\./g,'Binibini'],[/\bDra\./g,'Doktora'],[/\bDr\./g,'Doktor'],[/\bAtty\./g,'Abogado'],[/\bGen\./g,'Heneral'],[/\bSr\./g,'Senior'],[/\bJr\./g,'Junior'],
+      [/\bArchivo\b/g,'Arkibo'],[/Wi-Fi/g,'wayfay'],[/YouTube/g,'yutyub'],[/\bMateo\b/g,'Mateyo']];
+    A.forEach(function(r){t=t.replace(r[0],r[1])});
+    return t.replace(/\*+/g,'').replace(/[\u2014\u2013]/g,', ').replace(/\.{3,}|\u2026/g,', ').replace(/\s+/g,' ').trim();
+  }
   function ttsVoice(){
     var vs=speechSynthesis.getVoices()||[];
     for(var i=0;i<vs.length;i++) if(/^(fil|tl)/i.test(vs[i].lang)) return vs[i];
@@ -2280,7 +2287,7 @@ var WORKS = [
     if(TTS.i>=TTS.items.length){stopSpeak();return}
     var el=TTS.items[TTS.i]; ttsClear(); el.classList.add('speaking');
     try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}
-    var u=new SpeechSynthesisUtterance(el.textContent), v=ttsVoice();
+    var u=new SpeechSynthesisUtterance(ttsNorm(el.textContent)), v=ttsVoice();
     u.lang=v?v.lang:'fil-PH'; if(v) u.voice=v; u.rate=.95;
     u.onend=function(){ if(tok===TTS.tok){TTS.i++; ttsNext(tok)} };
     u.onerror=function(){ if(tok===TTS.tok){TTS.i++; ttsNext(tok)} };
@@ -2291,7 +2298,7 @@ var WORKS = [
     TTS.on=false; TTS.paused=false; TTS.i=0;
     // Ipakita lang ang Pakinggan kung may tunay na boses na Filipino ang device (iwas sa American accent)
     var row=$('listen-row');
-    function chk(){ if(row&&ttsVoice()) row.hidden=false }
+    function chk(){ if(row&&!row.getAttribute('data-audio')&&ttsVoice()) row.hidden=false }
     chk(); try{speechSynthesis.onvoiceschanged=chk}catch(e){}
     b.addEventListener('click',function(){
       if(TTS.on&&!TTS.paused){ TTS.paused=true; TTS.tok++; try{speechSynthesis.cancel()}catch(e){} ttsUi(); return }
@@ -2310,7 +2317,7 @@ var WORKS = [
     var calmFlip=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(current&&current.w===w&&current.n!==n&&!calmFlip) turnPage(n>current.n?1:-1);
     var h='<p class="ch-label">'+esc(c.label)+', '+mins(c)+' min read</p><h1 tabindex="-1" id="read-title">'+esc(c.title||w.title)+'</h1>'+
-      (window.speechSynthesis?'<p class="listen-row" id="listen-row" hidden><button type="button" class="cm-btn" id="listen">\u25B6 Pakinggan</button> <button type="button" class="cm-btn" id="listen-stop" hidden>\u25A0 Itigil</button><small id="listen-note"></small></p>':'');
+      '<div id="audio-slot"></div>'+(window.speechSynthesis?'<p class="listen-row" id="listen-row" hidden><button type="button" class="cm-btn" id="listen">\u25B6 Pakinggan</button> <button type="button" class="cm-btn" id="listen-stop" hidden>\u25A0 Itigil</button><small id="listen-note"></small></p>':'');
     if(c.stanzas){
       h+=c.stanzas.map(function(st){return '<p class="stanza">'+st.map(esc).join('<br>')+'</p>'}).join('');
     }else{
@@ -2333,6 +2340,11 @@ var WORKS = [
     $('chapter').innerHTML=h;
     mountComments(w,n);
     bindListen();
+    siteData(function(d){
+      var slot=$('audio-slot'); if(!slot||!d||!d.audio||d.audio.indexOf(w.id+'/'+n)<0) return;
+      slot.innerHTML='<p class="listen-row"><audio controls preload="none" style="width:100%" src="/audio/'+w.id+'/'+n+'.mp3">Hindi sinusuportahan ng browser mo ang audio.</audio></p>';
+      var r=$('listen-row'); if(r){r.setAttribute('data-audio','1'); r.hidden=true; stopSpeak()}
+    });
     $('r-title').textContent=w.title;
     $('r-label').textContent=c.label;
     $('r-back').setAttribute('href','#/w/'+w.id);
