@@ -73,7 +73,11 @@ def main():
         path = os.path.join(ROOT, 'audio', w['id'], f'{i}.mp3')
         if os.path.exists(path) and not a.force: print('nariyan na:', w['id'], i); continue
         body = c.get('paras') or [' '.join(l if isinstance(l, str) else ' '.join(l) for l in (st if isinstance(st, list) else [st])) for st in c['stanzas']]
-        paras = [normalize(c.get('title') or w['title'])] + [normalize(p) for p in body]
+        def txt(p):
+            if isinstance(p, str): return p
+            if isinstance(p, dict): return ' '.join(str(v) for v in p.values() if isinstance(v, str))
+            return ''
+        paras = [normalize(c.get('title') or w['title'])] + [normalize(txt(p)) for p in body]
         paras = [p for p in paras if p]
         print(f'{prov}: {w["id"]} kabanata {i} ({sum(map(len, paras))} titik)...', flush=True)
         data = azure(paras, a.voice, a.rate) if prov == 'azure' else edge(paras, a.voice, a.rate)
