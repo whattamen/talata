@@ -119,6 +119,15 @@
   .book:hover .cover{transform:translateY(-6px)}
   .book h3{font-family:var(--display);font-weight:400;font-size:1.1rem;line-height:1.2;margin-top:.9rem;color:var(--head)}
   .book p{font-family:var(--sans);font-size:.85rem;color:var(--muted)}
+  .book .cover .new-badge{position:absolute;top:.6rem;left:.6rem;z-index:2;font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.06em;padding:.2rem .5rem;border-radius:999px;background:#F7C83B;color:#161512}
+  @media (max-width:600px){
+    .books{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 1rem}
+    .book .cover{padding:.8rem .7rem}
+    .book .cover .t{font-size:1rem}
+    .book .cover .s{font-size:.66rem}
+    .book h3{font-size:.98rem;margin-top:.6rem}
+    .book p{font-size:.78rem}
+  }
   .shelf-line{height:10px;margin-top:1.4rem;background:linear-gradient(var(--sea-light),var(--sea));border-radius:3px;box-shadow:0 5px 0 rgba(0,0,0,.10)}
   .empty{padding:3rem 0;max-width:30rem}
   .empty h3{font-family:var(--display);font-weight:400;font-size:1.6rem;color:var(--head);margin-bottom:.5rem}
@@ -749,12 +758,12 @@ html[data-grace] #splash .sp-text{color:var(--head)}
     <span class="brand-text" id="brand-text" aria-hidden="true"><span class="b-latin">Talata</span><span class="b-bay" lang="tl-Tglg">ᜆᜎᜆ</span></span>
   </a>
   <nav aria-label="Main">
-    <a href="#/" data-nav="home"><span class="n-en">Home</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜑᜈᜈ᜔</span></a>
-    <a href="#/c/novel" data-nav="novel"><span class="n-en">Novel</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜈᜓᜊᜒᜎ</span></a>
-    <a href="#/c/kids" data-nav="kids"><span class="n-en">Kids stories</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜓᜏᜒᜈ᜔ᜆᜓᜅ᜔ ᜉᜋ᜔ᜊᜆ</span></a>
+    <a href="#/" data-nav="home"><span class="n-en">Tahanan</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜑᜈᜈ᜔</span></a>
+    <a href="#/c/novel" data-nav="novel"><span class="n-en">Nobela</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜈᜓᜊᜒᜎ</span></a>
+    <a href="#/c/kids" data-nav="kids"><span class="n-en">Kuwentong Pambata</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜓᜏᜒᜈ᜔ᜆᜓᜅ᜔ ᜉᜋ᜔ᜊᜆ</span></a>
     <a href="#/c/alamat" data-nav="alamat"><span class="n-en">Alamat</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜎᜋᜆ᜔</span></a>
     <a href="#/c/tula" data-nav="tula"><span class="n-en">Tula</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜎ</span></a>
-    <a href="#/learn" data-nav="learn"><span class="n-en">Learning</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+    <a href="#/learn" data-nav="learn"><span class="n-en">Aralin</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
 </header>
@@ -855,10 +864,10 @@ var AUTHORS = {
 };
 
 var CATS = {
-  novel:  {name:'Novel',             art:'art-map',   blurb:'Serial fiction, one chapter at a time.'},
-  kids:   {name:'Kids short stories', art:'art-stars', blurb:'Short, gentle stories for young readers.'},
-  alamat: {name:'Alamat',            art:'art-sun',   blurb:'Legends of how things came to be.'},
-  tula:   {name:'Tula',              art:'art-lines', blurb:'Poems in Tagalog and English.'}
+  novel:  {name:'Nobela',             art:'art-map',   blurb:'Mahahabang kuwento, kabanata-kabanata.'},
+  kids:   {name:'Kuwentong Pambata', art:'art-stars', blurb:'Maiikli at magiliw na kuwento para sa mga batang mambabasa.'},
+  alamat: {name:'Alamat',            art:'art-sun',   blurb:'Mga kuwento kung paano nagsimula ang mga bagay.'},
+  tula:   {name:'Tula',              art:'art-lines', blurb:'Mga tula sa Tagalog at Ingles.'}
 };
 
 var COVER_HULING = '/img/huling-tagapag-ingat.jpg';
@@ -1981,13 +1990,25 @@ var WORKS = [
       '<div class="t">'+esc(w.title)+'</div>'+(w.subtitle?'<div class="s">'+esc(w.subtitle)+'</div>':'')+'<div class="a">'+esc(w.author||(w.writer&&AUTHORS[w.writer]?AUTHORS[w.writer].name:PEN.name))+'</div></div>';
   }
   function byline(w){
-    if(w&&w.author) return '<p class="byline">Retold from <strong>'+esc(w.author)+'</strong></p>';
+    if(w&&w.author) return '<p class="byline">Muling isinalaysay mula sa <strong>'+esc(w.author)+'</strong></p>';
     var slug=(w&&w.writer&&AUTHORS[w.writer])?w.writer:'ang-manunulat', A=AUTHORS[slug];
-    return '<p class="byline">by <a href="#/a/'+slug+'"><strong>'+esc(A.name)+'</strong></a>'+(A.bay?' <span class="bay" lang="tl-Tglg" aria-hidden="true">'+A.bay+'</span>':'')+'</p>';
+    return '<p class="byline">ni <a href="#/a/'+slug+'"><strong>'+esc(A.name)+'</strong></a>'+(A.bay?' <span class="bay" lang="tl-Tglg" aria-hidden="true">'+A.bay+'</span>':'')+'</p>';
+  }
+  function stat(x){return {'Ongoing':'Patuloy','Complete':'Tapos na','On hiatus':'Nakahinto'}[x]||x}
+  function markNew(){
+    siteData(function(d){
+      if(!d||!d.dates) return;
+      var cut=new Date(Date.now()-7*864e5).toISOString().slice(0,10), fresh={};
+      Object.keys(d.dates).forEach(function(k){var id=k.split('/')[0],w=byId(id); if(w&&w.chapters.length>1&&d.dates[k]>=cut) fresh[id]=1});
+      document.querySelectorAll('a.book').forEach(function(a){
+        var id=(a.getAttribute('href')||'').replace('#/w/',''), cv=a.querySelector('.cover');
+        if(fresh[id]&&cv&&!cv.querySelector('.new-badge')) cv.insertAdjacentHTML('afterbegin','<span class="new-badge">BAGO</span>');
+      });
+    });
   }
   function chips(list){return '<div class="chips">'+list.map(function(t){return '<span class="chip">'+esc(t)+'</span>'}).join('')+'</div>'}
   function bookCard(w){
-    return '<a class="book" href="#/w/'+w.id+'">'+cover(w)+'<h3>'+esc(w.subtitle||w.title)+'</h3><p>'+esc(CATS[w.cat].name)+(w.status?', '+esc(w.status.toLowerCase()):'')+'</p></a>';
+    return '<a class="book" href="#/w/'+w.id+'">'+cover(w)+'<h3>'+esc(w.subtitle||w.title)+'</h3><p>'+esc(CATS[w.cat].name)+(w.status?', '+esc(stat(w.status).toLowerCase()):'')+'</p></a>';
   }
 
   /* ---------- HOME ---------- */
@@ -2020,10 +2041,10 @@ var WORKS = [
     });
     if(!best) return '';
     var c=best.w.chapters[best.p.ch-1];
-    return '<section class="section resume" aria-label="Continue reading"><div class="resume-card"><div>'+
+    return '<section class="section resume" aria-label="Ituloy ang pagbasa"><div class="resume-card"><div>'+
       '<p class="kicker">Continue reading</p><h2>'+esc(best.w.subtitle||best.w.title)+'</h2>'+
-      '<p>'+esc(c.label)+(c.title?': '+esc(c.title):'')+', '+best.p.pct+'% read</p></div>'+
-      '<a class="btn btn-gold" href="#/read/'+best.w.id+'/'+best.p.ch+'">Continue</a></div></section>';
+      '<p>'+esc(c.label)+(c.title?': '+esc(c.title):'')+', '+best.p.pct+'% nabasa na</p></div>'+
+      '<a class="btn btn-gold" href="#/read/'+best.w.id+'/'+best.p.ch+'">Ituloy</a></div></section>';
   }
 
   function renderHome(){
@@ -2031,33 +2052,33 @@ var WORKS = [
     var h = '';
     if(f){
       h += '<div class="banner">'+SUN+STARS+'<div class="mark" aria-hidden="true" lang="tl-Tglg">ᜆᜎᜆ</div>'+
-        '<div><p class="kicker">Now serializing</p>'+
+        '<div><p class="kicker">Kasalukuyang inilalathala</p>'+
         '<h1>'+esc(f.title)+'</h1>'+
         (f.subtitle?'<span class="en-strip">'+esc(f.subtitle)+'</span><br>':'')+
         (f.baybayin?'<p class="baybayin" lang="tl-Tglg" aria-label="The title in Baybayin script">'+esc(f.baybayin)+'</p>':'')+
         '<p class="lead">'+esc(f.lead||'')+'</p>'+byline()+chips(f.tags||[])+
-        '<div class="actions"><a class="btn btn-gold" href="#/read/'+f.id+'/1">Read Chapter 1 free</a><a class="btn btn-ghost" href="#/w/'+f.id+'">Synopsis and chapters</a></div></div>'+
-        '<a class="cover-link" href="#/w/'+f.id+'" aria-label="Open '+esc(f.title)+'">'+cover(f)+'<span class="sticker" aria-hidden="true">Chapter 1 is free</span></a></div>';
+        '<div class="actions"><a class="btn btn-gold" href="#/read/'+f.id+'/1">Basahin ang Kabanata 1</a><a class="btn btn-ghost" href="#/w/'+f.id+'">Buod at mga kabanata</a></div></div>'+
+        '<a class="cover-link" href="#/w/'+f.id+'" aria-label="Buksan ang '+esc(f.title)+'">'+cover(f)+'<span class="sticker" aria-hidden="true">Libre ang Kabanata 1</span></a></div>';
     }
     h += ticker();
     h += resumeStrip();
     h += '<div id="latest-box"></div>';
-    h += '<section class="section" aria-labelledby="browse"><h2 id="browse">Shelves</h2><p class="sub">Four shelves. Pick one and start anywhere.</p><div class="cats">';
+    h += '<section class="section" aria-labelledby="browse"><h2 id="browse">Mga Istante</h2><p class="sub">Apat na istante. Pumili ng isa at magsimula kahit saan.</p><div class="cats">';
     Object.keys(CATS).forEach(function(k){
       var n=inCat(k).length;
       h += '<a class="tile t-'+k+'" href="#/c/'+k+'"><svg aria-hidden="true"><use href="#'+CATS[k].art+'"/></svg>'+
-        '<h3>'+esc(CATS[k].name)+'</h3><p>'+esc(CATS[k].blurb)+'</p><span class="count">'+(n?n+(n===1?' work':' works'):'Coming soon')+'</span></a>';
+        '<h3>'+esc(CATS[k].name)+'</h3><p>'+esc(CATS[k].blurb)+'</p><span class="count">'+(n?n+' akda':'Malapit na')+'</span></a>';
     });
     h += '</div></section>';
-    h += '<section class="section" aria-labelledby="all"><h2 id="all">Find something to read</h2>'+
-      '<div class="finder"><label class="sr" for="q">Search titles and tags</label>'+
-      '<input id="q" type="search" placeholder="Search titles, tags, language" autocomplete="off">'+
-      '<div class="chips" role="group" aria-label="Filter by shelf"><button type="button" class="chip-btn" data-cat="all" aria-pressed="true">All</button>'+
+    h += '<section class="section" aria-labelledby="all"><h2 id="all">Maghanap ng babasahin</h2>'+
+      '<div class="finder"><label class="sr" for="q">Maghanap ayon sa pamagat at tag</label>'+
+      '<input id="q" type="search" placeholder="Pamagat, tag, o wika" autocomplete="off">'+
+      '<div class="chips" role="group" aria-label="Salain ayon sa istante"><button type="button" class="chip-btn" data-cat="all" aria-pressed="true">Lahat</button>'+
       Object.keys(CATS).map(function(k){return '<button type="button" class="chip-btn" data-cat="'+k+'" aria-pressed="false">'+esc(CATS[k].name)+'</button>'}).join('')+
       '</div></div><p class="count-line" id="found" aria-live="polite"></p><div class="books" id="results"></div><div class="shelf-line" aria-hidden="true"></div></section>';
-    h += '<section class="author" id="about" aria-labelledby="about-title"><div class="author-inner"><h2 id="about-title">About the author</h2>'+
-      '<div class="bio"><p class="pen">Writing as <strong>'+esc(PEN.name)+'</strong> <span class="bay" lang="tl-Tglg" aria-hidden="true">'+PEN.bay+'</span></p><p class="pen-note">Manunulat is Tagalog for writer or scribe.</p><!-- EDIT: write these in your own voice --><p>I am a professional who wants to provide good literature.</p></div>'+
-      '<div class="contact"><p>For collaborations, press, or to say hello:</p><p><a href="mailto:kagawaran@talata-studio.com">kagawaran@talata-studio.com</a></p><p class="socials">Sundan ang Talata: <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a></p></div></div></section>';
+    h += '<section class="author" id="about" aria-labelledby="about-title"><div class="author-inner"><h2 id="about-title">Tungkol sa may-akda</h2>'+
+      '<div class="bio"><p class="pen">Sumusulat bilang <strong>'+esc(PEN.name)+'</strong> <span class="bay" lang="tl-Tglg" aria-hidden="true">'+PEN.bay+'</span></p><p class="pen-note">Sa Tagalog, ang manunulat ay ang taong sumusulat.</p><!-- EDIT: write these in your own voice --><p>Isinusulat ko ang mga kuwentong ito para sa bagong henerasyon ng mga Pilipino: mga nobela, alamat, tula at kuwentong pambata sa sariling wika, na hinubog ng ating kasaysayan at kultura.</p></div>'+
+      '<div class="contact"><p>Para sa kolaborasyon, press, o para lang mangumusta:</p><p><a href="mailto:kagawaran@talata-studio.com">kagawaran@talata-studio.com</a></p><p class="socials">Sundan ang Talata: <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a></p></div></div></section>';
     views.home.innerHTML=h;
     var g=document.getElementById('sun-rays'); if(g) g.outerHTML=sunRays();
     bindFinder();
@@ -2074,8 +2095,9 @@ var WORKS = [
         var hay=[w.title,w.subtitle,w.lead,w.language,CATS[w.cat].name].concat(w.tags||[],w.synopsis||[],w.chapters.map(function(c){return c.title||''})).join(' ').toLowerCase();
         return hay.indexOf(term)>-1;
       });
-      res.innerHTML=list.length?list.map(bookCard).join(''):'<div class="empty"><h3>Nothing here yet</h3><p>Try another word, or choose All.</p></div>';
-      found.textContent=list.length+(list.length===1?' work':' works')+(term?' matching "'+q.value.trim()+'"':'');
+      res.innerHTML=list.length?list.map(bookCard).join(''):'<div class="empty"><h3>Nothing here yet</h3><p>Subukan ang ibang salita, o piliin ang Lahat.</p></div>';
+      markNew();
+      found.textContent=list.length+' akda'+(term?' na tugma sa "'+q.value.trim()+'"':'');
     }
     btns.forEach(function(b){b.addEventListener('click',function(){
       cat=b.dataset.cat; btns.forEach(function(o){o.setAttribute('aria-pressed',o===b)}); run();
@@ -2089,16 +2111,17 @@ var WORKS = [
     var c=CATS[k]; var list=inCat(k);
     var h='<div class="cat-head"><h1 tabindex="-1" id="cat-title">'+esc(c.name)+'</h1><p>'+esc(c.blurb)+'</p></div><section class="section">';
     if(list.length){h+='<div class="books">'+list.map(bookCard).join('')+'</div><div class="shelf-line" aria-hidden="true"></div>'}
-    else{h+='<div class="empty"><h3>Nothing here yet</h3><p>New work is on the way. Check back soon.</p></div>'}
+    else{h+='<div class="empty"><h3>Nothing here yet</h3><p>May paparating na bagong akda. Balikan mo kami.</p></div>'}
     h+='</section>';
     views.cat.innerHTML=h;
+    markNew();
   }
 
   /* ---------- WORK ---------- */
   function chapterRow(w,c,i){
     var t=esc(c.label+(c.title?': '+c.title:''));
-    if(c.soon) return '<li><span class="locked"><span>'+t+'</span><span>Coming soon</span></span></li>';
-    var bits=[]; if(c.free) bits.push('Free'); if(done[w.id]&&done[w.id][i+1]) bits.push('Read'); bits.push(mins(c)+' min');
+    if(c.soon) return '<li><span class="locked"><span>'+t+'</span><span>Malapit na</span></span></li>';
+    var bits=[]; if(c.free) bits.push('Libre'); if(done[w.id]&&done[w.id][i+1]) bits.push('Nabasa na'); bits.push(mins(c)+' minuto');
     return '<li><a href="#/read/'+w.id+'/'+(i+1)+'"><span>'+t+'</span><span class="free">'+bits.join(', ')+'</span></a></li>';
   }
   function chapterList(w){
@@ -2107,8 +2130,8 @@ var WORKS = [
       var rows='', last=b.from-1;
       w.chapters.forEach(function(c,i){ if(i+1>=b.from&&i+1<=b.to){ rows+=chapterRow(w,c,i); last=i+1 } });
       var rest=b.to-last;
-      var planned=rest>0?'<li><span class="locked"><span>'+(last>=b.from?'Kabanata '+(last+1)+' to '+b.to:'Kabanata '+b.from+' to '+b.to)+'</span><span>Planned, '+rest+' '+(rest===1?'chapter':'chapters')+'</span></span></li>':'';
-      return '<h3 class="book-h">Libro '+(bi+1)+': '+esc(b.title)+'<span>Kabanata '+b.from+' to '+b.to+'</span></h3><ul class="chapters">'+rows+planned+'</ul>';
+      var planned=rest>0?'<li><span class="locked"><span>'+(last>=b.from?'Kabanata '+(last+1)+' hanggang '+b.to:'Kabanata '+b.from+' hanggang '+b.to)+'</span><span>Nakaplano, '+rest+' kabanata</span></span></li>':'';
+      return '<h3 class="book-h">Libro '+(bi+1)+': '+esc(b.title)+'<span>Kabanata '+b.from+' hanggang '+b.to+'</span></h3><ul class="chapters">'+rows+planned+'</ul>';
     }).join('');
   }
   function worldPanel(w){
@@ -2123,21 +2146,21 @@ var WORKS = [
     var n=readable(w), first=w.chapters.map(function(c){return !c.soon}).indexOf(true)+1;
     var rs=progress[w.id], resumeOk=rs&&validChapter(w,rs.ch);
     var primary = resumeOk ? '<a class="btn btn-gold" href="#/read/'+w.id+'/'+rs.ch+'">Continue reading</a>'
-                : first ? '<a class="btn btn-gold" href="#/read/'+w.id+'/'+first+'">Start reading</a>' : '';
+                : first ? '<a class="btn btn-gold" href="#/read/'+w.id+'/'+first+'">Simulang basahin</a>' : '';
     var h='<div class="work"><div class="work-top"><div>'+cover(w)+'</div><div>'+
       '<h1 tabindex="-1" id="work-title">'+esc(w.title)+'</h1>'+
       (w.subtitle?'<span class="en-strip">'+esc(w.subtitle)+'</span>':'')+
       (w.baybayin?'<p class="baybayin" lang="tl-Tglg" aria-label="The title in Baybayin script">'+esc(w.baybayin)+'</p>':'<div style="height:1.3rem"></div>')+byline(w)+
       chips([CATS[w.cat].name].concat(w.tags||[]))+
-      '<div class="stats"><div><b>'+esc(w.language||'')+'</b><span>Language</span></div>'+
-      '<div><b>'+n+'</b><span>'+(n===1?'Chapter':'Chapters')+' to read</span></div>'+
-      (w.planned?'<div><b>'+w.planned+'</b><span>Chapters planned'+(w.books?', '+w.books.length+' books':'')+'</span></div>':'')+(w.status?'<div><b>'+esc(w.status)+'</b><span>Status</span></div>':'')+'</div>'+
+      '<div class="stats"><div><b>'+esc(w.language||'')+'</b><span>Wika</span></div>'+
+      '<div><b>'+n+'</b><span>'+'Kabanatang mababasa</span></div>'+
+      (w.planned?'<div><b>'+w.planned+'</b><span>Kabanatang nakaplano'+(w.books?', '+w.books.length+' libro':'')+'</span></div>':'')+(w.status?'<div><b>'+esc(stat(w.status))+'</b><span>Katayuan</span></div>':'')+((w.schedule||(w.status==='Ongoing'&&w.chapters.length>1))?'<div><b>'+esc(w.schedule||'Bawat linggo')+'</b><span>Bagong kabanata</span></div>':'')+'</div>'+
       '<div class="actions-row">'+primary+
-      '<a class="btn btn-ghost" href="#/c/'+w.cat+'">More '+esc(CATS[w.cat].name.toLowerCase())+'</a>'+
+      '<a class="btn btn-ghost" href="#/c/'+w.cat+'">Iba pang '+esc(CATS[w.cat].name.toLowerCase())+'</a>'+
       '<button class="btn btn-ghost" id="copy" type="button">Ibahagi</button>'+
       '<a class="btn btn-ghost" id="epub-dl" href="/epub/'+w.id+'.epub" download hidden>I-download (ePub)</a></div></div></div>'+
-      '<div class="tabs" role="tablist" aria-label="Details"><button role="tab" id="tab-syn" aria-selected="true" aria-controls="panel-syn">Synopsis</button>'+
-      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Chapters</button>'+((w.world&&w.world.length)||(w.maps&&w.maps.length)?'<button role="tab" id="tab-wd" aria-selected="false" aria-controls="panel-wd">Mundo</button>':'')+(w.trailer?'<button role="tab" id="tab-tr" aria-selected="false" aria-controls="panel-tr">Trailer</button>':'')+'</div>'+
+      '<div class="tabs" role="tablist" aria-label="Detalye"><button role="tab" id="tab-syn" aria-selected="true" aria-controls="panel-syn">Buod</button>'+
+      '<button role="tab" id="tab-ch" aria-selected="false" aria-controls="panel-ch">Mga Kabanata</button>'+((w.world&&w.world.length)||(w.maps&&w.maps.length)?'<button role="tab" id="tab-wd" aria-selected="false" aria-controls="panel-wd">Mundo</button>':'')+(w.trailer?'<button role="tab" id="tab-tr" aria-selected="false" aria-controls="panel-tr">Trailer</button>':'')+'</div>'+
       '<div class="panel active" id="panel-syn" role="tabpanel" aria-labelledby="tab-syn">'+(w.synopsis||[]).map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+(w.credit?'<p class="credit">'+esc(w.credit)+'</p>':'')+'</div>'+
       '<div class="panel" id="panel-ch" role="tabpanel" aria-labelledby="tab-ch">'+chapterList(w)+'</div>'+
       ((w.world&&w.world.length)||(w.maps&&w.maps.length)?'<div class="panel" id="panel-wd" role="tabpanel" aria-labelledby="tab-wd">'+worldPanel(w)+'</div>':'')+(w.trailer?'<div class="panel" id="panel-tr" role="tabpanel" aria-labelledby="tab-tr"><video class="trailer" controls playsinline preload="none" poster="'+esc(w.trailerPoster||'')+'" aria-label="Trailer ng '+esc(w.title)+'"><source src="'+esc(w.trailer)+'" type="video/mp4"></video></div>':'')+'</div>';
@@ -2152,8 +2175,8 @@ var WORKS = [
     $('copy-old')&&$('copy-old').addEventListener('click',function(){
       var url=location.href;
       if(navigator.clipboard&&navigator.clipboard.writeText){
-        navigator.clipboard.writeText(url).then(function(){toast('Link copied')},function(){toast('Copy the address from your browser bar')});
-      }else{toast('Copy the address from your browser bar')}
+        navigator.clipboard.writeText(url).then(function(){toast('Nakopya ang link')},function(){toast('Kopyahin ang address sa itaas ng browser')});
+      }else{toast('Kopyahin ang address sa itaas ng browser')}
     });
   }
 
@@ -2328,16 +2351,16 @@ var WORKS = [
         else h+='<p'+(i===0?' class="first"':'')+'>'+esc(p).replace(/\*([^*]+)\*/g,'<em>$1</em>')+'</p>';
       });
     }
-    h+='<p class="orn" aria-hidden="true">\u2605 \u2605 \u2605</p><p class="end">'+esc(c.endNote||'The end')+'</p><div class="nav">';
+    h+='<p class="orn" aria-hidden="true">\u2605 \u2605 \u2605</p><p class="end">'+esc(c.endNote||'Wakas')+'</p><div class="nav">';
     var prev=w.chapters[n-2], next=w.chapters[n];
-    h+=prev&&!prev.soon?'<a href="#/read/'+w.id+'/'+(n-1)+'">&larr; Previous</a>':'<span aria-disabled="true">&larr; Previous</span>';
+    h+=prev&&!prev.soon?'<a href="#/read/'+w.id+'/'+(n-1)+'">&larr; Nakaraan</a>':'<span aria-disabled="true">&larr; Nakaraan</span>';
     h+='<select class="nav-sel" aria-label="Pumili ng kabanata" onchange="if(this.value)location.hash=this.value">';
     w.chapters.forEach(function(ch,i){
       var lab=esc(ch.label||('Kabanata '+(i+1)));
-      h+=ch.soon?'<option disabled>'+lab+' \u2014 coming soon</option>':'<option value="#/read/'+w.id+'/'+(i+1)+'"'+(i+1===n?' selected':'')+'>'+lab+'</option>';
+      h+=ch.soon?'<option disabled>'+lab+' \u2014 malapit na</option>':'<option value="#/read/'+w.id+'/'+(i+1)+'"'+(i+1===n?' selected':'')+'>'+lab+'</option>';
     });
     h+='</select>';
-    h+=next?(next.soon?'<span aria-disabled="true">Next: coming soon</span>':'<a href="#/read/'+w.id+'/'+(n+1)+'">Next &rarr;</a>'):'<a href="#/w/'+w.id+'">Back to details</a>';
+    h+=next?(next.soon?'<span aria-disabled="true">Susunod: malapit na</span>':'<a href="#/read/'+w.id+'/'+(n+1)+'">Susunod &rarr;</a>'):'<a href="#/w/'+w.id+'">Bumalik sa detalye</a>';
     h+='</div><p class="share-row"><button type="button" class="cm-btn" data-share>Ibahagi ang kabanatang ito</button></p>';
     $('chapter').innerHTML=h;
     mountComments(w,n);
@@ -2355,7 +2378,7 @@ var WORKS = [
     w.chapters.forEach(function(ch,i){ if(!ch.soon) rd.push({c:ch,i:i+1}) });
     if(rd.length>1){
       jr.style.display='';
-      jr.innerHTML='<label for="jump">Chapter</label><select id="jump">'+rd.map(function(x){return '<option value="'+x.i+'"'+(x.i===n?' selected':'')+'>'+esc(x.c.label)+'</option>'}).join('')+'</select>';
+      jr.innerHTML='<label for="jump">Kabanata</label><select id="jump">'+rd.map(function(x){return '<option value="'+x.i+'"'+(x.i===n?' selected':'')+'>'+esc(x.c.label)+'</option>'}).join('')+'</select>';
       $('jump').addEventListener('change',function(){location.hash='#/read/'+w.id+'/'+this.value});
     }else{jr.innerHTML='';jr.style.display='none'}
 
@@ -2438,8 +2461,8 @@ var WORKS = [
     var url=location.href;
     if(navigator.share){ navigator.share({title:title,url:url}).catch(function(){}); return }
     if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(function(){toast('Link copied')},function(){toast('Copy the address from your browser bar')});
-    }else{toast('Copy the address from your browser bar')}
+      navigator.clipboard.writeText(url).then(function(){toast('Nakopya ang link')},function(){toast('Kopyahin ang address sa itaas ng browser')});
+    }else{toast('Kopyahin ang address sa itaas ng browser')}
   }
   document.addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('[data-share]'); if(b){e.preventDefault(); shareHere(document.title)}
@@ -2608,7 +2631,7 @@ var WORKS = [
       requestAnimationFrame(function(){
         var max=document.documentElement.scrollHeight-window.innerHeight;
         window.scrollTo(0,max*sp.pct/100);
-        toast('Picked up where you left off');
+        toast('Itinuloy kung saan ka huminto');
       });
     }
     if(IS_HTTP && location.hash){
