@@ -1,5 +1,5 @@
 /* Talata Laro service worker: only handles the game page, its images and the game libraries. */
-const CACHE = 'talata-laro-v1';
+const CACHE = 'talata-laro-v2';
 const PRECACHE = ['/laro.html', '/img/salpakan-rebolusyon.jpg', '/favicon.png', '/img/icon-192.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)).catch(() => {}));
@@ -14,7 +14,7 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const u = new URL(req.url);
   const page = u.origin === location.origin && u.pathname === '/laro.html';
-  const asset = u.origin === location.origin && (u.pathname.startsWith('/img/') || u.pathname === '/favicon.png' || u.pathname === '/manifest.webmanifest');
+  const asset = u.origin === location.origin && (u.pathname.startsWith('/img/') || u.pathname.startsWith('/models/') || u.pathname === '/favicon.png' || u.pathname === '/manifest.webmanifest');
   const lib = /^https:\/\/cdn\.jsdelivr\.net\/npm\/(three@0\.128\.0|peerjs@1\.5\.4)\//.test(u.href) || u.host === 'fonts.gstatic.com' || u.host === 'fonts.googleapis.com';
   if (!page && !asset && !lib) return;
   if (page) {
