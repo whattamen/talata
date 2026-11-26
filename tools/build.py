@@ -230,6 +230,6 @@ for w in WORKS:
 
 # audio na gawa ng tools/make_audio.py (audio/<id>/<n>.mp3)
 audio_ids = sorted(f'{d}/{f[:-4]}' for d in (os.listdir('audio') if os.path.isdir('audio') else []) if os.path.isdir(f'audio/{d}') for f in os.listdir(f'audio/{d}') if f.endswith('.mp3'))
-json.dump([{'id': w['id'], 'title': w['title'], 'chapters': [{'title': c.get('title'), 'paras': c.get('paras'), 'soon': c.get('soon')} for c in w['chapters']]} for w in WORKS], open('tools/works.json', 'w', encoding='utf-8'), ensure_ascii=False)
+json.dump([{'id': w['id'], 'title': w['title'], 'chapters': [{'title': c.get('title'), 'paras': c.get('paras'), 'stanzas': c.get('stanzas'), 'soon': c.get('soon')} for c in w['chapters']]} for w in WORKS], open('tools/works.json', 'w', encoding='utf-8'), ensure_ascii=False)
 json.dump({'dates': dates, 'epub': epub_ids, 'audio': audio_ids, 'built': today}, open('site-data.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f'OK: {len(pages)} pahina, {len(epub_ids)} ePub, {len(dates)} kabanata')

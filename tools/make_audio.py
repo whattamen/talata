@@ -64,7 +64,7 @@ def main():
     for w in works:
         if a.work and w['id'] != a.work: continue
         for i, c in enumerate(w['chapters'], 1):
-            if c.get('soon') or not c.get('paras'): continue
+            if c.get('soon') or not (c.get('paras') or c.get('stanzas')): continue
             if a.chapter and i != a.chapter: continue
             if not (a.all or a.work): continue
             todo.append((w, i, c))
@@ -72,7 +72,8 @@ def main():
     for w, i, c in todo:
         path = os.path.join(ROOT, 'audio', w['id'], f'{i}.mp3')
         if os.path.exists(path) and not a.force: print('nariyan na:', w['id'], i); continue
-        paras = [normalize(c.get('title') or w['title'])] + [normalize(p) for p in c['paras']]
+        body = c.get('paras') or [' '.join(l if isinstance(l, str) else ' '.join(l) for l in (st if isinstance(st, list) else [st])) for st in c['stanzas']]
+        paras = [normalize(c.get('title') or w['title'])] + [normalize(p) for p in body]
         paras = [p for p in paras if p]
         print(f'{prov}: {w["id"]} kabanata {i} ({sum(map(len, paras))} titik)...', flush=True)
         data = azure(paras, a.voice, a.rate) if prov == 'azure' else edge(paras, a.voice, a.rate)
