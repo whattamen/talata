@@ -778,7 +778,7 @@ html[data-grace] #splash .sp-text{color:var(--head)}
   <section class="view" id="view-read" aria-label="Reader">
     <div id="reader" data-theme="paper" data-font="serif">
       <div class="r-top">
-        <a href="#/" id="r-back" aria-label="Back">&larr; Back</a>
+        <a href="#/" id="r-back" aria-label="Bumalik">&larr; Bumalik</a>
         <div class="title" id="r-title"></div>
         <button id="aa" aria-expanded="false" aria-controls="settings">Aa</button>
       </div>
@@ -1957,10 +1957,14 @@ var WORKS = [
   var navLinks=document.querySelectorAll('[data-nav]');
   var SITE='Talata';
   var SUPPORT_URL='';   // ilagay dito ang link ng Ko-fi/Patreon mo para lumabas ang "Suportahan"
-  var NEWSLETTER={buttondown:''};   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
+  var NEWSLETTER={buttondown:'talata'};
+  function subForm(id){
+    if(!NEWSLETTER.buttondown) return '';
+    return '<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="'+id+'">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="'+id+'" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>';
+  }   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
   foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a> \u00B7 <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
-    (NEWSLETTER.buttondown?'<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="sub-email">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="sub-email" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>':'')+
-    '<div>\u00A9 2026 '+esc(PEN.name)+'. All rights reserved.</div>';
+    subForm('sub-email')+
+    '<div>\u00A9 2026 '+esc(PEN.name)+'. Lahat ng karapatan ay nakalaan.</div>';
 
   /* ---------- saved data (this browser only) ---------- */
   function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
@@ -2361,7 +2365,7 @@ var WORKS = [
     });
     h+='</select>';
     h+=next?(next.soon?'<span aria-disabled="true">Susunod: malapit na</span>':'<a href="#/read/'+w.id+'/'+(n+1)+'">Susunod &rarr;</a>'):'<a href="#/w/'+w.id+'">Bumalik sa detalye</a>';
-    h+='</div><p class="share-row"><button type="button" class="cm-btn" data-share>Ibahagi ang kabanatang ito</button></p>';
+    h+='</div><p class="share-row"><button type="button" class="cm-btn" data-share>Ibahagi ang kabanatang ito</button></p>'+subForm('sub-email-ch');
     $('chapter').innerHTML=h;
     mountComments(w,n);
     bindListen();
