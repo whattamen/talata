@@ -129,6 +129,8 @@
   .author .bio{grid-column:1 / 7;max-width:34rem}
   .author .bio p+p{margin-top:1rem}
   .author .contact{grid-column:8 / 13;align-self:end}
+  .author .contact .socials{margin-top:1.1rem;font-family:var(--sans);font-size:.95rem}
+  .author .contact .socials a{display:inline;margin:0;font-family:inherit;font-size:inherit;border-bottom-width:1px}
   .author .contact a{display:inline-block;margin-top:.6rem;font-family:var(--display);font-size:clamp(1.3rem,2.6vw,2rem);text-decoration:none;border-bottom:3px solid var(--gold);color:var(--head)}
 
   /* ---------- CATEGORY PAGE ---------- */
@@ -1947,7 +1949,7 @@ var WORKS = [
   var SITE='Talata';
   var SUPPORT_URL='';   // ilagay dito ang link ng Ko-fi/Patreon mo para lumabas ang "Suportahan"
   var NEWSLETTER={buttondown:''};   // ilagay ang username mo sa Buttondown dito para lumabas ang email sign-up
-  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
+  foot.innerHTML='<div class="foot-links"><a href="#/submit">Magsumite</a> \u00B7 <a href="#" id="install-link" hidden>I-install ang app</a><span id="install-sep" hidden> \u00B7 </span><a href="#/privacy">Privacy</a> \u00B7 <a href="#/terms">Mga Tuntunin</a> \u00B7 <a href="/feed.xml">RSS</a> \u00B7 <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a>'+(SUPPORT_URL?' \u00B7 <a href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener">Suportahan ang manunulat</a>':'')+'</div>'+
     (NEWSLETTER.buttondown?'<form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/'+NEWSLETTER.buttondown+'" method="post" target="popupwindow" onsubmit="window.open(\'https://buttondown.com/'+NEWSLETTER.buttondown+'\',\'popupwindow\')"><label for="sub-email">Sundan ang Talata: ipaalam sa akin kapag may bagong kabanata</label><span><input id="sub-email" type="email" name="email" required placeholder="Iyong email"><button type="submit">Sundan</button></span></form>':'')+
     '<div>\u00A9 2026 '+esc(PEN.name)+'. All rights reserved.</div>';
 
@@ -2055,7 +2057,7 @@ var WORKS = [
       '</div></div><p class="count-line" id="found" aria-live="polite"></p><div class="books" id="results"></div><div class="shelf-line" aria-hidden="true"></div></section>';
     h += '<section class="author" id="about" aria-labelledby="about-title"><div class="author-inner"><h2 id="about-title">About the author</h2>'+
       '<div class="bio"><p class="pen">Writing as <strong>'+esc(PEN.name)+'</strong> <span class="bay" lang="tl-Tglg" aria-hidden="true">'+PEN.bay+'</span></p><p class="pen-note">Manunulat is Tagalog for writer or scribe.</p><!-- EDIT: write these in your own voice --><p>I am a professional who wants to provide good literature.</p></div>'+
-      '<div class="contact"><p>For collaborations, press, or to say hello:</p><p><a href="mailto:kagawaran@talata-studio.com">kagawaran@talata-studio.com</a></p></div></div></section>';
+      '<div class="contact"><p>For collaborations, press, or to say hello:</p><p><a href="mailto:kagawaran@talata-studio.com">kagawaran@talata-studio.com</a></p><p class="socials">Sundan ang Talata: <a href="https://www.facebook.com/talata.makata" target="_blank" rel="noopener">Facebook</a> \u00B7 <a href="https://www.tiktok.com/@talatastudio" target="_blank" rel="noopener">TikTok</a></p></div></div></section>';
     views.home.innerHTML=h;
     var g=document.getElementById('sun-rays'); if(g) g.outerHTML=sunRays();
     bindFinder();
