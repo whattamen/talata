@@ -158,6 +158,7 @@
   .learn-list li{padding:1.2rem 1.3rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
   .learn-list h3{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--head);margin:.3rem 0 .4rem}
   .learn-list a{color:var(--head)}
+.katha-k{font:700 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
 .lt-tabs{display:flex;gap:.5rem;flex-wrap:wrap;max-width:1250px;margin:0 auto;padding:.5rem 5vw 0;font-family:var(--sans)}
 .lt-tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:2px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-weight:600}
 .lt-tabs a:hover{color:var(--text);border-color:var(--gold)}
@@ -777,10 +778,7 @@ html[data-grace] #splash .sp-text{color:var(--head)}
   <nav aria-label="Main">
     <a href="#/" data-nav="home"><span class="n-en">Tahanan</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜑᜈᜈ᜔</span></a>
     <a href="/laro.html" class="nav-laro"><span class="n-en">🎮 Laro</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span></a>
-    <a href="#/c/novel" data-nav="novel"><span class="n-en">Nobela</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜈᜓᜊᜒᜎ</span></a>
-    <a href="#/c/kids" data-nav="kids"><span class="n-en">Kuwentong Pambata</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜓᜏᜒᜈ᜔ᜆᜓᜅ᜔ ᜉᜋ᜔ᜊᜆ</span></a>
-    <a href="#/c/alamat" data-nav="alamat"><span class="n-en">Alamat</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜎᜋᜆ᜔</span></a>
-    <a href="#/c/tula" data-nav="tula"><span class="n-en">Tula</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜎ</span></a>
+    <a href="#/katha" data-nav="katha"><span class="n-en">Katha</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜆ</span></a>
     <a href="#/learn" data-nav="learn"><span class="n-en">Aralin</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
@@ -2133,7 +2131,8 @@ var WORKS = [
   /* ---------- CATEGORY ---------- */
   function renderCat(k){
     var c=CATS[k]; var list=inCat(k);
-    var h='<div class="cat-head"><h1 tabindex="-1" id="cat-title">'+esc(c.name)+'</h1><p>'+esc(c.blurb)+'</p></div><section class="section">';
+    var h='<div class="cat-head"><p class="katha-k">Katha</p><h1 tabindex="-1" id="cat-title">'+esc(c.name)+'</h1><p>'+esc(c.blurb)+'</p></div>'+
+      '<nav class="lt-tabs" aria-label="Katha">'+Object.keys(CATS).map(function(x){return '<a href="#/c/'+x+'"'+(x===k?' aria-current="page"':'')+'>'+esc(CATS[x].name)+'</a>'}).join('')+'</nav><section class="section">';
     if(list.length){h+='<div class="books">'+list.map(bookCard).join('')+'</div><div class="shelf-line" aria-hidden="true"></div>'}
     else{h+='<div class="empty"><h3>Nothing here yet</h3><p>May paparating na bagong akda. Balikan mo kami.</p></div>'}
     h+='</section>';
@@ -2625,7 +2624,7 @@ var WORKS = [
     var name='home', navKey='home', title=SITE+' — Novels, Kids Stories, Alamat at Tula', focusId=null, about=false, sub=false, rw=null, n=0, sp=null;
 
     if(parts[0]==='c' && CATS[parts[1]]){
-      name='cat'; navKey=parts[1]; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
+      name='cat'; navKey='katha'; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
     }else if(parts[0]==='stats'){
       name='learn'; navKey='about'; renderStats(); title='Mga Bilang \u2014 '+SITE; focusId='stats-title';
     }else if(parts[0]==='privacy'||parts[0]==='terms'){
@@ -2634,14 +2633,16 @@ var WORKS = [
       name='learn'; navKey='about'; renderAuthor(parts[1]); title=AUTHORS[parts[1]].name+' — '+SITE; focusId='author-title';
     }else if(parts[0]==='submit'){
       name='learn'; navKey='learn'; renderLearn('info'); title='Magsumite — '+SITE; focusId='magsumite'; sub=true;
+    }else if(parts[0]==='katha'){
+      name='cat'; navKey='katha'; renderCat('novel'); title='Katha — '+SITE; focusId='cat-title';
     }else if(parts[0]==='learn'){
       name='learn'; navKey='learn'; renderLearn(parts[1]); title=(parts[1]==='laro'?'Laro':parts[1]==='info'?'Materials at Info':'Learning')+' — '+SITE; focusId='learn-title';
     }else if(parts[0]==='w' && byId(parts[1])){
-      var w=byId(parts[1]); name='work'; navKey=w.cat; renderWork(w); title=w.title+' — '+SITE; focusId='work-title';
+      var w=byId(parts[1]); name='work'; navKey='katha'; renderWork(w); title=w.title+' — '+SITE; focusId='work-title';
     }else if(parts[0]==='read' && byId(parts[1]) && validChapter(byId(parts[1]),+parts[2]||1)){
       rw=byId(parts[1]); n=+parts[2]||1;
       sp=progress[rw.id]?{ch:progress[rw.id].ch,pct:progress[rw.id].pct}:null;
-      name='read'; navKey=rw.cat; renderRead(rw,n); title=rw.chapters[n-1].label+' — '+rw.title; focusId='read-title';
+      name='read'; navKey='katha'; renderRead(rw,n); title=rw.chapters[n-1].label+' — '+rw.title; focusId='read-title';
     }else{
       renderHome(); if(parts[0]==='about'){about=true;navKey='about'}
     }
