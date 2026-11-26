@@ -1877,6 +1877,7 @@ var Heneral=(function(){
     var A=f&&board[f[0]]&&board[f[0]][f[1]],Bq=t&&board[t[0]]&&board[t[0]][t[1]],ea=A&&G3.pcs[A.id],eb=Bq&&G3.pcs[Bq.id];
     if(!ea||!eb){clash(a,b,res,v).then(done);return}
     var cam=G3.cam,ctl=G3.ctl,p0=cam.position.clone(),tg0=ctl.target.clone();ctl.enabled=false;
+    var hid=[];G3.hl.visible=false;for(var pid in G3.pcs)G3.pcs[pid].g.traverse(function(o){if(o.isSprite&&o.visible){o.visible=false;hid.push(o)}});
     var pa=new THREE.Vector3(f[1]-4,0,f[0]-3.5),pb=new THREE.Vector3(t[1]-4,0,t[0]-3.5),mid=pa.clone().add(pb).multiplyScalar(.5),dir=pb.clone().sub(pa).normalize(),perp=new THREE.Vector3(-dir.z,0,dir.x);
     if(perp.dot(p0.clone().sub(mid))<0)perp.negate();
     var cpos=mid.clone().add(perp.clone().multiplyScalar(2.4)).add(dir.clone().multiplyScalar(-.4)).add(new THREE.Vector3(0,1.15,0)),clook=mid.clone().add(new THREE.Vector3(0,.55,0));
@@ -1886,7 +1887,7 @@ var Heneral=(function(){
     $('c3N').textContent=(a.o===v?RN(a.k):'Lihim na piyesa')+'  ⚔  '+(b.o===v?RN(b.k):'Lihim na piyesa');
     $('c3V').className='c3v'+(wo>=0?' v'+wo:'');$('c3V').textContent=wo<0?'PAREHONG TANGGAL!':(mode==='ai'?(wo===0?'PANALO ANG PIYESA MO!':'TALO ANG PIYESA MO!'):'PANALO ANG '+TEAM[wo].toUpperCase()+'!');
     o3.hidden=false;
-    function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);o3.hidden=true;try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}
+    function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);o3.hidden=true;G3.hl.visible=true;hid.forEach(function(o){o.visible=true});try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}
       if(res==='b'||res==='both'){if(ea.g.visible)crumble3D(ea)}if(res==='a'||res==='both'){if(eb.g.visible)crumble3D(eb)}
       G3.camAnim={from:cam.position.clone(),to:p0,ft:ctl.target.clone(),tt:tg0,t0:performance.now(),dur:650,end:function(){ctl.enabled=true}};setTimeout(done,300)}
     o3.onclick=finish;sfx('whoosh');
