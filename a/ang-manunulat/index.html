@@ -2008,7 +2008,7 @@ var WORKS = [
   }
   function chips(list){return '<div class="chips">'+list.map(function(t){return '<span class="chip">'+esc(t)+'</span>'}).join('')+'</div>'}
   function bookCard(w){
-    return '<a class="book" href="#/w/'+w.id+'">'+cover(w)+'<h3>'+esc(w.subtitle||w.title)+'</h3><p>'+esc(CATS[w.cat].name)+(w.status?', '+esc(stat(w.status).toLowerCase()):'')+'</p></a>';
+    return '<a class="book" href="#/w/'+w.id+'">'+cover(w)+'<h3>'+esc(w.title)+'</h3><p>'+esc(CATS[w.cat].name)+(w.status?', '+esc(stat(w.status).toLowerCase()):'')+'</p></a>';
   }
 
   /* ---------- HOME ---------- */
@@ -2042,7 +2042,7 @@ var WORKS = [
     if(!best) return '';
     var c=best.w.chapters[best.p.ch-1];
     return '<section class="section resume" aria-label="Ituloy ang pagbasa"><div class="resume-card"><div>'+
-      '<p class="kicker">Continue reading</p><h2>'+esc(best.w.subtitle||best.w.title)+'</h2>'+
+      '<p class="kicker">Continue reading</p><h2>'+esc(best.w.title)+'</h2>'+
       '<p>'+esc(c.label)+(c.title?': '+esc(c.title):'')+', '+best.p.pct+'% nabasa na</p></div>'+
       '<a class="btn btn-gold" href="#/read/'+best.w.id+'/'+best.p.ch+'">Ituloy</a></div></section>';
   }
@@ -2454,7 +2454,7 @@ var WORKS = [
       items.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:b.i-a.i});
       items=items.slice(0,5); if(!items.length) return;
       $('latest-box').innerHTML='<section class="section" aria-labelledby="latest-h"><h2 id="latest-h" class="learn-h">Bagong kabanata</h2><ul class="latest">'+
-        items.map(function(x){var c=x.w.chapters[x.n-1];return '<li><a href="#/read/'+x.w.id+'/'+x.n+'"><strong>'+esc(x.w.subtitle||x.w.title)+'</strong> \u2014 '+esc(c.label)+(c.title&&c.title!==c.label?': '+esc(c.title):'')+'<small>'+esc(x.date)+'</small></a></li>'}).join('')+'</ul></section>';
+        items.map(function(x){var c=x.w.chapters[x.n-1];return '<li><a href="#/read/'+x.w.id+'/'+x.n+'"><strong>'+esc(x.w.title)+'</strong> \u2014 '+esc(c.label)+(c.title&&c.title!==c.label?': '+esc(c.title):'')+'<small>'+esc(x.date)+'</small></a></li>'}).join('')+'</ul></section>';
     });
   }
   function shareHere(title){
@@ -2611,7 +2611,7 @@ var WORKS = [
     }else if(parts[0]==='learn'){
       name='learn'; navKey='learn'; renderLearn(parts[1]); title=(parts[1]==='laro'?'Laro':parts[1]==='info'?'Materials at Info':'Learning')+' — '+SITE; focusId='learn-title';
     }else if(parts[0]==='w' && byId(parts[1])){
-      var w=byId(parts[1]); name='work'; navKey=w.cat; renderWork(w); title=(w.subtitle||w.title)+' — '+SITE; focusId='work-title';
+      var w=byId(parts[1]); name='work'; navKey=w.cat; renderWork(w); title=w.title+' — '+SITE; focusId='work-title';
     }else if(parts[0]==='read' && byId(parts[1]) && validChapter(byId(parts[1]),+parts[2]||1)){
       rw=byId(parts[1]); n=+parts[2]||1;
       sp=progress[rw.id]?{ch:progress[rw.id].ch,pct:progress[rw.id].pct}:null;
