@@ -1,0 +1,29 @@
+name: Gumawa ng audio ng laro (war cry)
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Gawing muli kahit may mp3 na (true/false)'
+        required: false
+        default: 'false'
+permissions:
+  contents: write
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install edge-tts
+      - name: Gumawa ng mp3
+        env:
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then python3 tools/make_game_audio.py --force; else python3 tools/make_game_audio.py; fi
+      - name: I-commit ang audio
+        run: |
+          git config user.name "talata-audio"; git config user.email "audio@talata-studio.com"
+          git add audio/laro
+          git diff --cached --quiet || (git commit -m "Magdagdag ng audio ng laro" && git push)

@@ -1642,8 +1642,17 @@ var Heneral=(function(){
   var ESCRY=['¡Adelante!','¡Por España!','¡Fuego!','¡A la carga!','¡Rendíos, insurrectos!'],KKCRY=['Mabuhay ang Katipunan!','Sugod, mga kapatid!','Para sa Inang Bayan!','Laban!'];
   function pick(a){return a[Math.floor(Math.random()*a.length)]}
   function cry(p,show){if(theme==='rv'){if(p.o===1)return pick(ESCRY);if(!show)return pick(KKCRY)}return show?CRIES[p.k]:pick(HCRY)}
-  function speak(text,k){if(muted||!window.speechSynthesis)return;try{var u=new SpeechSynthesisUtterance(text),vs=speechSynthesis.getVoices(),es=text.indexOf('¡')>=0,vo=vs.filter(function(x){return(es?/^es/i:/^(fil|tl)/i).test(x.lang)})[0];
-    u.lang=vo?vo.lang:(es?'es-ES':'fil-PH');if(vo)u.voice=vo;u.rate=k==='SPY'?.9:1.05;u.pitch=k[0]==='G'?.7:k==='SPY'?1.3:1;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+  var VOX={map:null,loading:false,cur:null};
+  function voxLoad(){if(VOX.map||VOX.loading)return;VOX.loading=true;fetch('/audio/laro/index.json').then(function(r){return r.ok?r.json():{}}).then(function(m){VOX.map=m||{}}).catch(function(){VOX.map={}})}
+  voxLoad();
+  function voxStop(){try{if(VOX.cur){VOX.cur.pause();VOX.cur=null}}catch(e){}try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}}
+  function speak(text,k){if(muted)return;voxStop();k=k||'';
+    var f=VOX.map&&VOX.map[text];
+    if(f){try{var au=new Audio('/audio/laro/'+f);au.volume=.95;VOX.cur=au;var pr=au.play();if(pr&&pr.catch)pr.catch(function(){})}catch(e){}return}
+    if(!window.speechSynthesis)return;
+    try{var es=text.indexOf('¡')>=0,vo=speechSynthesis.getVoices().filter(function(x){return(es?/^es/i:/^(fil|tl)/i).test(x.lang)})[0];
+      if(!vo)return; /* walang Filipino o Espanyol na boses: tahimik na lang, iwas sa American accent */
+      var u=new SpeechSynthesisUtterance(text);u.lang=vo.lang;u.voice=vo;u.rate=k==='SPY'?.9:1;u.pitch=k[0]==='G'?.8:1;speechSynthesis.speak(u)}catch(e){}}
   function clash(a,b,res,v){return new Promise(function(done){
     var CRY=1600,ca=cry(a,a.o===v),cb=cry(b,b.o===v),BA=$('bA'),BB=$('bB');
     BA.textContent=ca;BA.className='bubble t'+a.o;BB.textContent=cb;BB.className='bubble t'+b.o;
@@ -1656,7 +1665,7 @@ var Heneral=(function(){
     C.hidden=false;
     function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);
       var fo=C.animate([{opacity:1},{opacity:0}],{duration:reduce?1:260,fill:'forwards'});
-      try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}
+      voxStop();
       fo.onfinish=function(){C.hidden=true;C.getAnimations({subtree:true}).forEach(function(x){x.cancel()});[].forEach.call(C.querySelectorAll('.spark,.fshard,.dust,.slash,.crack,.hflash,.bolt'),function(s){s.remove()});FA.innerHTML='';FB.innerHTML='';done()}}
     C.onclick=finish;
     if(reduce){BA.classList.add('on');BB.classList.add('on');V.classList.add('on');T.push(setTimeout(finish,3200));return}
@@ -1910,7 +1919,7 @@ var Heneral=(function(){
     $('c3N').textContent=(a.o===v?RN(a.k):'Lihim na piyesa')+'  ⚔  '+(b.o===v?RN(b.k):'Lihim na piyesa');
     $('c3V').className='c3v'+(wo>=0?' v'+wo:'');$('c3V').textContent=wo<0?'PAREHONG TANGGAL!':(mode==='ai'?(wo===0?'PANALO ANG PIYESA MO!':'TALO ANG PIYESA MO!'):'PANALO ANG '+TEAM[wo].toUpperCase()+'!');
     o3.hidden=false;
-    function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);o3.hidden=true;G3.hl.visible=true;hid.forEach(function(o){o.visible=true});try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}
+    function finish(){if(fin)return;fin=true;T.forEach(clearTimeout);o3.hidden=true;G3.hl.visible=true;hid.forEach(function(o){o.visible=true});voxStop();
       if(res==='b'||res==='both'){if(ea.g.visible)crumble3D(ea)}if(res==='a'||res==='both'){if(eb.g.visible)crumble3D(eb)}[ea,eb].forEach(function(e){if(e.g.visible&&e.g.userData.acts)act(e.g,'Idle',false,.4)});
       G3.camAnim={from:cam.position.clone(),to:p0,ft:ctl.target.clone(),tt:tg0,t0:performance.now(),dur:650,end:function(){ctl.enabled=true}};setTimeout(done,300)}
     o3.onclick=finish;sfx('whoosh');
@@ -1994,8 +2003,8 @@ var Heneral=(function(){
   }
   function trText(t,cls){var x=$('trText');x.className='trtext '+(cls||'');x.textContent=t;x.classList.remove('on');void x.offsetWidth;if(t)x.classList.add('on')}
   function trFlash(op){var f=$('trFlash');f.animate([{opacity:0},{opacity:op||.85,offset:.15},{opacity:0}],{duration:420})}
-  function trEndCard(){if(TR.audio)try{TR.audio.close()}catch(e){};TR.audio=null;try{speechSynthesis.cancel()}catch(e){}$('trEnd').classList.add('on');$('trText').classList.remove('on')}
-  function trClose(){TR.on=false;if(TR.audio)try{TR.audio.close()}catch(e){};TR.audio=null;try{speechSynthesis.cancel()}catch(e){}
+  function trEndCard(){if(TR.audio)try{TR.audio.close()}catch(e){};TR.audio=null;voxStop();$('trEnd').classList.add('on');$('trText').classList.remove('on')}
+  function trClose(){TR.on=false;if(TR.audio)try{TR.audio.close()}catch(e){};TR.audio=null;voxStop();
     if(TR.r){TR.r.dispose();TR.r.domElement.remove();TR.r=null}$('trl').classList.remove('on');if(!ov.classList.contains('on'))document.body.classList.remove('locked')}
   /* audio */
   function trAudio(){if(muted)return null;try{var A=new(window.AudioContext||window.webkitAudioContext)();var M=A.createGain();M.gain.value=.9;M.connect(A.destination);
@@ -2067,7 +2076,7 @@ var Heneral=(function(){
     for(var c=0;c<9;c++){var sp=P(1,2,c),kp=P(0,5,c);if(sp)mv(sp,22.2+c*.06,.6,c-4,-.5,.35);if(kp)mv(kp,23.6+c*.06,.6,c-4,.5,.35)}
     at(25,function(){trText('Sa bawat salpukan, iisa lang ang matitira.')});
     at(27.2,function(){trText('“Negosyo o kalayaan? Bayan o sarili? Pumili ka!”','cry');
-      if(!muted&&window.speechSynthesis)try{var u=new SpeechSynthesisUtterance('Negosyo o kalayaan? Bayan o sarili? Pumili ka!');var vo=speechSynthesis.getVoices().filter(function(x){return/^(fil|tl)/i.test(x.lang)})[0];u.lang=vo?vo.lang:'fil-PH';if(vo)u.voice=vo;u.pitch=.7;u.rate=.95;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}});
+      speak('Negosyo o kalayaan? Bayan o sarili? Pumili ka!','G5')});
     mv(ES,28.7,.4,0,-.2,.15);mv(G5,28.8,.4,0,.2,.15);
     at(29.2,function(){trFlash(.9);trSparks(0,.6,0);TR.slow=1});
     at(29.6,function(){trCrumble(ES)});
