@@ -1121,7 +1121,7 @@ var Bituin=(function(){
     {id:'nova',ic:'✺',c:'#ffffff',n:'Sabog ng Bituin',d:'Alon ng liwanag na pumupuksa ng bala',max:3,w:1}];
   var UH={id:'heal',ic:'♥',c:'#ff4fa3',n:'Dagdag Buhay',d:'+1 buhay'},UG={id:'gold',ic:'★',c:'#ffd76a',n:'Gintong Bituin',d:'+2,500 puntos'};
   function dropXP(x,y,v){while(v>0){var b=v>=5?5:1;v-=b;var a=rnd()*TAU,s=40+rnd()*130;gems.push({x:x,y:y,vx:cos(a)*s,vy:sin(a)*s,v:b,t:0})}}
-  function addXP(v){xp+=v;while(xp>=need){xp-=need;lvl++;need=Math.round(7+lvl*4.5+lvl*lvl*.35);pendLv++}if(pendLv&&state==='play')openLvl()}
+  function addXP(v){xp+=v;while(xp>=need){xp-=need;lvl++;need=Math.round(7+lvl*4.5+lvl*lvl*.35);pendLv++}if(pendLv&&state==='play'&&!(banner&&banner.hold))openLvl()}
   function openLvl(){state='lvl';duck(true);sfx('lvl');ptr=null;lvlLock=performance.now()+380;
     var pool=U.filter(function(u){return L[u.id]<u.max}),pick=[];
     while(pick.length<3&&pool.length){var tot=0,i;for(i=0;i<pool.length;i++)tot+=pool[i].w;var r=rnd()*tot;for(i=0;i<pool.length;i++){r-=pool[i].w;if(r<=0)break}pick.push(pool.splice(Math.min(i,pool.length-1),1)[0])}
@@ -1194,7 +1194,7 @@ var Bituin=(function(){
     var pts=5000*(b.k+1)*(1+cyc);score+=pts;setBanner(b.name+' · TALO!','+'+pts.toLocaleString()+' puntos','#ffd76a',2.6);hud()}
   function bossEnd(){var b=boss;boom(b.x,b.y,'#ffffff',4.5);boom(b.x,b.y,b.k===2?'#3fe0ff':'#ffd76a',3);gpush(b.x,b.y,900,Math.max(W,H)*.6);trauma(.8);hs=.12;sfx('big');
     dropXP(b.x,b.y,30+b.k*12);if(lives<5)gems.push({x:b.x,y:b.y,vx:0,vy:-80,v:-1,t:0});vac=2.5;
-    if(b.k===2){cyc++;store.set('bituinWin',true);setBanner('NAILIGTAS ANG BUWAN!','Ikot '+(cyc+1)+' · mas mabangis na ang mga alamat','#ffd76a',4);sfx('win')}
+    if(b.k===2){cyc++;store.set('bituinWin',true);setBanner('Ang galing mo Mame! 💛','Nailigtas mo ang buwan · Ikot '+(cyc+1),'#ffd76a',5);banner.hold=true;for(var hi=0;hi<14;hi++)ftext(W*(.15+rnd()*.7),H*(.45+rnd()*.25),'♥','#ff4fa3');sfx('win')}
     boss=null;mus.boss=false;bossNext=3;hud()}
 
   /* ---------- manlalaro ---------- */
@@ -1234,6 +1234,7 @@ var Bituin=(function(){
     if(bossDelay>0){bossDelay-=dt;if(bossDelay<=0)bossSpawn()}
     if(bossNext>0){bossNext-=dt;if(bossNext<=0&&state==='play')nextWave()}
     if(banner){banner.t-=rdt;if(banner.t<=0)banner=null}
+    if(pendLv&&state==='play'&&!(banner&&banner.hold))openLvl();
     if(state==='play'){spawnT-=dt;if(spawnT<=0){if(boss||bossDelay>0){spawnT=4.5;if(boss&&boss.ent<=0&&rnd()<.5)for(i=0;i<3;i++)mk('santelmo',W*(.2+rnd()*.6),-30-i*30,{vy:110})}
       else{group();spawnT=Math.max(.75,2.4-wave*.11)*(.75+rnd()*.5)}}}
     // galaw ng barko (real-time para responsive kahit slow-mo)
