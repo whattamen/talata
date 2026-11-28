@@ -2214,7 +2214,7 @@ var WORKS = [
   var current  = null;                     // {w, n} while reading
 
   var toastT;
-  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},2400)}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},Math.max(2400,m.length*65))}
 
   /* ---------- helpers ---------- */
   function byId(id){return WORKS.filter(function(w){return w.id===id})[0]}
@@ -3013,15 +3013,22 @@ var WORKS = [
     var dp=null, link=$('install-link'), sep=$('install-sep');
     var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
     if(!link||standalone) return;
-    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    var ua=navigator.userAgent, ios=/iphone|ipad|ipod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
     function show(){link.hidden=false; sep.hidden=false}
     window.addEventListener('beforeinstallprompt',function(e){e.preventDefault(); dp=e; show()});
     window.addEventListener('appinstalled',function(){link.hidden=true; sep.hidden=true; dp=null});
-    if(ios) show();
+    show(); /* laging nakikita ang link; iba-iba ang tagubilin ayon sa browser */
+    function howTo(){
+      if(/FBAN|FBAV|Messenger|Instagram|Line\//i.test(ua)) return 'Buksan muna ang Talata sa Chrome o Safari (menu \u22EF \u2192 "Open in browser"), tapos i-install doon.';
+      if(ios) return 'Pindutin ang Share (kahon na may palaso), tapos "Add to Home Screen".';
+      if(/Firefox/i.test(ua)&&!/Android/i.test(ua)) return 'Hindi sinusuportahan ng Firefox sa computer ang pag-install. Gamitin ang Chrome, Edge, o Safari.';
+      if(/Safari/i.test(ua)&&!/Chrome|Chromium|Edg/i.test(ua)) return 'Sa Safari ng Mac: menu "File" \u2192 "Add to Dock".';
+      return 'Buksan ang menu ng browser (\u22EE) at piliin ang "Install app" o "Add to Home screen". Kung wala, nai-install mo na ito o kailangan munang ilang beses mong buksan ang site.';
+    }
     link.addEventListener('click',function(e){
       e.preventDefault();
-      if(dp){ dp.prompt(); dp.userChoice.finally(function(){dp=null; link.hidden=true; sep.hidden=true}); return }
-      toast(ios?'Pindutin ang Share, tapos "Add to Home Screen"':'Buksan ang menu ng browser at piliin ang "Install app"');
+      if(dp){ dp.prompt(); dp.userChoice.finally(function(){dp=null}); return }
+      toast(howTo());
     });
   })();
   if(IS_HTTP&&'serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}

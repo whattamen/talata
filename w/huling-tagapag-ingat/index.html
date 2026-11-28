@@ -61,7 +61,17 @@
   /* ---------- HEADER ---------- */
   .site-head{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1.5rem;padding:.8rem 5vw;background:var(--head-bg);border-bottom:1px solid var(--line)}
   .brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;color:var(--gold-soft);white-space:nowrap}
-  .site-head nav{display:flex;gap:1.3rem;margin-left:auto;font-family:var(--sans);font-size:.95rem;overflow-x:auto;scrollbar-width:none}
+  .site-head nav{display:flex;gap:1.3rem;margin-left:auto;font-family:var(--sans);font-size:.95rem;overflow:visible}
+.nd{position:relative;display:flex}
+.nd .dd{position:absolute;top:calc(100% + .35rem);left:50%;transform:translateX(-50%) translateY(-4px);min-width:13rem;display:flex;flex-direction:column;padding:.4rem;border-radius:12px;background:var(--head-bg,#141413);border:1px solid var(--gold,#c9a45c);box-shadow:0 14px 34px rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s;z-index:40}
+.nd .dd::before{content:"";position:absolute;left:0;right:0;top:-.5rem;height:.5rem}
+.nd.open .dd{opacity:1;visibility:visible;transform:translateX(-50%)}
+.site-head nav .nd:last-child .dd{left:auto;right:0;transform:translateY(-4px)}
+.site-head nav .nd:last-child.open .dd{transform:none}
+@media (hover:hover){.site-head nav .nd:last-child:hover .dd,.site-head nav .nd:last-child:focus-within .dd{transform:none}}
+@media (hover:hover){.nd:hover .dd,.nd:focus-within .dd{opacity:1;visibility:visible;transform:translateX(-50%)}}
+.site-head nav .nd .dd a{display:block;flex-direction:row;padding:.6rem .8rem;border-radius:8px;border:0;color:var(--text);font-size:.95rem;white-space:nowrap}
+.site-head nav .nd .dd a:hover,.site-head nav .nd .dd a:focus-visible{background:rgba(201,164,92,.16);color:var(--head)}
   .site-head nav::-webkit-scrollbar{display:none}
   .site-head nav a{text-decoration:none;color:var(--muted);padding:.2rem 0;border-bottom:2px solid transparent;white-space:nowrap}
   .site-head nav a:hover,.site-head nav a[aria-current="page"]{color:var(--text);border-bottom-color:var(--gold)}
@@ -82,6 +92,13 @@
   .cover{position:relative;aspect-ratio:2/3;width:100%;color:#fff;background:linear-gradient(170deg,#4B4B48 0%,#2F2F2D 55%,#1C1C1B 100%);border-radius:4px 10px 10px 4px;box-shadow:-7px 0 0 rgba(0,0,0,.3) inset, 0 10px 22px rgba(0,0,0,.22);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem 1.1rem}
   .cover,.cover *{text-decoration:none}
   .cover svg{position:absolute;inset:0;width:100%;height:100%}
+.cover.has-bg{background:#111!important}
+.cover.has-bg img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover.has-bg::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64%;background:linear-gradient(transparent,rgba(0,0,0,.55) 35%,rgba(0,0,0,.88));pointer-events:none}
+.cover.has-bg .t,.cover.has-bg .s{position:relative;z-index:2;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.85)}
+.cover.has-bg .s{color:#f1e6c8}
+.cover:not(.has-img):not(.has-art) svg{inset:9% 8% auto 8%;width:84%;height:50%}
+.cover:not(.has-img):not(.has-art) .t{z-index:2}
   .cover .t{position:relative;font-family:var(--display);font-size:clamp(1.1rem,2.2vw,1.55rem);line-height:1.08;color:#fff}
   .cover .s{position:relative;font-family:var(--sans);font-size:.75rem;margin-top:.5rem;color:#E4E0D4}
 
@@ -151,6 +168,7 @@
   .learn-list li{padding:1.2rem 1.3rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
   .learn-list h3{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--head);margin:.3rem 0 .4rem}
   .learn-list a{color:var(--head)}
+.katha-k{font:700 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
 .lt-tabs{display:flex;gap:.5rem;flex-wrap:wrap;max-width:1250px;margin:0 auto;padding:.5rem 5vw 0;font-family:var(--sans)}
 .lt-tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border:2px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-weight:600}
 .lt-tabs a:hover{color:var(--text);border-color:var(--gold)}
@@ -158,6 +176,16 @@
 .lt-lede{max-width:40rem;color:var(--muted);margin-bottom:1rem}
 .lt-h3{font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--head);margin:1.6rem 0 .6rem}
 #magsumite{margin-top:2.5rem}
+.laro-promo{position:relative;display:flex;align-items:flex-end;max-width:1250px;margin:1.5rem auto;margin-inline:max(16px,5vw);min-height:220px;border-radius:14px;overflow:hidden;text-decoration:none;color:#fff;border:1px solid var(--gold,#c9a45c);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.laro-promo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.laro-promo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85),rgba(0,0,0,.45) 60%,rgba(0,0,0,.1))}
+.lp-txt{position:relative;z-index:1;display:flex;flex-direction:column;gap:.35rem;padding:1.4rem 1.5rem;max-width:34rem}
+.lp-k{font:700 .72rem/1 var(--sans,Inter,sans-serif);letter-spacing:.14em;color:#ffd76a}
+.lp-txt b{font-family:var(--display,Georgia,serif);font-weight:400;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1}
+.lp-txt>span:not(.lp-k):not(.lp-btn){font-size:.95rem;color:#efe6cf}
+.lp-btn{align-self:flex-start;margin-top:.4rem;padding:.55rem 1.1rem;border-radius:999px;background:#ffd76a;color:#1a0f00;font-weight:700}
+.laro-promo:hover .lp-btn{filter:brightness(1.08)}
+.site-head nav a.nav-laro .n-en{color:var(--gold,#c9a45c);font-weight:700}
 .bigkas-card{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;max-width:44rem;margin:0 0 2.5rem;padding:1.3rem 1.4rem;border:2px solid var(--sea);border-radius:6px;background:var(--paper,transparent)}
 .bigkas-card .bk-bay{font-size:2rem;line-height:1;color:var(--head)}
 .bigkas-card div{flex:1;min-width:14rem}
@@ -592,7 +620,7 @@ html[data-grace] #splash .sp-text{color:var(--head)}
 </style>
 </head>
 <body>
-<!--NS--><noscript><main><h1>Ang Huling Tagapag-ingat ng Tala</h1><p>Mateo is sixteen, a student-intern who helps out at an archive in Intramuros in the evenings after school. When a storm sends the rest of the staff home, he opens an unlabeled chest at the back of the room and finds a deerskin notebook holding a map of the islands drawn in gold ink.</p><p>The lines begin to move. Dots join into constellations, and an island appears in the Sibuyan Sea that no modern globe shows. A warning in old Baybayin says the guardians of the land will wake, and that whoever can read it becomes the next keeper.</p><p>Then the lights go out, the ink turns blue, and beneath the floor a stone staircase begins to open.</p><ol><li><a href="/read/huling-tagapag-ingat/1/">Kabanata 1: Ang Mapa sa Ilalim ng Simbahan</a></li><li><a href="/read/huling-tagapag-ingat/2/">Kabanata 2: Ang Batong Hagdanan</a></li><li><a href="/read/huling-tagapag-ingat/3/">Kabanata 3: Mga Rider na Hindi Nag-aabot ng Pagkain</a></li><li><a href="/read/huling-tagapag-ingat/4/">Kabanata 4: Ang Dyipni na Hindi Dumadaan sa Kalsada</a></li><li><a href="/read/huling-tagapag-ingat/5/">Kabanata 5: Sa Ilalim ng Lawa</a></li><li><a href="/read/huling-tagapag-ingat/6/">Kabanata 6: Ang Punong Guro na Mukhang Lola</a></li></ol></main></noscript><!--/NS-->
+<!--NS--><noscript><main><h1>Ang Huling Tagapag-ingat ng Tala</h1><p>Mateo is sixteen, a student-intern who helps out at an archive in Intramuros in the evenings after school. When a storm sends the rest of the staff home, he opens an unlabeled chest at the back of the room and finds a deerskin notebook holding a map of the islands drawn in gold ink.</p><p>The lines begin to move. Dots join into constellations, and an island appears in the Sibuyan Sea that no modern globe shows. A warning in old Baybayin says the guardians of the land will wake, and that whoever can read it becomes the next keeper.</p><p>Then the lights go out, the ink turns blue, and beneath the floor a stone staircase begins to open.</p><ol><li><a href="/read/huling-tagapag-ingat/1/">Kabanata 1: Ang Mapa sa Ilalim ng Simbahan</a></li><li><a href="/read/huling-tagapag-ingat/2/">Kabanata 2: Ang Batong Hagdanan</a></li><li><a href="/read/huling-tagapag-ingat/3/">Kabanata 3: Mga Rider na Hindi Nag-aabot ng Pagkain</a></li><li><a href="/read/huling-tagapag-ingat/4/">Kabanata 4: Ang Dyipni na Hindi Dumadaan sa Kalsada</a></li><li><a href="/read/huling-tagapag-ingat/5/">Kabanata 5: Sa Ilalim ng Lawa</a></li><li><a href="/read/huling-tagapag-ingat/6/">Kabanata 6: Ang Punong Guro na Mukhang Lola</a></li><li><a href="/read/huling-tagapag-ingat/7/">Kabanata 7: Ang Hapag sa Ilalim ng Balete</a></li><li><a href="/read/huling-tagapag-ingat/8/">Kabanata 8: Alas-Onse sa Labas ng Archivo</a></li><li><a href="/read/huling-tagapag-ingat/9/">Kabanata 9: Ang Pader ng mga Pangalan</a></li></ol></main></noscript><!--/NS-->
 <div id="splash" aria-hidden="true"><div class="sp-in"><div class="sp-word"><span class="sp-text">Talata</span><svg class="sp-quill" viewBox="0 0 64 64" focusable="false"><g><path d="M56 5 C37 6 21 18 14 39 L9 56 L15 50 C17 46 19 44 23 42 C42 38 54 24 56 5 Z" fill="#F7C83B" stroke="#161512" stroke-width="1.6" stroke-linejoin="round"/><path d="M54 8 L9 56" stroke="#161512" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M44 14 L37 21 M38 19 L32 26 M33 26 L27 32 M27 33 L21 38 M47 20 L40 26 M41 26 L35 32 M35 33 L29 38" stroke="#161512" stroke-width="1" stroke-linecap="round" fill="none" opacity=".7"/></g></svg><svg class="sp-ink" viewBox="0 0 120 10" preserveAspectRatio="none" focusable="false"><path d="M2 6 C14 1 22 9 36 5 S58 2 72 6 S98 9 118 4" fill="none" stroke="#F7C83B" stroke-width="2.4" stroke-linecap="round" pathLength="100"/></svg></div><div class="sp-bay" lang="tl-Tglg">ᜆᜎᜆ</div></div></div>
 
 <!-- Shared artwork. Everything uses currentColor so covers (white) and tiles (soft blue) can recolor it. -->
@@ -759,11 +787,11 @@ html[data-grace] #splash .sp-text{color:var(--head)}
   </a>
   <nav aria-label="Main">
     <a href="#/" data-nav="home"><span class="n-en">Tahanan</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜑᜈᜈ᜔</span></a>
-    <a href="#/c/novel" data-nav="novel"><span class="n-en">Nobela</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜈᜓᜊᜒᜎ</span></a>
-    <a href="#/c/kids" data-nav="kids"><span class="n-en">Kuwentong Pambata</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜓᜏᜒᜈ᜔ᜆᜓᜅ᜔ ᜉᜋ᜔ᜊᜆ</span></a>
-    <a href="#/c/alamat" data-nav="alamat"><span class="n-en">Alamat</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜎᜋᜆ᜔</span></a>
-    <a href="#/c/tula" data-nav="tula"><span class="n-en">Tula</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜆᜓᜎ</span></a>
-    <a href="#/learn" data-nav="learn"><span class="n-en">Aralin</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+    <a href="/laro.html" class="nav-laro"><span class="n-en">🎮 Laro</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜎᜇᜓ</span></a>
+    <div class="nd"><a href="#/katha" data-nav="katha" aria-haspopup="true" aria-expanded="false"><span class="n-en">Katha ▾</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜃᜆ</span></a>
+      <div class="dd" role="menu"><a role="menuitem" href="#/c/novel">📖 Nobela</a><a role="menuitem" href="#/c/kids">🧒 Kuwentong Pambata</a><a role="menuitem" href="#/c/alamat">🌋 Alamat</a><a role="menuitem" href="#/c/tula">🕯 Tula</a></div></div>
+    <div class="nd"><a href="#/learn" data-nav="learn" aria-haspopup="true" aria-expanded="false"><span class="n-en">Aralin ▾</span><span class="n-bay" lang="tl-Tglg" aria-hidden="true">ᜀᜇᜎᜒᜈ᜔</span></a>
+      <div class="dd" role="menu"><a role="menuitem" href="#/learn">🔤 Aralin</a><a role="menuitem" href="#/learn/laro">🎮 Laro</a><a role="menuitem" href="#/learn/info">📚 Materyales at Info</a></div></div>
   </nav>
   <button class="theme-btn" id="theme" type="button">Dark</button>
 </header>
@@ -940,6 +968,41 @@ var WORKS = [
     "kind": "Mundo",
     "name": "Ang huling Tagapag-ingat",
     "text": "Sabi ni Lola Dayang Ilaw: \"Pitong buwan. Pitong bituin. Pitong selyo.\" Hindi lakas ang hinahanap sa Tagapag-ingat; madalas, ang pinakamaliit ang pinipili."
+  },
+  {
+    "kind": "Tauhan",
+    "name": "Lia",
+    "text": "Anak ng Mambabarang. Magaling sa potions at may sariling \"live\" para sa kakaunti niyang kaibigan. Mabilis ang tsismis sa Kampo, at mas mabilis pa siya."
+  },
+  {
+    "kind": "Tauhan",
+    "name": "Gino",
+    "text": "Kalahating Tikbalang: tikbalang ang tatay, tao ang nanay na taga-Batangas. Mas matangkad ng isang ulo sa lahat, laging gutom, at hindi lahat ng tikbalang ay pumili ng kabila, sabi niya."
+  },
+  {
+    "kind": "Tauhan",
+    "name": "Ms. Reyes",
+    "text": "Guro ni Mateo sa Chemistry, Room 204. Napansin niyang nag-aral si Mateo kahit pagod."
+  },
+  {
+    "kind": "Lugar",
+    "name": "Kapilya ng Santo Niño",
+    "text": "Maliit na kapilya sa pagitan ng dalawang ugat ng balete. Ilang kandila, sampagita, at isang munting rebulto."
+  },
+  {
+    "kind": "Lugar",
+    "name": "Ang Pader ng mga Pangalan",
+    "text": "Mga ugat ng balete na may nakaukit na pangalan ng mga Tagapag-ingat. Sa pinakadulo ng pinakamataas na ugat, may ukit na halos wala nang bakas: ang una."
+  },
+  {
+    "kind": "Mundo",
+    "name": "Ulap",
+    "text": "Ang mata ng tao ay nakikita ang inaasahan nito, kaya hindi nila nakikita ang mga halimaw."
+  },
+  {
+    "kind": "Mundo",
+    "name": "Ang Awit ng Pitong Buwan",
+    "text": "Pitong buwan ang lalamunin ng gutom na walang pangalan, pitong bantay ang gigising sa kani-kanilang bundok, at isang munting kamay ang hahawak sa lahat ng liwanag. Ngunit may ikawalong buwan na walang nakakakita. Alam ni Tala ang himig, at hindi niya alam kung bakit."
   }
 ]/*WORLD-END*/,
     cat: 'novel',
@@ -1208,6 +1271,173 @@ var WORKS = [
 },
 {
   "label": "Kabanata 7",
+  "title": "Ang Hapag sa Ilalim ng Balete",
+  "endNote": "Draft chapter, still being proofread",
+  "paras": [
+    "Ang kantina ng Kampo Tagapag-ingat ay nasa mismong mga ugat ng balete. Kaya hindi parisukat ang mga mesa, at walang dalawang upuang magkapareho ang taas. Mukhang walang nagplano nito. Mukhang tumubo lang ang lahat, at pumayag na lang ang mga tao.",
+    "Umupo si Mateo sa dulo ng mahabang bangko. Sa harap niya, may mangkok ng sinigang na kulay-ginto ang sabaw, at pinggan ng kanin na mas mataas pa sa kamao niya. Ngayon lang niya naramdaman kung gaano siya kagutom. Ang huli niyang kinain ay pandesal sa Archivo, bago pa dumating ang bagyo, bago pa nagkaroon ng mga kabayong naka-jacket.",
+    "Sa gilid ng mangkok, nakaupo si Tala, kasinglaki ulit ng palad, yakap ang isang butil ng kanin na parang unan.",
+    "\"Limang daan at labingsiyam na taon,\" bulong niya, nakapikit, \"at ito pa rin ang pinakamasarap na likha sa buong mundo.\"",
+    "\"Ang kanin po?\"",
+    "\"Ang *mainit* na kanin.\"",
+    "\"Bagong estudyante?\"",
+    "Tumingala si Mateo. Isang batang babae ang umupo sa harap niya, naka-uniporme ng asul at ginto, may maliit na bote ng kumikislap na likido na nakasabit sa leeg na parang ID lace. Hawak niya ang cellphone, nakatutok sa mangkok ni Mateo.",
+    "\"Hi sa lahat ng nanonood!\" sabi niya sa camera. \"Ito po ang Huling Tagapag-ingat, kumakain ng sinigang. I-like n'yo kung—\"",
+    "\"Lia,\" sabi ng isang tinig mula sa kabilang mesa, \"hindi pa rin siya pumapayag.\"",
+    "\"Hindi pa, kasi hindi pa niya alam na nasa live siya.\" Ibinaba ni Lia ang cellphone at tumawa nang walang hiya. \"Joke lang! Para lang sa mga kaibigan ko ang live, at kakaunti sila. Ako si Lia.\"",
+    "\"Mateo po.\"",
+    "\"Alam ko. Alam na ng buong Kampo. Mahina ang Wi-Fi dito, pero mabilis ang tsismis.\"",
+    "Inabot niya ang kamay, at nagkamay sila. Malamig ang palad niya, at amoy-luya.",
+    "\"Anak ako ng Mambabarang,\" dagdag ni Lia, na parang nagbabasa ng pangalan at section. \"Oo, iyon. Iyong nasa mga kuwento ni Lola n'yo na nagpapadala ng mga langgam sa kaaway. Nagpapagawa na lang ng pampahid na ointment si Nanay ngayon. Ako, potions ang forte ko.\" Tinapik niya ang bote sa leeg. \"At content.\"",
+    "\"Anong klaseng potion po?\"",
+    "\"Kahit ano, basta may ingredient. Chemistry lang iyan na may mas magandang pangalan.\"",
+    "Napaupo nang tuwid si Mateo. Chemistry. May quiz nga pala sila. Hinugot niya ang cellphone sa bulsa, at sa isang kurap ng signal ay sunod-sunod na pumasok ang mga mensahe sa group chat ng klase: *Reminder: QUIZ bukas sa Chem. Mole concept! Dalhin ang calculator. —Ms. Reyes.*",
+    "\"Naku po,\" mahina niyang sabi. \"May quiz po ako bukas.\"",
+    "\"Quiz?\" Tumaas ang kilay ni Lia. \"Dito, Pagsubok ang tawag. Mas mataas ang taya.\"",
+    "Biglang may mabigat na bumagsak sa bangko sa tabi niya. Tumalbog ang sinigang. Isang batang lalaki, mas matangkad nang isang ulo kaysa sa lahat ng nasa kantina, ang umupo at nagsimulang kumain bago pa man siya tuluyang makaupo. May isang mahabang hibla ng itim na mane na tumutubo sa likod ng leeg niya. Medyo masyadong matulis ang mga tainga niya. At ang tunog ng mga paa niya sa sahig ay hindi tunog ng rubber shoes.",
+    "\"Gino,\" sabi niya, puno ang bibig. \"Gutom.\"",
+    "\"Mateo po.\"",
+    "\"Alam ko.\" Lumunok siya. \"Amoy lumang papel ka. Gusto ko.\"",
+    "Ngumiti si Mateo, at nakita niya ang tainga ni Gino na kumibot, tulad ng sa kabayo.",
+    "Saka niya naalala ang mainit na hininga sa batok niya sa Calle Real. Ang ngiting may labis na ngipin.",
+    "Tumigil ang kutsara niya sa hangin.",
+    "\"Tikbalang ka?\" bulong niya.",
+    "Tumigil sa pagnguya si Gino. Ang mga tainga niya, na kanina ay nakatayo, ay dahan-dahang yumuko.",
+    "\"Kalahati,\" sabi niya. Maliit na ang boses niya, na kakaiba para sa taong ganoon kalaki. \"Tikbalang ang tatay ko. Tao si Nanay. Taga-Batangas.\" Tumayo siya nang kalahati. \"Okay lang. Sanay na ako. Doon na lang ako sa—\"",
+    "\"Gino,\" sabi ni Lia. Hindi na siya nakangiti.",
+    "May naalala si Mateo. Naalala niya kung paano siya tinitingnan sa eskuwela tuwing may nagsasabing, \"Ah, siya iyong scholar. Iyong intern.\" Hindi pa siya nakakapagsalita ay may hatol na ang buong silid. Hindi niya alam kung bakit ngayon lang niya naisip iyon.",
+    "\"Sorry po,\" sabi niya, at tumayo rin siya nang kalahati, kaya nagmukha silang dalawang taong nag-aabutan ng pinto. \"Hindi po dapat ako natakot sa iyo. Ang mga naka-green ang humabol sa akin. Hindi ikaw. Pinagsama ko kayo, at mali iyon.\"",
+    "Matagal siyang tinitigan ni Gino.",
+    "\"Ang mga naka-green,\" sabi niya sa wakas, \"ay mga tikbalang na pumili ng kabila. Hindi lahat ay pumili.\"",
+    "\"Anong kabila po?\"",
+    "Nagkatinginan sina Gino at Lia.",
+    "\"Mamaya na,\" sabi ni Lia. \"Hindi ngayon, habang may sinigang.\"",
+    "Itinulak ni Mateo ang kalahati ng kanin niya papunta kay Gino. \"Gusto mo po ba nito? Hindi ko kayang ubusin.\"",
+    "Nawala ang kanin sa loob ng tatlong segundo.",
+    "\"Ang bait mo,\" sabi ni Gino, namumula ang tainga. \"Kaibigan na kita. Hindi ko pa alam kung gusto mo, pero ikaw ang bahala.\"",
+    "Tumawa si Lia, at pati si Tala ay napahagikgik sa kanin niya.",
+    "Pagkatapos kumain, itinuro ni Lia ang pinakaibaba ng balete. \"May isang bar sa ilalim ng ikatlong ugat. Narinig ko kay Lola Dayang Ilaw na gusto mo raw magtext sa Mama mo. Doon ka pumuwesto.\"",
+    "\"Paano n'yo po nalaman?\"",
+    "\"Sabi ko nga, mabilis ang tsismis.\"",
+    "Umupo siya sa ilalim ng ikatlong ugat, at sumilip ang buong Kampo sa taas niya, mga ilaw na parang mga bituing nakabaligtad. Nag-type siya, nagbura, nag-type ulit.",
+    "*Ma, sorry po, na-late ako. May inventory pa po sa Archivo, nawalan ng ilaw dahil sa bagyo. Okay lang po ako. Matulog na po kayo.*",
+    "Pinindot niya ang send.",
+    "Hindi pa siya kailanman nagsinungaling kay Mama nang ganito kalaki. Parang may bato sa dibdib niya na kasinglaki ng pinakamalaking butil ng kanin.",
+    "Sumagot si Mama sa loob ng tatlong segundo.",
+    "*Anak? Nandito ako sa labas ng Archivo. Sarado ang gate. Nasaan ka?*"
+  ]
+},
+{
+  "label": "Kabanata 8",
+  "title": "Alas-Onse sa Labas ng Archivo",
+  "endNote": "Draft chapter, still being proofread",
+  "paras": [
+    "Hindi pa natatapos ni Mateo ang pagbasa sa text ni Mama nang nakatayo na siya, at nakatakbo na pataas ng tulay na lubid, at may mga kutsara nang nahulog sa likod niya sa kantina.",
+    "\"Anong nangyari?\" Nasa balikat na niya si Tala, hinihingal sa pagkapit.",
+    "\"Nasa labas po siya ng Archivo! Si Mama! Alas-onse na, Tala!\"",
+    "\"Huminga ka muna.\"",
+    "\"Hindi ako makahinga! Sabi ko po, matulog na siya! Bakit hindi siya natulog?\"",
+    "\"Dahil nanay siya,\" sabi ng isang pamilyar na boses, at nandoon na si Mang Tomas sa dulo ng tulay, nakasuot na ng sumbrero, hawak ang susi ng dyipni. Hindi siya mukhang nagulat. Mukhang matagal na niyang alam na darating ang gabing ito. \"Ihahatid kita pabalik.\"",
+    "\"Pero po, ang mga Tikbalang—\"",
+    "\"Kaya nga ako ang maghahatid.\"",
+    "Umahon sila, hindi sa pamamagitan ng ibang kalsada kundi ng mas lumang daan. Sumakay sila kay Bantay Pagong Kuya, at umakyat sila sa mga lagusang amoy-ulan, hanggang sa muling lumitaw ang batong hagdanan sa ilalim ng Archivo, na ngayon ay tahimik na parang hindi pa ito kailanman bumukas.",
+    "\"Paano po natin tatakpan ang lahat?\" bulong ni Mateo. \"Ang bentilador, ang pinto, ang—\"",
+    "\"Ulap,\" sabi ni Mang Tomas. \"Hindi lang ito panakip sa mga halimaw, hijo. Ang mata ng tao ay nakikita ang inaasahan nito. Ang makikita ng Mama mo ay isang batang lumabas sa Archivo. Walang pagong. Walang lawa. Walang kabayo.\"",
+    "\"Ang sira po sa bentilador?\"",
+    "\"Bukas na ang problema ng bentilador.\"",
+    "Nang dumaan sila sa bulwagan, huminto si Mateo sa tabi ng baul. Nakabukas pa rin ito. At sa ilalim, sa lugar na pinagpatungan ng kuwaderno, may napansin siyang hindi niya nakita kanina: isang lumang rosaryo na gawa sa maitim na kahoy, tuyong-tuyo, na parang buto. Napakainit nito nang hawakan niya, tulad ng batong galing sa araw.",
+    "\"Iwan mo muna iyan,\" sabi ni Mang Tomas, at hindi na niya ipinaliwanag.",
+    "Hindi nagtanong si Mateo. Isinara niya ang baul.",
+    "\"Isa na namang bagay na hindi nila sinasabi,\" bulong ni Tala, at pumasok na ito sa bulsa niya.",
+    "Tatlong beses humampas ang kamay ni Mama sa braso niya bago pa man bumukas nang buo ang gate.",
+    "\"Mateo Salvador! Tatlong beses akong tumawag! Anim na text!\"",
+    "\"Walang signal po, Ma, bagyo kasi—\"",
+    "\"Hindi ko sinabing hindi ka puwedeng ma-late. Sinabi kong magsabi ka!\" Basa ang buhok niya, at may nakasabit pang ID lace sa leeg, galing sa duty. Hindi pa niya natatapos ang sermon nang yakapin na niya si Mateo nang mahigpit, mas mahigpit kaysa sa kaya ng kahit anong Tikbalang. \"Akala ko...\" sabi niya, at hindi na itinuloy.",
+    "Nag-antanda siya nang mabilis, parang sa tuwing may nakaligtas na bagay. Alam ni Mateo ang galaw na iyon. Natutunan niya iyon kina Mama at Lola.",
+    "\"Sorry po, Ma. Nawalan po ng ilaw sa loob, tapos tinulungan ko si Mang Tomas sa inventory.\"",
+    "Madaling lumabas ang kasinungalingan. Iyon ang pinakamasama roon. Wala itong sama ng lasa, wala itong bigat. Madali lang.",
+    "\"Ma'am, ako po ang may kasalanan,\" singit ni Mang Tomas, nakatayo na sa tabi nila, nakakapote na naman, parang buong gabi na siyang naroon. \"Kinailangan ko po ang bata. Ihahatid ko na po kayo.\"",
+    "Dyipni na naman ang nakaparada sa kanto, kulay pula, dilaw, asul, na may *DIOS ANG BAHALA* sa harap. Ordinaryong dyipni lang ito sa paningin ni Mama. Mayroon pang lukot na resibo sa dashboard.",
+    "Sa biyahe, nakatulog si Mama sa balikat ni Mateo. Magaan ang hininga niya, at may maliit na uka sa pagitan ng kilay niya na hindi pa niya napansin dati. Pagod na pagod siya.",
+    "Hindi lumingon si Mang Tomas, pero mahina niyang sinabi: \"Hindi masama ang mag-ingat sa sasabihin, hijo. Ang masama ay masanay.\"",
+    "Hindi sumagot si Mateo. Tinitigan niya ang buhok ni Mama, na amoy-ulan at amoy-bahay.",
+    "*Sasabihin ko sa kanya,* sabi niya sa sarili. *Hindi pa ngayon. Pero hindi ko hahayaang maging madali ito.*",
+    "Alas-dos na nang matapos siyang mag-aral. Sa maliit nilang apartment sa Sampaloc, nakahiga si Mateo sa sahig, nakalatag sa harap niya ang notes sa Chem, habang nanonood si Tala ng video na pinamagatang *Mole Concept in 10 Minutes*, nakaupo sa ibabaw ng calculator.",
+    "\"Anim-punto-zero-dalawa, beses sampu sa ikadalawampu't tatlo,\" bulong ng diwata. \"Ang dami. Mas matagal pa kaysa sa pagkakakulong ko.\"",
+    "\"Avogadro's number po iyan.\"",
+    "\"Magaling siya, ang Avogadro. Sino siya, isang Tagapag-ingat?\"",
+    "\"Hindi po, scientist.\"",
+    "\"Parang magkapareho lang.\" Lumingon siya. \"Mateo, hindi mo puwedeng gawin ang bagay mula sa wala. Dapat balanse ang magkabilang panig.\"",
+    "Hindi niya alam kung sa Chem ba iyon tinutukoy ni Tala, o sa iba. Nakatulog siya sa ibabaw ng notes.",
+    "Kinabukasan, sampung tanong ang quiz ni Ms. Reyes. Kulang pa sa tulog si Mateo, at parang malayo ang boses ng guro. Sa ikawalong tanong, nanlabo ang lahat. Naramdaman niya ang paggalaw sa loob ng bag, at ang bulong:",
+    "\"Hindi ako sasagot, ha.\"",
+    "*Hindi ko po hiniling,* naisip ni Mateo, at nagulat siyang natuwa siya.",
+    "\"Hindi ako ganoon. Hindi tama na kunin mo ang sagot na hindi sa iyo.\"",
+    "Iniwan niyang blangko ang ikawalo, ikasiyam, at ikasampu. Pitong sagot lang ang naisulat niya. Pero bago siya lumabas ng silid, ngumiti si Ms. Reyes at sinabing, \"Pagod ka, Salvador. Pero kitang-kita ko na nag-aral ka.\"",
+    "Bago mag-alas-kuwatro, nasa hagdan na siya ng Archivo, katabi ni Mang Tomas, na naghihintay sa dyipni. Kababasa lang niya ng sagot ni Mama sa tanong niya kung puwede siyang mag-overtime sa Archivo hanggang Linggo: *Sige, 'nak, basta uuwi ka. At huwag mong kalilimutang kumain.* Lalong bumigat ang bato sa dibdib niya. Nagtitiwala sa kanya si Mama, at sa kasinungalingan nakatayo ang tiwalang iyon.",
+    "Saka niya nakita ang kahon.",
+    "Maliit lang ito, nakapatong sa harap ng pintuang narra. May berdeng sticker sa takip. Parang pang-delivery.",
+    "Sa ibabaw, nakasulat sa malinis na sulat-kamay:",
+    "*PARA KAY MATEO S. — HULOG NA ANG BAYAD.*",
+    "Binuksan niya ito sa kabila ng sigaw ng sariling isip. Walang laman ang kahon, maliban sa isang piraso ng papel na nakatupi nang apat.",
+    "Class schedule niya iyon. Kopya mismo, na may bilog na pulang tinta sa paligid ng *Chem — Ms. Reyes — Room 204*.",
+    "Sa ibaba, may maliit na sulat:",
+    "*Magalang kaming maghihintay.*",
+    "Nang mag-angat siya ng tingin, nakita niyang ang mukha ni Mang Tomas, sa unang pagkakataon, ay hindi na nakangiti."
+  ]
+},
+{
+  "label": "Kabanata 9",
+  "title": "Ang Pader ng mga Pangalan",
+  "endNote": "Draft chapter, still being proofread",
+  "paras": [
+    "Hindi na tinanong ni Lola Dayang Ilaw kung ano ang laman ng kahon. Tiningnan lang niya ang papel na may pulang bilog, tiningnan si Mang Tomas, at tumango nang isang beses, parang taong may natapos nang bilangin.",
+    "\"Sumama ka sa akin, Mateo,\" sabi niya. \"Bago maghapunan. Ikaw lang, at si Tala.\"",
+    "Mas mababa pa kaysa sa kantina ang kapilya ng Santo Niño, nakatago sa pagitan ng dalawang ugat ng balete na kasinlaki ng bahay. Maliit lang ito. Walang ginto, walang tanso, ilang kandila lang sa harap ng isang munting rebultong nakapula, nakasuot ng maliit na sumbrero. May mga sampagita sa paanan nito, at ang amoy ay amoy-bahay, amoy-Mayo, amoy ng lahat ng tahimik na hapon.",
+    "Nag-antanda si Lola Dayang Ilaw. Napansin ni Mateo na iba ang paraan niya: mabagal, parang may kausap sa dulo ng bawat galaw. Sumunod siya, sa sarili niyang bilis. Walang nagsabi kung kanino sila nagdarasal. Hindi na kailangan.",
+    "\"Doon tayo,\" sabi ng matanda, at itinuro ang dingding sa likod ng kapilya.",
+    "Hindi ito dingding. Mga ugat ng balete iyon, magkakahabi, kasingtaas ng tatlong tao, at sa bawat ugat ay may nakaukit na pangalan, bawat isa ay may maliit na liwanag na parang alitaptap na natutulog. Daan-daang pangalan. Baybayin ang ilan, Kastila ang ilan, may mga pangalang parang kay Lolo ni Lolo.",
+    "\"Ang Pader ng mga Pangalan,\" sabi ni Lola. \"Lahat ng Tagapag-ingat na nakapagsilbi, at hindi lahat sila nagtagumpay. Pero ang mga pangalan nila ay narito pa rin.\"",
+    "Binasa ni Mateo ang ilan. Pagkatapos, napansin niyang sa pinakaitaas, sa pinakadulo ng pinakamataas na ugat, may ukit na halos wala nang bakas, makinis na parang buto sa dagat.",
+    "\"Sino po iyon?\"",
+    "\"Ang una.\" Tumingala si Lola. \"Walang nakakaalam ng pangalan niya. Nabura na ng panahon, o ng kamay. Hindi ko pa nalalaman kung alin.\" Tumahimik siya sandali. \"Minsan, kapag ganitong tahimik, iniisip kong sadya iyon.\"",
+    "Hindi na nagtanong si Mateo.",
+    "\"Ngayon,\" sabi ng matanda, at humarap sa kanya, \"may ipaaalam ako sa iyo na hindi pa naririnig ng sinumang estudyante. Hindi dahil lihim ito. Dahil walang nakikinig nang husto.\"",
+    "Itinaas niya ang tungkod. Ang araw sa dulo nito ay lumiwanag nang kaunti, at ang mga ugat ng balete ay umugong na parang may kinakanta.",
+    "Awit ito. Hindi niya alam kung paano niya nalaman, pero alam niyang awit. Tinig ito ni Lola, ngunit hindi ang tinig niya ngayon. Mas matanda. Mas malalim. At sa bawat taludtod, parang bumubukas ang isang pinto sa kung saan.",
+    {
+      "quote": "Pitong buwan ang lalamunin ng gutom na walang pangalan, / Pitong bantay ang gigising sa kani-kanilang bundok, / At isang munting kamay ang hahawak sa lahat ng liwanag. / Ngunit may ikawalong buwan na walang nakakakita, / At doon, sa pinakamalalim na dilim, ang pinakamalalim na ilaw."
+    },
+    "Habang kumakanta si Lola, may marahang humuhuni sa balikat ni Mateo. Si Tala. Hindi niya sinasadya. Umaakyat ang himig niya sa bawat huling taludtod, nauuna nang kalahating hininga, na parang alam niya ang susunod na tala.",
+    "Tumigil ang awit. Dahan-dahang bumaba ang tungkod.",
+    "\"Tala,\" sabi ni Lola, mahinahon. \"Saan mo natutunan iyan?\"",
+    "Natigilan ang diwata. Tinakpan niya ang sariling bibig. \"Hindi ko po alam,\" sabi niya, at ito ang unang pagkakataong narinig ni Mateo na hindi nagbibiro ang boses niya. \"Matagal ko nang alam ang himig na iyan. Bago pa ako nakulong. Bago pa ang Archivo. Hindi ko maalala kung kailan ko ito unang narinig, pero...\" Tumingin siya sa mga ugat. \"Parang hindi ako ang unang kumanta nito.\"",
+    "\"Hindi ka nga,\" sabi ni Lola, at hindi na niya idinagdag kung sino.",
+    "Matagal silang tahimik. Narinig ni Mateo ang pagpatak ng tubig sa kung saan, ang pag-ugong ng balete, ang pag-aagaw ng liwanag at dilim ng mga kandila.",
+    "\"Ang ikawalo po,\" sabi niya sa wakas. \"Ang ikawalong buwan. Ano po iyon?\"",
+    "\"Hindi ko alam.\" Mapait ngunit tapat ang ngiti ni Lola. \"Mahigit isang libong taon nang binabasa ng mga guro ang awit, at wala pa ring nakapagsasabi. Marahil hindi natin ito para maunawaan. Marahil narinig lang natin ito, tulad ng pagdinig sa kampana mula sa malayo, at ang tungkulin natin ay lumakad patungo sa tunog.\"",
+    "Huminga nang malalim si Mateo.",
+    "\"Lola, puwede po bang magtapat?\"",
+    "\"Nasa kapilya ka.\"",
+    "\"Nagsinungaling po ako kay Mama.\" Mabilis na lumabas ang mga salita. \"Dalawang beses na. Alam kong kailangan, hindi ko po maipapaliwanag, pero ang gaan lang pong gawin. Kinatatakutan ko ang gaan.\"",
+    "Hindi nagalit ang matanda. Hindi rin siya ngumiti. Tinitigan lang niya si Mateo, at sa unang pagkakataon, nakita niya ang pagod sa likod ng mga mata nitong parang dagat.",
+    "\"Huwag mong hahayaang maging madali,\" sabi ni Lola. \"Iyon na ang pinakamahalagang bahagi. Hindi mo mababawi ang nangyari, at hindi mo masasabi ang lahat ngayon. Pero may taong dapat makaalam balang araw, at mas magaan ang pasanin kapag may dalawang kamay na nakahawak dito.\" Tinapik niya ang palad ng bata, ang may marka. \"Hindi ito para sa mag-isa. Hindi kailanman.\"",
+    "Pumasok sa isip ni Mateo ang tanong na ilang oras na niyang dala: *Bakit ako?* Pero bigla itong parang maliit, parang tanong ng ibang batang nakatayo sa ibang pader.",
+    "\"Lola,\" sabi niya, \"hindi na po ako magtatanong kung bakit ako. Ang itatanong ko po ay *paano.* Paano po ako magsisimula?\"",
+    "Tumawa si Lola, mahina, tuwang-tuwa, na parang binigyan ng regalo. \"Iyan,\" sabi niya, \"ang tanong ng isang Tagapag-ingat. Sa madaling-araw ng Linggo ang Unang Pagsubok mo. Hanggang noon, magsasanay ka kasama sina Lia at Gino.\"",
+    "Lumapit siya sa isang bilog na bintana sa gilid ng kapilya, na tanaw ang ibabaw ng lawa. Mula roon, kita ang buwan sa itaas, nanginginig sa ilalim ng tubig, parang pilak na barya sa ilalim ng salaming kulay-asul.",
+    "Nawala ang ngiti ni Lola.",
+    "\"Mateo,\" mahinang sabi niya. \"Lumapit ka. Ano ang nakikita mo?\"",
+    "Tiningnan ni Mateo. Bilog ang buwan, puno, puting-puti.",
+    "Pero sa gilid nito, sa kanang kurba, may maliit na kagat. Hindi anino ng ulap. Hindi ng lupa. Isang kagat na may bakas ng mga ngipin, malinis at bilog, na parang may kumuha ng munting piraso ng buwan at hindi na ibinalik.",
+    "\"Hindi pa buwan ng eklipse,\" bulong ni Tala.",
+    "\"Hindi nga.\" Mahigpit na ang hawak ni Lola sa tungkod. \"Maaga,\" sabi niya. \"Masyadong maaga.\"",
+    "Humarap siya kay Mateo, at ang boses niya, sa unang pagkakataon mula nang dumating siya, ay boses ng Punong Guro, hindi ng lola.",
+    "\"Hindi na sa Linggo ang Unang Pagsubok, Mateo. Bukas ng madaling-araw.\""
+  ]
+},
+{
+  "label": "Kabanata 10",
   "title": "Coming soon",
   "soon": true
 }
@@ -1598,7 +1828,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "alamat-ng-kuliglig",
+  "id": "alamat-ng-kuliglig", "coverBg": "/img/cover-alamat-ng-kuliglig.jpg",
   "cat": "alamat",
   "title": "Alamat ng Kuliglig",
   "subtitle": "The Legend of the Cricket",
@@ -1642,7 +1872,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "alamat-ng-pinya",
+  "id": "alamat-ng-pinya", "coverBg": "/img/cover-alamat-ng-pinya.jpg",
   "cat": "alamat",
   "title": "Alamat ng Pinya",
   "subtitle": "The Legend of the Pineapple",
@@ -1687,7 +1917,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "tula-bago-sumikat-ang-araw",
+  "id": "tula-bago-sumikat-ang-araw", "coverBg": "/img/cover-tula-bago-sumikat-ang-araw.jpg",
   "cat": "tula",
   "title": "Bago Sumikat ang Araw",
   "subtitle": "Before the sun rises",
@@ -1738,7 +1968,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "tula-lambat",
+  "id": "tula-lambat", "coverBg": "/img/cover-tula-lambat.jpg",
   "cat": "tula",
   "title": "Lambat",
   "subtitle": "Net",
@@ -1789,7 +2019,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "tula-tahimik-na-kandila",
+  "id": "tula-tahimik-na-kandila", "coverBg": "/img/cover-tula-tahimik-na-kandila.jpg",
   "cat": "tula",
   "title": "Tahimik na Kandila",
   "subtitle": "A quiet candle",
@@ -1840,7 +2070,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "the-turtle-and-the-lizard",
+  "id": "the-turtle-and-the-lizard", "coverBg": "/img/cover-the-turtle-and-the-lizard.jpg",
   "cat": "kids",
   "title": "Ang Pagong at ang Butiki",
   "subtitle": "The Turtle and the Lizard, a Tinguian folk tale",
@@ -1877,7 +2107,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "juan-gathers-guavas",
+  "id": "juan-gathers-guavas", "coverBg": "/img/cover-juan-gathers-guavas.jpg",
   "cat": "kids",
   "title": "Si Juan at ang mga Bayabas",
   "subtitle": "Juan Gathers Guavas, a Tagalog folk tale",
@@ -1912,7 +2142,7 @@ var WORKS = [
   ]
 },
 {
-  "id": "fansler-suans-good-luck",
+  "id": "fansler-suans-good-luck", "coverBg": "/img/cover-fansler-suans-good-luck.jpg",
   "cat": "kids",
   "title": "Ang Swerte ni Suan",
   "subtitle": "Suan’s Good Luck, a Pampanga folk tale",
@@ -1955,6 +2185,16 @@ var WORKS = [
   var views = {home:$('view-home'),cat:$('view-cat'),work:$('view-work'),learn:$('view-learn'),read:$('view-read')};
   var head=$('site-head'), foot=$('site-foot');
   var navLinks=document.querySelectorAll('[data-nav]');
+  (function(){var nds=document.querySelectorAll('.site-head .nd'),touch=matchMedia('(hover: none)').matches;
+    function closeAll(ex){nds.forEach(function(n){if(n!==ex){n.classList.remove('open');n.firstElementChild.setAttribute('aria-expanded','false')}})}
+    nds.forEach(function(n){var a=n.firstElementChild;
+      a.addEventListener('click',function(e){if(touch&&!n.classList.contains('open')){e.preventDefault();closeAll(n);n.classList.add('open');a.setAttribute('aria-expanded','true')}});
+      a.addEventListener('keydown',function(e){if(e.key==='ArrowDown'||e.key===' '){e.preventDefault();closeAll(n);n.classList.add('open');a.setAttribute('aria-expanded','true');var f=n.querySelector('.dd a');if(f)f.focus()}});
+      n.querySelectorAll('.dd a').forEach(function(x){x.addEventListener('click',function(){closeAll()})})});
+    document.addEventListener('click',function(e){if(!e.target.closest('.site-head .nd'))closeAll()});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+    addEventListener('hashchange',function(){closeAll()});
+  })();
   var SITE='Talata';
   var SUPPORT_URL='';   // ilagay dito ang link ng Ko-fi/Patreon mo para lumabas ang "Suportahan"
   var NEWSLETTER={buttondown:'talata'};
@@ -1974,7 +2214,7 @@ var WORKS = [
   var current  = null;                     // {w, n} while reading
 
   var toastT;
-  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},2400)}
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},Math.max(2400,m.length*65))}
 
   /* ---------- helpers ---------- */
   function byId(id){return WORKS.filter(function(w){return w.id===id})[0]}
@@ -1990,6 +2230,7 @@ var WORKS = [
 
   function cover(w){
     if(w.coverImg) return '<div class="cover has-img"><img src="'+w.coverImg+'" alt="'+esc(w.coverAlt||w.title)+'" decoding="async"></div>';
+    if(w.coverBg) return '<div class="cover has-bg c-'+w.cat+'"><img class="bg" src="'+w.coverBg+'" alt="" decoding="async" loading="lazy"><div class="t">'+esc(w.title)+'</div>'+(w.subtitle?'<div class="s">'+esc(w.subtitle)+'</div>':'')+'</div>';
     return '<div class="cover c-'+w.cat+(w.coverArt?' has-art':'')+'"><svg aria-hidden="true"><use href="#'+(w.coverArt||artOf(w))+'"/></svg>'+
       '<div class="t">'+esc(w.title)+'</div>'+(w.subtitle?'<div class="s">'+esc(w.subtitle)+'</div>':'')+'<div class="a">'+esc(w.author||(w.writer&&AUTHORS[w.writer]?AUTHORS[w.writer].name:PEN.name))+'</div></div>';
   }
@@ -2064,6 +2305,7 @@ var WORKS = [
         '<div class="actions"><a class="btn btn-gold" href="#/read/'+f.id+'/1">Basahin ang Kabanata 1</a><a class="btn btn-ghost" href="#/w/'+f.id+'">Buod at mga kabanata</a></div></div>'+
         '<a class="cover-link" href="#/w/'+f.id+'" aria-label="Buksan ang '+esc(f.title)+'">'+cover(f)+'<span class="sticker" aria-hidden="true">Libre ang Kabanata 1</span></a></div>';
     }
+    h += '<a class="laro-promo" href="/laro.html" aria-label="Buksan ang Talata Laro"><img src="/img/salpakan-rebolusyon.jpg" alt="" loading="lazy"><div class="lp-txt"><span class="lp-k">BAGO · Libreng laro</span><b>Talata Laro</b><span>Heneral sa 3D (Katipunan laban sa Kastila), online kasama ang kaibigan, Alamat Quest, Tula Beats, Salitaan at Bituin.</span><span class="lp-btn">▶ Maglaro ngayon</span></div></a>';
     h += ticker();
     h += resumeStrip();
     h += '<div id="latest-box"></div>';
@@ -2113,7 +2355,8 @@ var WORKS = [
   /* ---------- CATEGORY ---------- */
   function renderCat(k){
     var c=CATS[k]; var list=inCat(k);
-    var h='<div class="cat-head"><h1 tabindex="-1" id="cat-title">'+esc(c.name)+'</h1><p>'+esc(c.blurb)+'</p></div><section class="section">';
+    var h='<div class="cat-head"><p class="katha-k">Katha</p><h1 tabindex="-1" id="cat-title">'+esc(c.name)+'</h1><p>'+esc(c.blurb)+'</p></div>'+
+      '<nav class="lt-tabs" aria-label="Katha">'+Object.keys(CATS).map(function(x){return '<a href="#/c/'+x+'"'+(x===k?' aria-current="page"':'')+'>'+esc(CATS[x].name)+'</a>'}).join('')+'</nav><section class="section">';
     if(list.length){h+='<div class="books">'+list.map(bookCard).join('')+'</div><div class="shelf-line" aria-hidden="true"></div>'}
     else{h+='<div class="empty"><h3>Nothing here yet</h3><p>May paparating na bagong akda. Balikan mo kami.</p></div>'}
     h+='</section>';
@@ -2605,7 +2848,7 @@ var WORKS = [
     var name='home', navKey='home', title=SITE+' — Novels, Kids Stories, Alamat at Tula', focusId=null, about=false, sub=false, rw=null, n=0, sp=null;
 
     if(parts[0]==='c' && CATS[parts[1]]){
-      name='cat'; navKey=parts[1]; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
+      name='cat'; navKey='katha'; renderCat(parts[1]); title=CATS[parts[1]].name+' — '+SITE; focusId='cat-title';
     }else if(parts[0]==='stats'){
       name='learn'; navKey='about'; renderStats(); title='Mga Bilang \u2014 '+SITE; focusId='stats-title';
     }else if(parts[0]==='privacy'||parts[0]==='terms'){
@@ -2614,14 +2857,16 @@ var WORKS = [
       name='learn'; navKey='about'; renderAuthor(parts[1]); title=AUTHORS[parts[1]].name+' — '+SITE; focusId='author-title';
     }else if(parts[0]==='submit'){
       name='learn'; navKey='learn'; renderLearn('info'); title='Magsumite — '+SITE; focusId='magsumite'; sub=true;
+    }else if(parts[0]==='katha'){
+      name='cat'; navKey='katha'; renderCat('novel'); title='Katha — '+SITE; focusId='cat-title';
     }else if(parts[0]==='learn'){
       name='learn'; navKey='learn'; renderLearn(parts[1]); title=(parts[1]==='laro'?'Laro':parts[1]==='info'?'Materials at Info':'Learning')+' — '+SITE; focusId='learn-title';
     }else if(parts[0]==='w' && byId(parts[1])){
-      var w=byId(parts[1]); name='work'; navKey=w.cat; renderWork(w); title=w.title+' — '+SITE; focusId='work-title';
+      var w=byId(parts[1]); name='work'; navKey='katha'; renderWork(w); title=w.title+' — '+SITE; focusId='work-title';
     }else if(parts[0]==='read' && byId(parts[1]) && validChapter(byId(parts[1]),+parts[2]||1)){
       rw=byId(parts[1]); n=+parts[2]||1;
       sp=progress[rw.id]?{ch:progress[rw.id].ch,pct:progress[rw.id].pct}:null;
-      name='read'; navKey=rw.cat; renderRead(rw,n); title=rw.chapters[n-1].label+' — '+rw.title; focusId='read-title';
+      name='read'; navKey='katha'; renderRead(rw,n); title=rw.chapters[n-1].label+' — '+rw.title; focusId='read-title';
     }else{
       renderHome(); if(parts[0]==='about'){about=true;navKey='about'}
     }
@@ -2768,15 +3013,22 @@ var WORKS = [
     var dp=null, link=$('install-link'), sep=$('install-sep');
     var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
     if(!link||standalone) return;
-    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    var ua=navigator.userAgent, ios=/iphone|ipad|ipod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
     function show(){link.hidden=false; sep.hidden=false}
     window.addEventListener('beforeinstallprompt',function(e){e.preventDefault(); dp=e; show()});
     window.addEventListener('appinstalled',function(){link.hidden=true; sep.hidden=true; dp=null});
-    if(ios) show();
+    show(); /* laging nakikita ang link; iba-iba ang tagubilin ayon sa browser */
+    function howTo(){
+      if(/FBAN|FBAV|Messenger|Instagram|Line\//i.test(ua)) return 'Buksan muna ang Talata sa Chrome o Safari (menu \u22EF \u2192 "Open in browser"), tapos i-install doon.';
+      if(ios) return 'Pindutin ang Share (kahon na may palaso), tapos "Add to Home Screen".';
+      if(/Firefox/i.test(ua)&&!/Android/i.test(ua)) return 'Hindi sinusuportahan ng Firefox sa computer ang pag-install. Gamitin ang Chrome, Edge, o Safari.';
+      if(/Safari/i.test(ua)&&!/Chrome|Chromium|Edg/i.test(ua)) return 'Sa Safari ng Mac: menu "File" \u2192 "Add to Dock".';
+      return 'Buksan ang menu ng browser (\u22EE) at piliin ang "Install app" o "Add to Home screen". Kung wala, nai-install mo na ito o kailangan munang ilang beses mong buksan ang site.';
+    }
     link.addEventListener('click',function(e){
       e.preventDefault();
-      if(dp){ dp.prompt(); dp.userChoice.finally(function(){dp=null; link.hidden=true; sep.hidden=true}); return }
-      toast(ios?'Pindutin ang Share, tapos "Add to Home Screen"':'Buksan ang menu ng browser at piliin ang "Install app"');
+      if(dp){ dp.prompt(); dp.userChoice.finally(function(){dp=null}); return }
+      toast(howTo());
     });
   })();
   if(IS_HTTP&&'serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
